@@ -16,7 +16,13 @@ in which case the recipients get an constantly updated version of the events, or
 ## User stories
 
 * Login/Register. The app allows login and register using Facebook or Google + identities.
-* User can view any other user's shared travel timeline.
+* Timeline creation: While travelling:
+   * Creation screen: User can create a new travel timeline. This is a new trip.
+        * Includes ability to add destinations, start / end dates and co-travellers. 
+   * User can add a picture, a video or a text to the travel timeline.
+   * User can share the timeline with other users (from FB/G+).
+* Stream view / Home screen: Shows all timelines.
+* Sharing: User can view any other user's shared travel timeline.
    * Stream archetype: Shared timeline gets auto updated if the other user's travel is ongoing.
    * Users can comment on the shared items.
    * Users get notified when someone shares a travel timeline with them.
@@ -24,12 +30,6 @@ in which case the recipients get an constantly updated version of the events, or
    * Users can update their pictures to be different from FB/G+.
 * Settings screen: Users can change their settings, delete timelines, notification options. 
 * In the timeline, users can click on other users and view their profile.
-* While travelling:
-   * Creation screen: User can create a new travel timeline. This is a new trip.
-        * Includes ability to add destinations, start / end dates and co-travellers. 
-   * User can add a picture, a video or a text to the travel timeline.
-   * User can share the timeline with other users (from FB/G+).
-
 * All of the created data should be stored offline since while travelling the users might not have
   network connectivity.
     * Ability to sync as and when network is available.
