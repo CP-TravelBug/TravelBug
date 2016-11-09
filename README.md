@@ -31,7 +31,7 @@ in which case the recipients get an constantly updated version of the events, or
    * Users can update their pictures to be different from FB/G+.
 * Settings screen: Users can change their settings, delete timelines, notification options. 
 
-### Minor Screens:
+### Additional Screens:
 * In the timeline, users can click on other users and view their profile.
 * All of the created data should be stored offline since while travelling the users might not have
   network connectivity.
@@ -45,7 +45,9 @@ in which case the recipients get an constantly updated version of the events, or
 
 ### Database schema:
  * Relational database schema for storing the timeline data. 
-   * User table, Timeline table (shared timelines or owned timelines).
+   * User table: Stores information about users (including self).
+   * Timeline table: Stores chronological information about a timeline.
+   * Sharing/ownership table: Who shared/owns which timeline.
 
 ### Backend:
  * Parse (Heroku) based backend. 
