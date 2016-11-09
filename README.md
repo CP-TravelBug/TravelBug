@@ -15,6 +15,7 @@ in which case the recipients get an constantly updated version of the events, or
 
 ## User stories
 
+### Major Screens:
 * Login/Register. The app allows login and register using Facebook or Google + identities.
 * Timeline creation: While travelling:
    * Creation screen: User can create a new travel timeline. This is a new trip.
@@ -29,6 +30,8 @@ in which case the recipients get an constantly updated version of the events, or
 * Profile screen: User's can navigate to view their own profile (auto filled from FB or G+).
    * Users can update their pictures to be different from FB/G+.
 * Settings screen: Users can change their settings, delete timelines, notification options. 
+
+### Minor Screens:
 * In the timeline, users can click on other users and view their profile.
 * All of the created data should be stored offline since while travelling the users might not have
   network connectivity.
@@ -39,6 +42,13 @@ in which case the recipients get an constantly updated version of the events, or
    * Map view: As a part of the travel timeline, a splash screen with a mapview can show the travel
      itinerary.
    * Media player: Ability to play a video or view all the pictures in a timeline.
+
+### Database schema:
+ * Relational database schema for storing the timeline data. 
+   * User table, Timeline table (shared timelines or owned timelines).
+
+### Backend:
+ * Parse (Heroku) based backend. 
 
 Optional 
 * Ability to post pictures to instagram or Twitter including a link for others to Download and
