@@ -48,3 +48,6 @@ Optional
   real-time location.
  
 
+## Wireframes GIF:
+
+Here is a set of wireframes [TravelBug](TravelBug.gif) created using Balsamiq.
