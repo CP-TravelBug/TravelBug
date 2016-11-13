@@ -1,24 +1,24 @@
 package codepath.travelbug.models;
 
 import com.facebook.AccessToken;
+import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
-/**
- * Created by ocarty on 11/12/2016.
- */
+
 @Parcel
 public class User {
 
-    AccessToken accessToken;
+    private AccessToken accessToken;
+    private String name;
+    private Entity entity;
+
 
     public Entity getEntity() {
         return entity;
     }
-
-    Entity entity;
 
     public String getName() {
         return name;
@@ -27,8 +27,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
-    String name;
 
     public AccessToken getAccessToken() {
         return accessToken;
@@ -48,5 +46,14 @@ public class User {
         }
 
         return user;
+    }
+
+    /**
+     * @return A ParseUser version of this user.
+     */
+    public ParseUser asParseUser() {
+        ParseUser parseUser = new ParseUser();
+        parseUser.setUsername(name);
+        return parseUser;
     }
 }
