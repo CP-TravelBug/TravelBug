@@ -3,4 +3,7 @@
     <string name="facebook_app_id">1792487551031169</string>
     <string name="travelBugSubtitle">Share your journey with the world</string>
     <string name="travelbug">TravelBug</string>
+    <string name="user_image">User image</string>
+    <string name="user_name">Hello Emma</string>
+    <string name="MyTimelines">My Timelines</string>
 </resources>
