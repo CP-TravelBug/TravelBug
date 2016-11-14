@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        ivProfileImage = (ImageView)findViewById(R.id.ivProfileImage);
+        //ivProfileImage = (ImageView)findViewById(R.id.ivProfileImage);
         tvName = (TextView)findViewById(R.id.tvName);
         // Performs a GET request to get the user's info
         if(AccessToken.getCurrentAccessToken() != null) {
@@ -54,6 +55,34 @@ public class TimelineActivity extends AppCompatActivity {
             request.executeAsync();
         }
 
+        setUpHomeViewCards();
+
+    }
+
+    private void setUpHomeViewCards() {
+        View tileView = findViewById(R.id.timeline_tile);
+        TextView tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
+        tvTitle.setText("My Timelines");
+        ImageView ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
+        ivDisplayIcon.setImageResource(R.drawable.travelicon);
+
+        tileView = findViewById(R.id.friends_timeline_tile);
+        tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
+        tvTitle.setText("Friends Timelines");
+        ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
+        ivDisplayIcon.setImageResource(R.drawable.friendstimeline);
+
+        tileView = findViewById(R.id.search_timelines);
+        tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
+        tvTitle.setText("Search Timelines");
+        ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
+        ivDisplayIcon.setImageResource(R.drawable.searchtimelines);
+
+        tileView = findViewById(R.id.add_friends);
+        tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
+        tvTitle.setText("Add Friends");
+        ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
+        ivDisplayIcon.setImageResource(R.drawable.addfriends);
 
     }
 }
