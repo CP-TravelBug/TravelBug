@@ -7,19 +7,6 @@
     android:background="@drawable/sunset"
     tools:context="codepath.travelbug.activities.LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/login_button"
-        android:background="@color/logoColor"
-        android:textColor="#FFFFFF"
-        android:textSize="60sp"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginBottom="300dp"
-        android:id="@+id/tvTitle"
-        android:text="@string/travelbug" />
-
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
@@ -34,12 +21,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvSubtitle"
-        android:layout_alignTop="@id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvTitle"
+        android:layout_above="@id/login_button"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         android:fontFamily="sans-serif-condensed"
-        android:layout_marginTop="95dp" />
+        android:layout_marginBottom="200dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/logoColor"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        android:fontFamily="sans-serif-condensed"
+        android:id="@+id/tvTitle"
+        android:text="@string/travelbug"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
 
 </RelativeLayout>
