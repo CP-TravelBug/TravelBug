@@ -11,9 +11,9 @@ import org.parceler.Parcel;
 @Parcel
 public class User {
 
-    private AccessToken accessToken;
-    private String name;
-    private Entity entity;
+    AccessToken accessToken;
+    String name;
+    Entity entity;
 
 
     public Entity getEntity() {
