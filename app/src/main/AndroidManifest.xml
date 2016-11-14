@@ -11,8 +11,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:name=".TravelBugApplication"
-        android:theme="@style/AppThemeNoBar">
-        <activity android:name=".activities.LoginActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.LoginActivity"
+            android:theme="@style/AppThemeNoBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
