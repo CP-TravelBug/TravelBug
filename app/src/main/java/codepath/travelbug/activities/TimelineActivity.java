@@ -80,6 +80,14 @@ public class TimelineActivity extends AppCompatActivity {
 
         setUpHomeViewCards();
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_createTimeline);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCreateTimelineWithCamera();
+            }
+        });
+
     }
 
     private void setUpHomeViewCards() {
@@ -88,6 +96,14 @@ public class TimelineActivity extends AppCompatActivity {
         tvTitle.setText("My Timelines");
         ImageView ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
         ivDisplayIcon.setImageResource(R.drawable.travelicon);
+        // Set up onclick handlers
+        tileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ScrollingTimelineActivity.class);
+                startActivity(i);
+            }
+        });
 
         tileView = findViewById(R.id.friends_timeline_tile);
         tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);

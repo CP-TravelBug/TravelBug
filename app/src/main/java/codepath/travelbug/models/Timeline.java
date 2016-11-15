@@ -37,5 +37,5 @@ public class Timeline {
     public void setUserId(User userId) {
         this.userId = userId;
     }
-    
+
 }
