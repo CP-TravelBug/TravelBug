@@ -54,7 +54,6 @@ Optional
 * Chat interface: Ability to chat with everyone travelling as part of the same timeline, including
   real-time location.
 
-
 ## Database Schema:
 * User:
    * UserId (Primary Key)
@@ -66,6 +65,8 @@ Optional
    * Timeline Id (Primary Key)
    * List of Event objects
    * UserId
+   * Start date and end date. 
+   * List of UserIds this is shared with.
 * Event Objects
    * Event Types
    * Event Id (Primary Key)
