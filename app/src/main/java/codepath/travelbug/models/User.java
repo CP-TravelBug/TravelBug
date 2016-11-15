@@ -15,6 +15,12 @@ public class User {
     String name;
     Entity entity;
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    String firstName;
+
 
     public Entity getEntity() {
         return entity;
@@ -40,6 +46,7 @@ public class User {
         User user = new User();
         try {
             user.name = jsonObject.getString("name");
+            user.firstName = jsonObject.getString("first_name");
             user.entity = Entity.fromJSONObject(jsonObject.getJSONObject("picture"));
         } catch (JSONException e) {
             e.printStackTrace();
