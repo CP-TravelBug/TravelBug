@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import codepath.travelbug.R;
 import codepath.travelbug.Utils;
 
 import static codepath.travelbug.Utils.MAX_WIDTH;
+import static codepath.travelbug.Utils.TAG;
 
 public class CreateTimelineActivity extends AppCompatActivity {
     Uri pictureUri;
@@ -41,6 +43,11 @@ public class CreateTimelineActivity extends AppCompatActivity {
                 finish();
             }
         });
+        try {
+            readImageIntoView(pictureUri, picView);
+        } catch (IOException e) {
+            Log.d(TAG, "Error reading image taken.");
+        }
     }
 
     // Takes the given image from the camera, resizes it and writes it to another file.
