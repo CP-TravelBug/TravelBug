@@ -10,4 +10,8 @@
     <string name="create_timeline_title">Create Timeline</string>
     <string name="timeline_title_hint">give it a name</string>
     <string name="save_timeline">Save</string>
+    <string name="title_activity_scrolling_timeline">ScrollingTimelineActivity</string>
+    <string name="photo_desc">Photo</string>
+    <string name="action_settings">Settings</string>
+    <string name="photo_content">Photo Text</string>
 </resources>
