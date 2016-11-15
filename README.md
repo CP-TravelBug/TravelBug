@@ -21,9 +21,10 @@ in which case the recipients get an constantly updated version of the events, or
    * Creation screen: User can create a new travel timeline. This is a new trip.
         * Includes ability to add destinations, start / end dates and co-travellers. 
    * User can add a picture, a video or a text to the travel timeline.
-   * User can share the timeline with other users (from FB/G+).
+* View timeline screen: A screen that shows the travel timeline.
+   * From the View Timeline screen: User can share the timeline with other users (from FB/G+).
 * Stream view / Home screen: Shows all timelines.
-* Sharing: User can view any other user's shared travel timeline.
+* Sharing features: User can view any other user's shared travel timeline.
    * Stream archetype: Shared timeline gets auto updated if the other user's travel is ongoing.
    * Users can comment on the shared items.
    * Users get notified when someone shares a travel timeline with them.
