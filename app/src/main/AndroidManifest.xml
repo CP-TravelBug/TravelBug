@@ -8,14 +8,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".TravelBugApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".TravelBugApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.LoginActivity"
-            android:theme="@style/AppThemeNoBar" >
+        <activity
+            android:name=".activities.LoginActivity"
+            android:theme="@style/AppThemeNoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,12 +30,14 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="theTravelBug" />
-        <activity android:name=".activities.TimelineActivity">
-        </activity>
+
+        <activity android:name=".activities.TimelineActivity"></activity>
+        <activity
+            android:name=".activities.CreateTimelineActivity"
+            android:label="@string/create_timeline_title"></activity>
     </application>
 
 </manifest>

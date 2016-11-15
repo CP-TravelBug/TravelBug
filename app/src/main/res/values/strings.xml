@@ -7,4 +7,7 @@
     <string name="user_image">User image</string>
     <string name="user_name">Hello Emma</string>
     <string name="MyTimelines">My Timelines</string>
+    <string name="create_timeline_title">Create Timeline</string>
+    <string name="timeline_title_hint">give it a name</string>
+    <string name="save_timeline">Save</string>
 </resources>
