@@ -53,7 +53,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
         scaledImage.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
         // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
         String resizedFilePath = pictureUri.getPath() + "_resized";
-        File resizedFile = new File(resizedFilePath));
+        File resizedFile = new File(resizedFilePath);
         resizedFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(resizedFile);
         // Write the bytes of the bitmap to file
