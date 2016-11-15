@@ -57,10 +57,8 @@
             layout="@layout/home_tile"
             android:layout_width="185dp"
             android:layout_height="200dp"
-            android:layout_marginStart="17dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/gutter1"
-            android:layout_alignParentStart="true" />
+            android:layout_below="@id/gutter1" />
 
         <include
             android:id="@+id/friends_timeline_tile"
@@ -68,9 +66,7 @@
             android:layout_width="185dp"
             android:layout_height="200dp"
             android:layout_alignTop="@+id/timeline_tile"
-            android:layout_toEndOf="@+id/timeline_tile"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
+            android:layout_toEndOf="@+id/timeline_tile" />
 
         <include
             android:id="@+id/add_friends"
@@ -78,8 +74,7 @@
             android:layout_width="185dp"
             android:layout_height="200dp"
             android:layout_below="@id/timeline_tile"
-            android:layout_alignStart="@id/timeline_tile"
-            android:layout_marginTop="10dp" />
+            android:layout_alignStart="@id/timeline_tile" />
 
         <include
             android:id="@+id/search_timelines"
@@ -87,8 +82,7 @@
             android:layout_width="185dp"
             android:layout_height="200dp"
             android:layout_alignTop="@id/add_friends"
-            android:layout_alignStart="@id/friends_timeline_tile"
-            android:layout_marginEnd="10dp" />
+            android:layout_alignStart="@id/friends_timeline_tile" />
 
     </RelativeLayout>
     </ScrollView>
@@ -105,4 +99,3 @@
         app:borderWidth="0dp"
         app:rippleColor="@android:color/transparent"/>
 </android.support.design.widget.CoordinatorLayout>
-
