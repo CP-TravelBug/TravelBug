@@ -24,11 +24,8 @@ public class Utils {
     public static  String generateUniqueFileName(Random random) {
         String filename = "";
         long millis = System.currentTimeMillis();
-        String datetime = new Date().toGMTString();
-        datetime = datetime.replace(" ", "");
-        datetime = datetime.replace(":", "");
         String rndchars = String.valueOf(random.nextLong());
-        filename = PHOTO_FILE_PREFIX + rndchars + "_" + datetime + "_" + millis;
+        filename = PHOTO_FILE_PREFIX + rndchars +  "_" + millis + ".jpg";
         Log.d(TAG, "Random filename = " + filename);
         return filename;
     }
