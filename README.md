@@ -44,32 +44,6 @@ in which case the recipients get a constantly updated version of the events, or 
      itinerary.
    * Media player: Ability to play a video or view all the pictures in a timeline.
 
-### Database schema:
- * Relational database schema for storing the timeline data. 
-   * User table: Stores information about users (including self).
-    - UserId (Primary Key)
-    - Username
-    - Profile Image picked up from facebook
-    - List of Timelines that the user owns
-    - Friends: List of UserIds
-   * Timeline Table:
-    - Timeline Id (Primary Key)
-    - List of Event objects (Chronologically)
-    - UserId
-   * Event Table
-    - Event Types:
-    - Event Id (Primary Key)
-    - Picture (Bitmap/JPEG/png) or Videos
-    - Text related to picture/video or simple events
-    - List of Timeline Ids
-    - Geolocation (Places/Lat-Long/Address with Title)
-   * Relation:
-    - An user can have many timelines (timelineIds)
-    - An user can have many friends (other userIds)
-    - A timeline can have multiple pictures (pictureIds)
-   * Sharing/ownership table: Who shared/owns which timeline.
-    - TBD
-
 ### Backend:
  * Parse (Heroku) based backend.
 
