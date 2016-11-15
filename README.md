@@ -79,8 +79,32 @@ Optional
 * Onboarding screens: Shows the user how to register, create, share and view travel timelines.
 * Chat interface: Ability to chat with everyone travelling as part of the same timeline, including
   real-time location.
- 
 
+
+## Database Schema:
+* User:
+   * UserId (Primary Key)
+   * Username
+   * Profile Image picked up from facebook
+   * List of Timelines that the user owns
+   * Friends: List of UserIds
+* Timeline
+   * Timeline Id (Primary Key)
+   * List of Event objects
+   * UserId
+* Event Objects
+   * Event Types
+   * Event Id (Primary Key)
+   * Picture (Bitmap/JPEG/png) or Videos
+   * Text related to picture/video or simple events
+   * List of Timeline Ids
+   * Geolocation (Places/Lat-Long/Address with Title)
+
+* Relation:
+   * An user can have many timelines (timelineIds)
+   * An user can have many friends (other userIds)
+   * A timeline can have multiple pictures (pictureIds)
+ 
 ## Wireframes GIF:
 
 Here is a set of wireframes ![TravelBug](TravelBug.gif) created using Balsamiq.
