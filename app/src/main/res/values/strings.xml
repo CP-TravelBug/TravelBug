@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">TravelBug</string>
     <string name="facebook_app_id">1792487551031169</string>
+    <string name="facebook_app_id_2">1792221031058644</string>
+    <string name="travelBugSubtitle">Share your journey with the world</string>
+    <string name="travelbug">TravelBug</string>
+    <string name="user_image">User image</string>
+    <string name="user_name">Hello Emma</string>
+    <string name="MyTimelines">My Timelines</string>
+    <string name="create_timeline_title">Create Timeline</string>
+    <string name="timeline_title_hint">give it a name</string>
+    <string name="save_timeline">Save</string>
+    <string name="title_activity_scrolling_timeline">ScrollingTimelineActivity</string>
+    <string name="photo_desc">Photo</string>
+    <string name="action_settings">Settings</string>
+    <string name="photo_content">Photo Text</string>
 </resources>
