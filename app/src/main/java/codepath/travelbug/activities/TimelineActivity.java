@@ -14,6 +14,7 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -24,14 +25,14 @@ import codepath.travelbug.R;
 import codepath.travelbug.models.User;
 
 public class TimelineActivity extends AppCompatActivity {
-    ImageView ivProfileImage;
+    RoundedImageView ivProfileImage;
     TextView tvName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        //ivProfileImage = (ImageView)findViewById(R.id.ivProfileImage);
+        ivProfileImage = (RoundedImageView)findViewById(R.id.ivProfileImage);
         tvName = (TextView)findViewById(R.id.tvName);
         // Performs a GET request to get the user's info
         if(AccessToken.getCurrentAccessToken() != null) {
@@ -44,7 +45,8 @@ public class TimelineActivity extends AppCompatActivity {
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
                             User user = User.fromJSONObject(response.getJSONObject());
-                            tvName.setText(user.getName());
+                            String helloTextWithFirstName = "Hello " + user.getFirstName();
+                            tvName.setText(helloTextWithFirstName);
                             Picasso.with(getApplicationContext()).load(user.getEntity().getMediaUrl()).into(ivProfileImage);
                         }
                     }
