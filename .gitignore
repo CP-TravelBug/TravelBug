@@ -1,3 +1,4 @@
+#git ignore the following files please
 # built application files
 *.apk
 *.ap_
