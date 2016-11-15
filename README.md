@@ -4,7 +4,7 @@
 a way that can be shared with friends and family after/or during the trip. The app records the
 user's itinerary through a trip, including pictures, videos and text snippets and creates a timeline
 of trip events that can be shared with friends and family. The sharing can happen during the trip,
-in which case the recipients get an constantly updated version of the events, or after the trip.
+in which case the recipients get a constantly updated version of the events, or after the trip.
 
 
 ## Members:
@@ -47,11 +47,31 @@ in which case the recipients get an constantly updated version of the events, or
 ### Database schema:
  * Relational database schema for storing the timeline data. 
    * User table: Stores information about users (including self).
-   * Timeline table: Stores chronological information about a timeline.
+    - UserId (Primary Key)
+    - Username
+    - Profile Image picked up from facebook
+    - List of Timelines that the user owns
+    - Friends: List of UserIds
+   * Timeline Table:
+    - Timeline Id (Primary Key)
+    - List of Event objects (Chronologically)
+    - UserId
+   * Event Table
+    - Event Types:
+    - Event Id (Primary Key)
+    - Picture (Bitmap/JPEG/png) or Videos
+    - Text related to picture/video or simple events
+    - List of Timeline Ids
+    - Geolocation (Places/Lat-Long/Address with Title)
+   * Relation:
+    - An user can have many timelines (timelineIds)
+    - An user can have many friends (other userIds)
+    - A timeline can have multiple pictures (pictureIds)
    * Sharing/ownership table: Who shared/owns which timeline.
+    - TBD
 
 ### Backend:
- * Parse (Heroku) based backend. 
+ * Parse (Heroku) based backend.
 
 Optional 
 * Ability to post pictures to instagram or Twitter including a link for others to Download and
