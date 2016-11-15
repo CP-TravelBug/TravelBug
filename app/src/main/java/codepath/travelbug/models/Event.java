@@ -18,7 +18,7 @@ public class Event {
     private String path; // Path to content or video
     private String content;
     private List<Timeline> timelineList;
-    Geocoder location;
+    private Geocoder location;
 
     public long getEventId() {
         return eventId;
