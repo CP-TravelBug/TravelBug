@@ -28,5 +28,4 @@ public class TravelBugApplication extends Application {
         // Test parse, remove later.
         ParseUtil.testLogin();
     }
-
 }
