@@ -80,14 +80,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         setUpHomeViewCards();
 
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_createTimeline);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchCreateTimelineWithCamera();
-            }
-        });
-
     }
 
     private void setUpHomeViewCards() {
