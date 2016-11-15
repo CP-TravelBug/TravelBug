@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_timeline"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="codepath.travelbug.activities.TimelineActivity">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivProfileImage"
+            android:src="@drawable/hilaryduff"
+            android:scaleType="fitXY"
+            app:riv_corner_radius="50dp"
+            app:riv_border_width="2dp"
+            app:riv_border_color="@color/white"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            android:layout_marginTop="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="17dp">
+        </com.makeramen.roundedimageview.RoundedImageView>
+
+        <TextView
+            android:text="@string/user_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivProfileImage"
+            android:layout_toEndOf="@id/ivProfileImage"
+            android:layout_marginStart="26dp"
+            android:layout_marginBottom="36dp"
+            android:id="@+id/tvName" />
+
+        <View
+            android:id="@+id/gutter1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_below="@id/ivProfileImage"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="19dp" />
+
+        <include
+            android:id="@+id/timeline_tile"
+            layout="@layout/home_tile"
+            android:layout_width="185dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/gutter1" />
+
+        <include
+            android:id="@+id/friends_timeline_tile"
+            layout="@layout/home_tile"
+            android:layout_width="185dp"
+            android:layout_height="200dp"
+            android:layout_alignTop="@+id/timeline_tile"
+            android:layout_toEndOf="@+id/timeline_tile" />
+
+        <include
+            android:id="@+id/add_friends"
+            layout="@layout/home_tile"
+            android:layout_width="185dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/timeline_tile"
+            android:layout_alignStart="@id/timeline_tile" />
+
+        <include
+            android:id="@+id/search_timelines"
+            layout="@layout/home_tile"
+            android:layout_width="185dp"
+            android:layout_height="200dp"
+            android:layout_alignTop="@id/add_friends"
+            android:layout_alignStart="@id/friends_timeline_tile" />
+
+    </RelativeLayout>
+    </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_createTimeline"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:src="@drawable/ic_fab_timeline"
+        app:layout_anchor="@id/activity_timeline"
+        android:layout_margin="16dp"
+        app:layout_anchorGravity="bottom|right|end"
+        app:borderWidth="0dp"
+        app:rippleColor="@android:color/transparent"/>
+</android.support.design.widget.CoordinatorLayout>
