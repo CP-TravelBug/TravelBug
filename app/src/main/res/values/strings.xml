@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TravelBug</string>
     <string name="facebook_app_id">1792487551031169</string>
+    <string name="facebook_app_id_2">1792221031058644</string>
     <string name="travelBugSubtitle">Share your journey with the world</string>
     <string name="travelbug">TravelBug</string>
     <string name="user_image">User image</string>
