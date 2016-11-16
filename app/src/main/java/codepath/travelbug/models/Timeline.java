@@ -1,5 +1,6 @@
 package codepath.travelbug.models;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +14,10 @@ public class Timeline {
     private long timelineId;
     private List<Event> eventList;
     private User userId;
+    private Date startDate;
+    private Date endDate;
+    private List<User> sharedWith;
+    private String timelineTitle;
 
     public long getTimelineId() {
         return timelineId;
@@ -38,4 +43,35 @@ public class Timeline {
         this.userId = userId;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public List<User> getSharedWith() {
+        return sharedWith;
+    }
+
+    public void setSharedWith(List<User> sharedWith) {
+        this.sharedWith = sharedWith;
+    }
+
+    public String getTimelineTitle() {
+        return timelineTitle;
+    }
+
+    public void setTimelineTitle(String timelineTitle) {
+        this.timelineTitle = timelineTitle;
+    }
 }
