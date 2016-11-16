@@ -11,10 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import codepath.travelbug.R;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
+import codepath.travelbug.models.Timeline;
 
 public class ScrollingTimelineActivity extends AppCompatActivity {
     final String path = Environment.DIRECTORY_DCIM;
@@ -48,9 +51,9 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     private void displayTimeline() {
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
-        Event e = new Event();
-        e.setContent(path + "Flower.jpg");
-        e.setContent("A beautiful flower");
+        List<Timeline> timelines = Backend.get().getTimelines();
+        Timeline tm = timelines.get(0);
+        Event e = tm.getEventList().get(0);
 
         eventLinkedList.add(e);
 
