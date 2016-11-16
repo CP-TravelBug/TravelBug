@@ -31,6 +31,7 @@ import java.util.Random;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 
 import static codepath.travelbug.Utils.PHOTO_FILE_PREFIX;
@@ -68,6 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
                             User user = User.fromJSONObject(response.getJSONObject());
                             String helloTextWithFirstName = "Hello " + user.getFirstName();
                             tvName.setText(helloTextWithFirstName);
+                            Backend.get().setCurrentUser(user);
                             Picasso.with(getApplicationContext()).load(user.getEntity().getMediaUrl()).into(ivProfileImage);
                         }
                     }

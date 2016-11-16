@@ -76,6 +76,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
 
     private void persistTimeline(String imagePath) {
         Timeline timeline = new Timeline();
+        timeline.setUserId(Backend.get().getCurrentUser());
         Event event = new Event();
         event.setPath(imagePath);
         ArrayList<Event> eventList = new ArrayList<>();
