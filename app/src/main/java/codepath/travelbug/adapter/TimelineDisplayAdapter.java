@@ -1,6 +1,7 @@
 package codepath.travelbug.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import codepath.travelbug.R;
@@ -46,7 +48,8 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Event> {
         }
 
         holder.tvContent.setText(event.getContent());
-        Picasso.with(getContext()).load(event.getPath()).into(holder.ivTimeline);
+        Uri uri = Uri.fromFile(new File(event.getPath()));
+        Picasso.with(getContext()).load(uri).into(holder.ivTimeline);
         return convertView;
     }
 }
