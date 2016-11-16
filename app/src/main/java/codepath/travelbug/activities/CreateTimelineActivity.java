@@ -17,9 +17,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOError;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
+import codepath.travelbug.backend.Backend;
+import codepath.travelbug.models.Event;
+import codepath.travelbug.models.Timeline;
 
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
@@ -67,5 +71,16 @@ public class CreateTimelineActivity extends AppCompatActivity {
         fos.write(bytes.toByteArray());
         fos.close();
         imageView.setImageBitmap(scaledImage);
+        persistTimeline(resizedFilePath);
+    }
+
+    private void persistTimeline(String imagePath) {
+        Timeline timeline = new Timeline();
+        Event event = new Event();
+        event.setPath(imagePath);
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(event);
+        timeline.setEventList(eventList);
+        Backend.get().addTimeline(timeline);
     }
 }
