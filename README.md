@@ -82,4 +82,4 @@ Optional
  
 ## Wireframes GIF:
 
-Here is a set of wireframes ![TravelBug](TravelBugNov15.gif) created using Balsamiq.
+Here is the first set of screens ![TravelBug](TravelBugNov15.gif)
