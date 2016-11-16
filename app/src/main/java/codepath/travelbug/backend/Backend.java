@@ -1,6 +1,7 @@
 package codepath.travelbug.backend;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -31,5 +32,9 @@ public class Backend {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public List<Timeline> getTimelines() {
+        return timelines;
     }
  }
