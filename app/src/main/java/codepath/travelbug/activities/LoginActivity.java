@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton)findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends", "read_custom_friendlists"));
         registerCallBack();
     }
 
