@@ -2,6 +2,9 @@ package codepath.travelbug.models;
 
 import android.location.Geocoder;
 
+import org.parceler.Parcel;
+import org.parceler.Transient;
+
 import java.util.List;
 
 /**
@@ -10,15 +13,16 @@ import java.util.List;
  * Please refer to database schema or wiki for more information
  */
 
-
+@Parcel
 public class Event {
 
 
-    private long eventId;
-    private String path; // Path to content or video
-    private String content;
-    private List<Timeline> timelineList;
-    private Geocoder location;
+    long eventId;
+    String path; // Path to content or video
+    String content;
+    List<Timeline> timelineList;
+    @Transient
+    Geocoder location;
 
     public long getEventId() {
         return eventId;

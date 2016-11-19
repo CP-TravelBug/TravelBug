@@ -1,5 +1,7 @@
 package codepath.travelbug.models;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,16 +10,16 @@ import java.util.List;
  * User can share a timeline with other users
  * A timeline is viewed on the Timeline screen
  */
-
+@Parcel
 public class Timeline {
 
-    private long timelineId;
-    private List<Event> eventList;
-    private User userId;
-    private Date startDate;
-    private Date endDate;
-    private List<User> sharedWith;
-    private String timelineTitle;
+    long timelineId;
+    List<Event> eventList;
+    User userId;
+    Date startDate;
+    Date endDate;
+    List<User> sharedWith;
+    String timelineTitle;
 
     public long getTimelineId() {
         return timelineId;

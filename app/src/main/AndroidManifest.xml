@@ -34,14 +34,15 @@
             android:name="com.parse.APPLICATION_ID"
             android:value="theTravelBug" />
 
-        <activity android:name=".activities.TimelineActivity"></activity>
+        <activity android:name=".activities.TimelineActivity" />
         <activity
             android:name=".activities.CreateTimelineActivity"
-            android:label="@string/create_timeline_title"></activity>
+            android:label="@string/create_timeline_title" />
         <activity
             android:name=".activities.ScrollingTimelineActivity"
             android:label="@string/title_activity_scrolling_timeline"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.ShareActivity"></activity>
     </application>
 
 </manifest>
