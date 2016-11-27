@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
     Uri pictureUri;
     ImageView picView;
     Button saveButton;
+    EditText pictureTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_timeline);
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
+        pictureTitle = (EditText)findViewById(R.id.editText);
         saveButton = (Button) findViewById(R.id.btnSaveTimeline);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +82,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
         timeline.setUserId(Backend.get().getCurrentUser());
         Event event = new Event();
         event.setPath(imagePath);
+        event.setContent(pictureTitle.getText().toString());
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.setEventList(eventList);
