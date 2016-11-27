@@ -12,6 +12,9 @@ import com.facebook.HttpMethod;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
@@ -25,6 +28,8 @@ import static codepath.travelbug.TravelBugApplication.TAG;
  */
 public class FacebookClient {
     private static final int PIC_SIZE = 400; // Note height = width for a square picture.
+
+    public static final List<String> FACEBOOK_PERMISSIONS = Arrays.asList("public_profile", "user_friends", "read_custom_friendlists");
 
     private FacebookClient() {}  // Cannot instantiate.
     /**
