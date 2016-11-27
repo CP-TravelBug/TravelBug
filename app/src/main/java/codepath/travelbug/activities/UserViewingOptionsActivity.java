@@ -29,6 +29,7 @@ import org.parceler.Parcels;
 import java.util.Date;
 import java.util.Random;
 
+import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
 import codepath.travelbug.backend.Backend;
@@ -70,7 +71,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
                             String helloTextWithFirstName = "Hello " + user.getFirstName();
                             tvName.setText(helloTextWithFirstName);
                             Backend.get().setCurrentUser(user);
-                            Picasso.with(getApplicationContext()).load(user.getEntity().getMediaUrl()).into(ivProfileImage);
+                            // Picasso.with(getApplicationContext()).load(user.getEntity().getMediaUrl()).into(ivProfileImage);
                         }
                     }
             );
@@ -78,6 +79,13 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
             parameters.putString("fields", "id,name,link,email,first_name,last_name,picture");
             request.setParameters(parameters);
             request.executeAsync();
+            // This fetches the high res image.
+            FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
+                @Override
+                public void onResult(String result) {
+                    Picasso.with(UserViewingOptionsActivity.this).load(result).into(ivProfileImage);
+                }
+            });
         }
 
         setUpHomeViewCards();
