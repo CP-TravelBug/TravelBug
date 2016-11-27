@@ -54,7 +54,7 @@ public class FacebookClient {
 
     private static String fetchPicturUrlFromResponse(GraphResponse response) {
         try {
-            return response.getJSONObject().getString("url");
+            return response.getJSONObject().getJSONObject("data").getString("url");
         } catch (JSONException e) {
             return "";
         }
