@@ -1,8 +1,6 @@
 package codepath.travelbug.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +12,10 @@ import codepath.travelbug.models.User;
 import io.fabric.sdk.android.Fabric;
 
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -38,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         if(isAlreadyLoggedIn()) {
-            Intent intent = new Intent(LoginActivity.this, TimelineActivity.class);
+            Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             User user = new User();
             user.setAccessToken(accessToken);
@@ -60,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 if(loginResult.getAccessToken() != null) {
                     Log.d("DEBUG", loginResult.toString());
-                    Intent intent = new Intent(LoginActivity.this, TimelineActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
                     AccessToken accessToken = AccessToken.getCurrentAccessToken();
                     User user = new User();
                     user.setAccessToken(accessToken);

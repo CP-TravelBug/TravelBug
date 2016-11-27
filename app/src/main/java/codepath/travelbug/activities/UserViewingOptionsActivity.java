@@ -38,7 +38,7 @@ import static codepath.travelbug.Utils.PHOTO_FILE_PREFIX;
 import static codepath.travelbug.Utils.PIC_URI_KEY;
 import static codepath.travelbug.Utils.TAG;
 
-public class TimelineActivity extends AppCompatActivity {
+public class UserViewingOptionsActivity extends AppCompatActivity {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public final static int CREATE_TIMELINE_WITH_PIC_REQUEST_CODE = 1001;
 
