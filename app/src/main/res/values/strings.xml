@@ -14,4 +14,7 @@
     <string name="photo_desc">Photo</string>
     <string name="action_settings">Settings</string>
     <string name="photo_content">Photo Text</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
