@@ -19,7 +19,7 @@ public class Event {
 
     long eventId;
     String path; // Path to content or video
-    String content;
+    String content;  // Name of the video or picture (aka Title).
     List<Timeline> timelineList;
     @Transient
     Geocoder location;

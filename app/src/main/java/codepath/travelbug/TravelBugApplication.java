@@ -8,6 +8,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.parse.interceptors.ParseLogInterceptor;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import codepath.travelbug.backend.ParseUtil;
 import codepath.travelbug.models.User;
@@ -27,5 +29,6 @@ public class TravelBugApplication extends Application {
 
         // Test parse, remove later.
         ParseUtil.testLogin();
+        FlowManager.init(new FlowConfig.Builder(this).build());
     }
 }
