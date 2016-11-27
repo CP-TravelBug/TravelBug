@@ -13,7 +13,11 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+import codepath.travelbug.backend.Backend;
+import codepath.travelbug.models.User;
+
 import static android.R.attr.id;
+import static codepath.travelbug.R.id.tvName;
 import static codepath.travelbug.TravelBugApplication.TAG;
 
 /**
@@ -22,8 +26,10 @@ import static codepath.travelbug.TravelBugApplication.TAG;
 public class FacebookClient {
     private static final int PIC_SIZE = 400; // Note height = width for a square picture.
 
+    private FacebookClient() {}  // Cannot instantiate.
     /**
      * Generic result callback for facebook APIs that fetch data from the facebook servers.
+     * A null result indicates some sort of failure.
      */
     public interface ResultCallback<R> {
         void onResult(R result);
@@ -31,6 +37,10 @@ public class FacebookClient {
 
     public static void fetchUserPictureAtHighRes(final ResultCallback<String> pictureUrlCallback) {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null) {
+            pictureUrlCallback.onResult("");
+            return;
+        }
         /* make the API call */
         GraphRequest request = new GraphRequest(
                 accessToken,
@@ -58,5 +68,30 @@ public class FacebookClient {
         } catch (JSONException e) {
             return "";
         }
+    }
+
+    public static void fetchUser(final ResultCallback<User> userCallback) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null) {
+            userCallback.onResult(null);
+            return;
+        }
+        GraphRequest request = new GraphRequest(
+                accessToken,
+                accessToken.getUserId(),
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+
+                        User user = User.fromJSONObject(response.getJSONObject());
+                        userCallback.onResult(user);
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,email,first_name,last_name,picture");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 }

@@ -58,38 +58,26 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
         ivProfileImage = (RoundedImageView)findViewById(R.id.ivProfileImage);
         tvName = (TextView)findViewById(R.id.tvName);
         // Performs a GET request to get the user's info
-        if(AccessToken.getCurrentAccessToken() != null) {
-            String userId = AccessToken.getCurrentAccessToken().getUserId();
-            GraphRequest request = new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    userId,
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            User user = User.fromJSONObject(response.getJSONObject());
-                            String helloTextWithFirstName = "Hello " + user.getFirstName();
-                            tvName.setText(helloTextWithFirstName);
-                            Backend.get().setCurrentUser(user);
-                            // Picasso.with(getApplicationContext()).load(user.getEntity().getMediaUrl()).into(ivProfileImage);
-                        }
-                    }
-            );
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,link,email,first_name,last_name,picture");
-            request.setParameters(parameters);
-            request.executeAsync();
-            // This fetches the high res image.
-            FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
-                @Override
-                public void onResult(String result) {
-                    if (!result.isEmpty()) {
-                        Picasso.with(UserViewingOptionsActivity.this).load(result).into(ivProfileImage);
-                    }
+        FacebookClient.fetchUser(new FacebookClient.ResultCallback<User>() {
+            @Override
+            public void onResult(User user) {
+                if (user != null) {
+                    String helloTextWithFirstName = "Hello " + user.getFirstName();
+                    tvName.setText(helloTextWithFirstName);
+                    Backend.get().setCurrentUser(user);
                 }
-            });
-        }
+            }
+        });
 
+        // This fetches the high res image.
+        FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
+            @Override
+            public void onResult(String result) {
+                if (!result.isEmpty()) {
+                    Picasso.with(UserViewingOptionsActivity.this).load(result).into(ivProfileImage);
+                }
+            }
+        });
         setUpHomeViewCards();
 
     }
