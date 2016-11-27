@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
+import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
 import codepath.travelbug.models.User;
 import io.fabric.sdk.android.Fabric;
@@ -23,6 +24,8 @@ import org.parceler.Parcels;
 
 import java.util.Arrays;
 
+import static com.facebook.AccessToken.getCurrentAccessToken;
+
 public class LoginActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -34,16 +37,11 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         if(isAlreadyLoggedIn()) {
-            Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            User user = new User();
-            user.setAccessToken(accessToken);
-            intent.putExtra("user", Parcels.wrap(user));
-            startActivity(intent);
+            startUserViewingOptionsActivity();
         }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton)findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends", "read_custom_friendlists"));
+        loginButton.setReadPermissions(FacebookClient.FACEBOOK_PERMISSIONS);
         registerCallBack();
     }
 
@@ -56,12 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 if(loginResult.getAccessToken() != null) {
                     Log.d("DEBUG", loginResult.toString());
-                    Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
-                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                    User user = new User();
-                    user.setAccessToken(accessToken);
-                    intent.putExtra("user", Parcels.wrap(user));
-                    startActivity(intent);
+                    startUserViewingOptionsActivity();
                 }
             }
 
@@ -79,19 +72,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void startUserViewingOptionsActivity() {
+        Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
+        AccessToken accessToken = getCurrentAccessToken();
+        User user = new User();
+        user.setAccessToken(accessToken);
+        intent.putExtra("user", Parcels.wrap(user));
+        startActivity(intent);
+    }
+
     /**
      * Checks if the user is already logged in
      * @return true if the access token exists for the user, false otherwise
      */
     private boolean isAlreadyLoggedIn() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        if(accessToken == null) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return AccessToken.getCurrentAccessToken() != null;
     }
+
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
