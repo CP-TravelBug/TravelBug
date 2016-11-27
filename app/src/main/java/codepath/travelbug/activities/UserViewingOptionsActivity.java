@@ -83,7 +83,9 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
             FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
                 @Override
                 public void onResult(String result) {
-                    Picasso.with(UserViewingOptionsActivity.this).load(result).into(ivProfileImage);
+                    if (!result.isEmpty()) {
+                        Picasso.with(UserViewingOptionsActivity.this).load(result).into(ivProfileImage);
+                    }
                 }
             });
         }
