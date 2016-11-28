@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -99,13 +100,12 @@ public class ViewPagerFragment extends Fragment {
     private void displayMyTimeline() {
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
-        List<Timeline> timelines = Backend.get().getTimelines();
+        Collection<Timeline> timelines = Backend.get().getTimelines();
         if (timelines.size() == 0) {
             Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
         }
         eventLinkedList.clear();
-        for (int i = 0; i < timelines.size(); i++) {
-            Timeline tm = timelines.get(i);
+        for (Timeline tm : timelines) {
             // ToDo add to specific timelines feature yet to be implemented
             // For now each event is added to a new timeline
             Event e = tm.getEventList().get(0);

@@ -1,24 +1,28 @@
 package codepath.travelbug.backend;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 public class Backend {
 
     private static final Backend INSTANCE = new Backend();
 
-    private LinkedList<Timeline> timelines;
+    private HashMap<Long, Timeline> timelines;
     private User currentUser;
 
     private Backend() {
-        timelines = new LinkedList<>();
+        timelines = new HashMap<Long, Timeline>();
     }
 
     public void addTimeline(Timeline timeline) {
-        timelines.add(timeline);
+        timelines.put(timeline.getTimelineId(), timeline);
     }
 
     public static Backend get() {
@@ -34,7 +38,11 @@ public class Backend {
         return currentUser;
     }
 
-    public List<Timeline> getTimelines() {
-        return timelines;
+    public Collection<Timeline> getTimelines() {
+        return timelines.values();
+    }
+
+    public Timeline getTimeline(long timelineId) {
+        return timelines.get(Long.valueOf(timelineId));
     }
  }
