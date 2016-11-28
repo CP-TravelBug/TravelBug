@@ -34,6 +34,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
     ImageView picView;
     Button saveButton;
     EditText pictureTitle;
+    String resizedFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,9 @@ public class CreateTimelineActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CreateTimelineActivity.this, "Timeline created.", Toast.LENGTH_SHORT).show();
+                if (resizedFilePath != null) {
+                    persistTimeline(resizedFilePath);
+                }
                 finish();
             }
         });
@@ -66,7 +70,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
         // Compress the image further
         scaledImage.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
         // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
-        String resizedFilePath = pictureUri.getPath() + "_resized";
+        resizedFilePath = pictureUri.getPath() + "_resized";
         File resizedFile = new File(resizedFilePath);
         resizedFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -74,7 +78,6 @@ public class CreateTimelineActivity extends AppCompatActivity {
         fos.write(bytes.toByteArray());
         fos.close();
         imageView.setImageBitmap(scaledImage);
-        persistTimeline(resizedFilePath);
     }
 
     private void persistTimeline(String imagePath) {

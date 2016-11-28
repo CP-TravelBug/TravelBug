@@ -37,7 +37,6 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public final static int CREATE_TIMELINE_WITH_PIC_REQUEST_CODE = 1001;
 
-    private Random random;
     private Uri lastCameraRequestUri;
 
     RoundedImageView ivProfileImage;
@@ -48,7 +47,6 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        random = new Random();
         setContentView(R.layout.activity_user_options);
         ivProfileImage = (RoundedImageView)findViewById(R.id.ivProfileImage);
         tvName = (TextView)findViewById(R.id.tvName);
@@ -136,7 +134,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
     private void launchCreateTimelineWithCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        lastCameraRequestUri = Utils.getPhotoFileUri(this, Utils.generateUniqueFileName(random));
+        lastCameraRequestUri = Utils.getPhotoFileUri(this, Utils.generateUniqueFileName());
         Log.d(TAG, "Image file URI:" + lastCameraRequestUri);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, lastCameraRequestUri); // set the image file name
 

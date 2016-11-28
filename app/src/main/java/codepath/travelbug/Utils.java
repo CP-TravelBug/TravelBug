@@ -15,16 +15,17 @@ import java.util.Random;
  */
 
 public class Utils {
+    public static final Random RANDOM = new Random(System.currentTimeMillis());
     public static final String PHOTO_FILE_PREFIX = "TravelBug";
     public static final String APP_TAG = "TravelBug";
     public static final String TAG = "TravelBug";
     public static final String PIC_URI_KEY = "picUriKey";
     public static final int MAX_WIDTH = 360 * 3; // xxxhdpi.
 
-    public static  String generateUniqueFileName(Random random) {
+    public static  String generateUniqueFileName() {
         String filename = "";
         long millis = System.currentTimeMillis();
-        String rndchars = String.valueOf(random.nextLong());
+        String rndchars = String.valueOf(RANDOM.nextLong());
         filename = PHOTO_FILE_PREFIX + rndchars +  "_" + millis + ".jpg";
         Log.d(TAG, "Random filename = " + filename);
         return filename;

@@ -2,8 +2,12 @@ package codepath.travelbug.models;
 
 import org.parceler.Parcel;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import codepath.travelbug.Utils;
 
 /**
  * Represents a user's timeline
@@ -20,6 +24,10 @@ public class Timeline {
     Date endDate;
     List<User> sharedWith;
     String timelineTitle;
+
+    public Timeline() {
+        timelineId = Utils.RANDOM.nextLong();
+    }
 
     public long getTimelineId() {
         return timelineId;
