@@ -19,6 +19,8 @@ import com.facebook.HttpMethod;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.Random;
 
 import codepath.travelbug.FacebookClient;
@@ -41,6 +43,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
     RoundedImageView ivProfileImage;
     TextView tvName;
     FloatingActionButton floatingActionButton;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
             @Override
             public void onResult(User user) {
                 if (user != null) {
+                    currentUser = user;
                     String helloTextWithFirstName = "Hello " + user.getFirstName();
                     tvName.setText(helloTextWithFirstName);
                     Backend.get().setCurrentUser(user);
@@ -85,6 +89,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), ScrollingTimelineActivity.class);
+                i.putExtra("user", Parcels.wrap(currentUser));
                 startActivity(i);
             }
         });
