@@ -43,14 +43,6 @@
             android:layout_marginBottom="36dp"
             android:id="@+id/tvName" />
 
-        <View
-            android:id="@+id/gutter1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_below="@id/ivProfileImage"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="19dp" />
 
         <include
             android:id="@+id/timeline_tile"
@@ -58,7 +50,7 @@
             android:layout_width="185dp"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/gutter1" />
+            android:layout_below="@id/tvName" />
 
         <include
             android:id="@+id/friends_timeline_tile"

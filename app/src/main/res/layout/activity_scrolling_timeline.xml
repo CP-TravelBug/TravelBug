@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_timeline"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -46,7 +46,11 @@
             android:layout_height="48dp"
             app:pstsShouldExpand="true"
             app:pstsTextAllCaps="true"
-            android:textSize="14sp">
+            android:textSize="14sp"
+            app:pstsTabPaddingLeftRight="14dp"
+            app:pstsUnderlineColor="@color/colorPrimaryDark"
+            app:pstsIndicatorColor="@color/colorPrimaryDark"
+            app:pstsIndicatorHeight="4dp">
 
         </com.astuetz.PagerSlidingTabStrip>
 

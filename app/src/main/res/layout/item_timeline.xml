@@ -4,13 +4,15 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/ivPhoto"
-        android:contentDescription="@string/photo_desc"/>
+        android:contentDescription="@string/photo_desc"
+        android:scaleType="fitXY"
+        />
 
     <TextView
         android:text="@string/photo_content"

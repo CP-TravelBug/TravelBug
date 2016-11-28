@@ -42,7 +42,10 @@
             android:name=".activities.ScrollingTimelineActivity"
             android:label="@string/title_activity_scrolling_timeline"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.ShareActivity"></activity>
+        <activity android:name=".activities.ShareActivity" />
+        <activity
+            android:name=".activities.TimelineDetailsViewActivity"
+            android:theme="@style/AppThemeNoBar" />
     </application>
 
 </manifest>

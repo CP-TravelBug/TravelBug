@@ -1,10 +1,7 @@
 package codepath.travelbug.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Parcel;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +19,6 @@ import com.facebook.HttpMethod;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.parceler.Parcels;
-
-import java.util.Date;
 import java.util.Random;
 
 import codepath.travelbug.FacebookClient;
@@ -35,7 +27,7 @@ import codepath.travelbug.Utils;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 
-import static codepath.travelbug.Utils.PHOTO_FILE_PREFIX;
+import static android.R.attr.onClick;
 import static codepath.travelbug.Utils.PIC_URI_KEY;
 import static codepath.travelbug.Utils.TAG;
 
@@ -54,7 +46,7 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         random = new Random();
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.activity_user_options);
         ivProfileImage = (RoundedImageView)findViewById(R.id.ivProfileImage);
         tvName = (TextView)findViewById(R.id.tvName);
         // Performs a GET request to get the user's info
@@ -103,11 +95,20 @@ public class UserViewingOptionsActivity extends AppCompatActivity {
         ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
         ivDisplayIcon.setImageResource(R.drawable.friendstimeline);
 
-        tileView = findViewById(R.id.search_timelines);
-        tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
+        View tileView3 = findViewById(R.id.search_timelines);
+        tvTitle = (TextView) tileView3.findViewById(R.id.tvTitle);
         tvTitle.setText("Search Timelines");
-        ivDisplayIcon = (ImageView) tileView.findViewById(R.id.gridImage);
+        ivDisplayIcon = (ImageView) tileView3.findViewById(R.id.gridImage);
         ivDisplayIcon.setImageResource(R.drawable.searchtimelines);
+
+        // Temp click handler until code is refactored
+        tileView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), TimelineDetailsViewActivity.class);
+                startActivity(i);
+            }
+        });
 
         tileView = findViewById(R.id.add_friends);
         tvTitle = (TextView) tileView.findViewById(R.id.tvTitle);
