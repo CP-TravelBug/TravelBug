@@ -2,6 +2,9 @@ package codepath.travelbug.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.facebook.AccessToken;
@@ -12,10 +15,13 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import codepath.travelbug.R;
-import codepath.travelbug.backend.Backend;
+import codepath.travelbug.adapter.ShareAdapter;
+
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
@@ -25,7 +31,8 @@ public class ShareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        List<Timeline> timelines = Parcels.unwrap(getIntent().getParcelableExtra("timeline"));
+
+        Collection<Timeline> timelines = Parcels.unwrap(getIntent().getParcelableExtra("timeline"));
         if(AccessToken.getCurrentAccessToken() != null) {
             String userId = AccessToken.getCurrentAccessToken().getUserId();
             userId = userId + "/friends";
@@ -45,5 +52,14 @@ public class ShareActivity extends AppCompatActivity {
             request.setParameters(parameters);
             request.executeAsync();
         }
+        RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvShareFriends);
+        List<User> friends = new ArrayList<>();
+        friends.add(new User());
+        // Create adapter passing in the sample user data
+        ShareAdapter adapter = new ShareAdapter(this, friends);
+        // Attach the adapter to the recyclerview to populate items
+        rvContacts.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvContacts.setLayoutManager(new LinearLayoutManager(this));
     }
 }

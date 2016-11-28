@@ -22,4 +22,6 @@
         android:layout_toEndOf="@+id/ivPhoto"
         android:layout_marginStart="16dp"
         android:id="@+id/tvContent" />
+
+
 </RelativeLayout>
