@@ -43,6 +43,7 @@ public class User {
     }
 
     public static User fromJSONObject(JSONObject jsonObject) {
+        if (jsonObject == null) return null;
         User user = new User();
         try {
             user.name = jsonObject.getString("name");

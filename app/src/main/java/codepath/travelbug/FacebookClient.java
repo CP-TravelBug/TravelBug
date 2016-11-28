@@ -5,18 +5,15 @@ import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 
 import static codepath.travelbug.TravelBugApplication.TAG;
@@ -26,6 +23,7 @@ import static codepath.travelbug.TravelBugApplication.TAG;
  */
 public class FacebookClient {
     private static final int PIC_SIZE = 400; // Note height = width for a square picture.
+    private static final String EMPTY_STRING = "";
 
     /** List of permissions to request when logging in for our app. */
     public static final List<String> FACEBOOK_PERMISSIONS = Arrays.asList("public_profile", "user_friends", "read_custom_friendlists");
@@ -54,7 +52,7 @@ public class FacebookClient {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         Log.d(TAG, "GraphResponse for fetchUserPictureAtHighRes: " + response.toString());
-                        pictureUrlCallback.onResult(fetchPicturUrlFromResponse(response));
+                        pictureUrlCallback.onResult(fetchPictureUrlFromResponse(response));
                     }
                 }
         );
@@ -66,9 +64,21 @@ public class FacebookClient {
         request.executeAsync();
     }
 
-    private static String fetchPicturUrlFromResponse(GraphResponse response) {
+    private static String fetchPictureUrlFromResponse(GraphResponse response) {
         try {
-            return response.getJSONObject().getJSONObject("data").getString("url");
+            if (response == null) {
+                return EMPTY_STRING;
+            }
+            JSONObject objectA = response.getJSONObject();
+            if (objectA == null) {
+                return EMPTY_STRING;
+            }
+            JSONObject dataObject = objectA.getJSONObject("data");
+            if (dataObject == null) {
+                return EMPTY_STRING;
+            }
+            String urlValue = dataObject.getString("url");
+            return urlValue != null ? urlValue : EMPTY_STRING;
         } catch (JSONException e) {
             return "";
         }
@@ -77,6 +87,7 @@ public class FacebookClient {
     public static void fetchUser(final ResultCallback<User> userCallback) {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
+            Log.e(TAG, "Null access token, dropping fetchUser() request.");
             userCallback.onResult(null);
             return;
         }
@@ -87,9 +98,13 @@ public class FacebookClient {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-
-                        User user = User.fromJSONObject(response.getJSONObject());
-                        userCallback.onResult(user);
+                        if (response != null) {
+                            User user = User.fromJSONObject(response.getJSONObject());
+                            userCallback.onResult(user);
+                        } else {
+                            Log.e(TAG, "Received null response from Facebook API for fetchUser().");
+                            userCallback.onResult(null);
+                        }
                     }
                 }
         );
