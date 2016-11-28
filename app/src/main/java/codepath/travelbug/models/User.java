@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.util.List;
+
 
 @Parcel
 public class User {
@@ -14,9 +16,13 @@ public class User {
     AccessToken accessToken;
     String name;
     Entity entity;
+    List<User> friendList;
 
     public String getFirstName() {
         return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     String firstName;
