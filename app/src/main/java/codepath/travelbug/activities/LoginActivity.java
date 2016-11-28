@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startUserViewingOptionsActivity() {
-        Intent intent = new Intent(LoginActivity.this, UserViewingOptionsActivity.class);
+        Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
         User user = new User();
         user.setAccessToken(accessToken);

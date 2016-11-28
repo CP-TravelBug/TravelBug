@@ -1,6 +1,7 @@
 package codepath.travelbug.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -16,23 +17,26 @@ import java.io.File;
 import java.util.List;
 
 import codepath.travelbug.R;
+import codepath.travelbug.activities.TimelineDetailsViewActivity;
 import codepath.travelbug.models.Event;
+import codepath.travelbug.models.Timeline;
 
-public class TimelineDisplayAdapter extends ArrayAdapter<Event> {
+public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
     private static class ViewHolder {
         ImageView ivTimeline;
         TextView tvContent;
     }
 
 
-    public TimelineDisplayAdapter(Context context, List<Event> objects) {
+    public TimelineDisplayAdapter(Context context, List<Timeline> objects) {
         super(context, R.layout.item_timeline, objects);
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Event event = getItem(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        // Displaying the first event for a Timeline
+        Event event = getItem(position).getEventList().get(0);
 
         ViewHolder holder;
         if (convertView == null) {
@@ -49,6 +53,14 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Event> {
         holder.tvContent.setText(event.getContent());
         Uri uri = Uri.fromFile(new File(event.getPath()));
         Picasso.with(getContext()).load(uri).into(holder.ivTimeline);
+        holder.ivTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), TimelineDetailsViewActivity.class);
+                i.putExtra("timelineId", getItem(position).getTimelineId());
+                getContext().startActivity(i);
+            }
+        });
         return convertView;
     }
 }

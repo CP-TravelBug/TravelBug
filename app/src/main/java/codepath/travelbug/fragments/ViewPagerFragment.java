@@ -37,7 +37,7 @@ public class ViewPagerFragment extends Fragment {
     private int mPage;
     final String path = Environment.DIRECTORY_DCIM;
     ListView lvTimeline;
-    LinkedList<Event> eventLinkedList;
+    List<Timeline> timelineList;
     TimelineDisplayAdapter adapter;
 
     public ViewPagerFragment() {
@@ -81,8 +81,8 @@ public class ViewPagerFragment extends Fragment {
         });
 
 
-        eventLinkedList = new LinkedList<>();
-        adapter = new TimelineDisplayAdapter(getContext(), eventLinkedList);
+        timelineList = new LinkedList<>();
+        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
         lvTimeline.setAdapter(adapter);
         if (mPage == 1) {
             displayAllTimelines();
@@ -93,24 +93,18 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void displayAllTimelines() {
-        Toast.makeText(getContext(), "Displaying all timelines", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Displaying all timelines", Toast.LENGTH_SHORT).show();
+        displayMyTimeline();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        //mListener = null;
     }
 
     private void displayMyTimeline() {
@@ -118,32 +112,12 @@ public class ViewPagerFragment extends Fragment {
         // Filler code until we read values from DB or server
         Collection<Timeline> timelines = Backend.get().getTimelines();
         if (timelines.size() == 0) {
-            Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
+            // Todo Display a message to create timeline
         }
-        eventLinkedList.clear();
-        for (Timeline tm : timelines) {
-            // ToDo add to specific timelines feature yet to be implemented
-            // For now each event is added to a new timeline
-            Event e = tm.getEventList().get(0);
-            eventLinkedList.add(e);
-        }
-        //adapter.clear();
-//        adapter.addAll(eventLinkedList);
+        timelineList.clear();
+        timelineList.addAll(timelines);
         adapter.notifyDataSetChanged();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
 }

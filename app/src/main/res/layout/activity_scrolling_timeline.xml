@@ -1,64 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_timeline"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="codepath.travelbug.activities.UserViewingOptionsActivity">
+    android:layout_height="match_parent">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/hilaryduff"
-        app:riv_border_color="@color/white"
-        app:riv_border_width="2dp"
-        app:riv_corner_radius="50dp"
-        app:riv_mutate_background="true"
-        app:riv_oval="true"></com.makeramen.roundedimageview.RoundedImageView>
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivProfileImage"
-        android:layout_marginBottom="36dp"
-        android:layout_marginStart="26dp"
-        android:layout_toEndOf="@id/ivProfileImage"
-        android:text="@string/user_name"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp" />
-
-    <LinearLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_timeline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@id/tvName">
+        android:background="@color/white"
+        tools:context="codepath.travelbug.activities.UserViewingOptionsActivity">
 
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:pstsShouldExpand="true"
-            app:pstsTextAllCaps="true"
-            android:textSize="14sp"
-            app:pstsTabPaddingLeftRight="14dp"
-            app:pstsUnderlineColor="@color/colorPrimaryDark"
-            app:pstsIndicatorColor="@color/colorPrimaryDark"
-            app:pstsIndicatorHeight="4dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/hilaryduff"
+            app:riv_border_color="@color/white"
+            app:riv_border_width="2dp"
+            app:riv_corner_radius="50dp"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"></com.makeramen.roundedimageview.RoundedImageView>
 
-        </com.astuetz.PagerSlidingTabStrip>
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivProfileImage"
+            android:layout_marginBottom="36dp"
+            android:layout_marginStart="26dp"
+            android:layout_toEndOf="@id/ivProfileImage"
+            android:text="@string/user_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <LinearLayout
+            android:id="@+id/timeContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white">
-        </android.support.v4.view.ViewPager>
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_below="@id/tvName"
+            android:orientation="vertical">
+
+            <com.astuetz.PagerSlidingTabStrip
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:textSize="14sp"
+                app:pstsIndicatorColor="@color/colorPrimaryDark"
+                app:pstsIndicatorHeight="4dp"
+                app:pstsShouldExpand="true"
+                app:pstsTabPaddingLeftRight="14dp"
+                app:pstsTextAllCaps="true"
+                app:pstsUnderlineColor="@color/colorPrimaryDark">
+
+            </com.astuetz.PagerSlidingTabStrip>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"></android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_createTimeline"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:src="@drawable/ic_fab_timeline"
+        app:layout_anchor="@id/activity_timeline"
+        app:layout_anchorGravity="bottom|right|end"
+        app:borderWidth="0dp"
+        app:rippleColor="@android:color/transparent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+</android.support.design.widget.CoordinatorLayout>

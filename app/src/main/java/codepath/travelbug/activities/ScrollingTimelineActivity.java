@@ -1,7 +1,9 @@
 package codepath.travelbug.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,28 +11,44 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.astuetz.PagerSlidingTabStrip;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
-import org.parceler.Parcels;
-
 import java.util.LinkedList;
+import java.util.Random;
 
 import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
+import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.adapter.ViewPagerFragmentAdapter;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.User;
-
-import static codepath.travelbug.R.id.tvName;
+import static codepath.travelbug.Utils.PIC_URI_KEY;
+import static codepath.travelbug.Utils.TAG;
 
 public class ScrollingTimelineActivity extends AppCompatActivity {
-        //implements ViewPagerFragment.OnFragmentInteractionListener{
+
+    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public final static int CREATE_TIMELINE_WITH_PIC_REQUEST_CODE = 1001;
+
+    private Uri lastCameraRequestUri;
+
+    RoundedImageView ivProfileImage;
+    TextView tvName;
+    FloatingActionButton floatingActionButton;
+
     LinkedList<Event> eventLinkedList;
     TimelineDisplayAdapter adapter;
-    TextView tvName;
-    ImageView ivProfileImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +80,71 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
 
             }
         });
+
+        ivProfileImage = (RoundedImageView)findViewById(R.id.ivProfileImage);
+        tvName = (TextView)findViewById(R.id.tvName);
+        // Performs a GET request to get the user's info
+        FacebookClient.fetchUser(new FacebookClient.ResultCallback<User>() {
+            @Override
+            public void onResult(User user) {
+                if (user != null) {
+                    String helloTextWithFirstName = "Hello " + user.getFirstName();
+                    tvName.setText(helloTextWithFirstName);
+                    Backend.get().setCurrentUser(user);
+                }
+            }
+        });
+
+        // This fetches the high res image.
+        FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
+            @Override
+            public void onResult(String result) {
+                if (!result.isEmpty()) {
+                    Picasso.with(ScrollingTimelineActivity.this).load(result).into(ivProfileImage);
+                }
+            }
+        });
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_createTimeline);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCreateTimelineWithCamera();
+            }
+        });
+
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                .setAction("Action", null).show();
+        //        Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
+        //        intent.putExtra("timeline", Parcels.wrap(eventLinkedList));
+        //        startActivity(intent);
+        //    }
+        //});
+
+    }
+    // Launches the camera first to take a picture which is then passed to the
+    //  for creating a new timeline.
+    private void launchCreateTimelineWithCamera() {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        lastCameraRequestUri = Utils.getPhotoFileUri(this, Utils.generateUniqueFileName());
+        Log.d(TAG, "Image file URI:" + lastCameraRequestUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, lastCameraRequestUri); // set the image file name
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 
     private void loadHeader() {
         User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
         tvName = (TextView)findViewById(R.id.tvName);
-        ivProfileImage = (ImageView)findViewById(R.id.ivProfileImage);
+        ivProfileImage = (RoundedImageView) findViewById(R.id.ivProfileImage);
         String helloTextWithFirstName = "Hello " + user.getFirstName();
         tvName.setText(helloTextWithFirstName);
         // This fetches the high res image.
@@ -81,8 +158,26 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public void onFragmentInteraction(Uri uri) {
-//
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri takenPhotoUri = lastCameraRequestUri;
+                Intent i = new Intent(this, CreateTimelineActivity.class);
+                i.putExtra(PIC_URI_KEY, takenPhotoUri);
+                startActivityForResult(i, CREATE_TIMELINE_WITH_PIC_REQUEST_CODE);
+                // by this point we have the camera photo on disk
+                // Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+                // RESIZE BITMAP, see section below
+                // Load the taken image into a preview
+                // ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
+                // ivPreview.setImageBitmap(takenImage);
+
+                // ToDo: Refresh the views
+
+            } else { // Result was a failure
+                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
