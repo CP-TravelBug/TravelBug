@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOError;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +31,6 @@ import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
-import static codepath.travelbug.R.id.etTimelineName;
-import static codepath.travelbug.R.id.spTimelines;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
 
@@ -169,13 +164,13 @@ public class CreateTimelineActivity extends AppCompatActivity {
 
     private void createNewTimeline(String imagePath) {
         Timeline timeline = new Timeline();
-        timeline.setUserId(Backend.get().getCurrentUser());
+        timeline.setUserId(Backend.get().getCurrentUser().getUserId());
         Event event = new Event();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
-        timeline.setEventList(eventList);
+        timeline.addEvents(eventList);
         // Get the correct timeline title string
         getTimelineTitleString();
         timeline.setTimelineTitle(timelineTitle);

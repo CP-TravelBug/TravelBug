@@ -22,14 +22,9 @@ import static android.R.attr.name;
 public class User extends ParseObject {
     public static final String PARSE_FIELD_USERID = "userId";
 
-    List<Long> friendList;
-    String firstName;
-    String lastName;
-    String fullName;
 
     public User() {
         super();
-        friendList = new ArrayList<>();
     }
 
     public String getFirstName() {
@@ -40,15 +35,23 @@ public class User extends ParseObject {
     }
 
     public List<Long> getFriendList() {
-        return friendList;
+        return getList("friendsList");
+    }
+
+    public List<Long> getTimelines() {
+        return getList("timelines");
+    }
+
+    public void addToTimelines(List<Long> timelines) {
+        addAll("timelines", timelines);
     }
 
     public String getFullName() {
         return getString("fullName");
     }
 
-    public void setFriendList(List<Long> friendList) {
-        this.friendList = friendList;
+    public void addToFriendsList(List<Long> friendList) {
+        addAll("friendsList", friendList);
     }
 
     public String getLastName() {

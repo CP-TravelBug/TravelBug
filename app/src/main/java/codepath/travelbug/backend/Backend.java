@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RunnableFuture;
 
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -42,9 +43,9 @@ public class Backend {
         executorService = Executors.newCachedThreadPool();
     }
 
-    public void createFakeTimelines(Context context) {
+    public void createFakeTimelines(Context context, String userId) {
         FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(context);
-        fakeDataGenerator.createTimelines();
+        fakeDataGenerator.createTimelines(userId);
     }
 
     public synchronized void addTimeline(Timeline timeline) {
@@ -62,9 +63,14 @@ public class Backend {
         return INSTANCE;
     }
 
-    public synchronized void setCurrentUser(User user) {
+    public synchronized void setCurrentUser(final User user) {
         currentUser = user;
-        // TODO: Trigger an operation to fetch user data if user already exists.
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                fetchOrCreateUser(user);
+            }
+        });
     }
 
     public synchronized User getCurrentUser() {
@@ -124,6 +130,7 @@ public class Backend {
         query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
         try {
             User fetchedUser = query.getFirst();
+            Log.i(TAG, "Fetched user from server:" + user.getFullName());
             if (fetchedUser != null) {
                 currentUser = fetchedUser;
                 // update timeline data etc.
@@ -138,5 +145,15 @@ public class Backend {
         } catch (ParseException e) {
             Log.e(TAG, "Could not save user to the server.");
         }
+    }
+
+    /**
+     * Populate timeline data for a user fetched from the server.
+     * @param user
+     */
+    private void updateFetchedUserTimelines(User user) {
+        List<Long> timelines = user.getTimelines();
+        ParseQuery<Timeline> parseQuery = ParseQuery.getQuery(Timeline.class);
+
     }
  }

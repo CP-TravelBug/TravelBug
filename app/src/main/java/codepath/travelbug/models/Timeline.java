@@ -18,10 +18,9 @@ import codepath.travelbug.Utils;
  * User can share a timeline with other users
  * A timeline is viewed on the Timeline screen
  */
-@Parcel
-public class Timeline {
-
-    private static final String PARSE_OBJECT_TIMELINE = "Timeline";
+@Parcel(analyze = Timeline.class)
+@ParseClassName("Timeline")
+public class Timeline extends ParseObject {
     private static final String PARSE_FIELD_TIMELINEID = "TimelineId";
     private static final String PARSE_FIELD_EVENTLIST = "EventList";
     private static final String PARSE_FIELD_USERID = "userId";
@@ -30,62 +29,54 @@ public class Timeline {
     private static final String PARSE_FIELD_SHARED_WITH = "sharedWith";
     private static final String PARSE_FIELD_TIMELINE_TITLE = "TimelineTitle";
 
-    long timelineId;
-    List<Event> eventList;
-    User userId;
-    Date startDate;
-    Date endDate;
-    List<String> sharedWith;
-    String timelineTitle;
 
     public Timeline() {
-        timelineId = Utils.RANDOM.nextLong();
-        eventList = new ArrayList<>();
-        sharedWith = new ArrayList<>();
+        super();
+        setTimelineId(Utils.RANDOM.nextLong());
     }
 
     public long getTimelineId() {
-        return timelineId;
+        return getLong(PARSE_FIELD_TIMELINEID);
     }
 
     public void setTimelineId(long timelineId) {
-        this.timelineId = timelineId;
+        put(PARSE_FIELD_TIMELINEID, timelineId);
     }
 
     public List<Event> getEventList() {
-        return eventList;
+        return getList(PARSE_FIELD_EVENTLIST);
     }
 
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
+    public void addEvents(List<Event> eventList) {
+        addAll(PARSE_FIELD_EVENTLIST, eventList);
     }
 
-    public User getUserId() {
-        return userId;
+    public String getUserId() {
+        return getString(PARSE_FIELD_USERID);
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        put(PARSE_FIELD_USERID, userId);
     }
 
     public Date getStartDate() {
-        return startDate;
+        return getDate(PARSE_FIELD_START_DATE);
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        put(PARSE_FIELD_START_DATE, startDate);
     }
 
     public Date getEndDate() {
-        return endDate;
+        return getDate(PARSE_FIELD_END_DATE);
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        put(PARSE_FIELD_END_DATE, endDate);
     }
 
     public void shareWith(String userId) {
-        sharedWith.add(userId);
+        add(PARSE_FIELD_SHARED_WITH, userId);
     }
 
     /**
@@ -94,38 +85,18 @@ public class Timeline {
      * ones returned from Facebook auth.
      */
     public List<String> getSharedWith() {
-        return sharedWith;
+        return getList(PARSE_FIELD_SHARED_WITH);
     }
 
-    public void setSharedWith(List<String> sharedWith) {
-        this.sharedWith = sharedWith;
+    public void shareWith(List<String> sharedWith) {
+        addAll(PARSE_FIELD_SHARED_WITH, sharedWith);
     }
 
     public String getTimelineTitle() {
-        return timelineTitle;
+        return getString(PARSE_FIELD_TIMELINE_TITLE);
     }
 
     public void setTimelineTitle(String timelineTitle) {
-        this.timelineTitle = timelineTitle;
-    }
-
-    public ParseObject asParseObject() {
-        ParseObject parseObject = new ParseObject(PARSE_OBJECT_TIMELINE);
-        if (timelineTitle != null && ! timelineTitle.isEmpty()) {
-            parseObject.put(PARSE_FIELD_TIMELINE_TITLE, timelineTitle);
-        }
-        parseObject.put(PARSE_FIELD_TIMELINEID, timelineId);
-        parseObject.addAll(PARSE_FIELD_EVENTLIST, eventList);
-        parseObject.addAll(PARSE_FIELD_SHARED_WITH, sharedWith);
-        if (userId != null) {
-            parseObject.put(PARSE_FIELD_USERID, userId.getUserId());
-        }
-        if (startDate != null) {
-            parseObject.put(PARSE_FIELD_START_DATE, startDate);
-        }
-        if (endDate != null) {
-            parseObject.put(PARSE_FIELD_END_DATE, endDate);
-        }
-        return parseObject;
+        put(PARSE_FIELD_TIMELINE_TITLE, timelineTitle);
     }
 }

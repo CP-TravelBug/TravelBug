@@ -4,9 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.parse.ParseClassName;
-import com.parse.ParseObject;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,15 +88,15 @@ public class FakeDataGenerator {
         }
     }
 
-    public void createTimelines() {
+    public void createTimelines(String userId) {
         boolean flipCoin = false;
         for(Event event : fakeEventList) {
             Timeline timeline = new Timeline();
-            timeline.setUserId(Backend.get().getCurrentUser());
+            timeline.setUserId(userId);
             timeline.setTimelineTitle("Title:" + event.getContent());
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
-            timeline.setEventList(eventList);
+            timeline.addEvents(eventList);
             if (flipCoin) {
                 Backend.get().addTimeline(timeline);
             } else {

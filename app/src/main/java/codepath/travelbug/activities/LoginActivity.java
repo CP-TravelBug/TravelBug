@@ -9,6 +9,7 @@ import com.crashlytics.android.Crashlytics;
 
 import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 import io.fabric.sdk.android.Fabric;
 
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     private void startUserViewingOptionsActivity() {
         Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
+        Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
         User user = new User();
         intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);

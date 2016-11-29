@@ -31,6 +31,7 @@ public class TravelBugApplication extends Application {
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(FakeDataGenerator.FakeEvent.class);
+        ParseObject.registerSubclass(Timeline.class);
         Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(ParseUtil.APP_ID) // should correspond to APP_ID env variable
@@ -44,6 +45,6 @@ public class TravelBugApplication extends Application {
         // Test parse, remove later.
         ParseUtil.testLogin();
         FlowManager.init(new FlowConfig.Builder(this).build());
-        Backend.get().createFakeTimelines(getApplicationContext());
+
     }
 }
