@@ -8,6 +8,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,19 +46,20 @@ public class CreateTimelineActivity extends AppCompatActivity {
     EditText pictureTitle;
     String resizedFilePath;
     Long idOfTimelineCreated;
-    Spinner tmLists;
+    Spinner spTmLists;
     EditText tvTimelineTitle;
     String timelineTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timeline);
-        tmLists = (Spinner) findViewById(R.id.spTimelines);
+        spTmLists = (Spinner) findViewById(R.id.spTimelines);
         ArrayAdapter<String> tmListsArray = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item);
         tmListsArray.addAll(getTimelineLists());
         tmListsArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tmLists.setAdapter(tmListsArray);
+        spTmLists.setAdapter(tmListsArray);
+
         tvTimelineTitle = (EditText) findViewById(R.id.etTimelineName);
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
@@ -126,18 +128,23 @@ public class CreateTimelineActivity extends AppCompatActivity {
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.setEventList(eventList);
+        // Get the correct timeline title string
+        getTimelineTitleString();
         timeline.setTimelineTitle(timelineTitle);
         Backend.get().addTimeline(timeline);
         idOfTimelineCreated = timeline.getTimelineId();
     }
 
+    private void getTimelineTitleString() {
+        onRadioButtonClicked(findViewById(R.id.rbAddToTimeline));
+        onRadioButtonClicked(findViewById(R.id.rbCreateNewTimeline));
+    }
 
     public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        String timelineTitle = "";
+        boolean checked = ((RadioButton)view).isChecked();
         switch (view.getId()) {
             case R.id.rbAddToTimeline:
-                timelineTitle = tmLists.getSelectedItem().toString();
+                timelineTitle = spTmLists.getSelectedItem().toString();
                 break;
             case R.id.rbCreateNewTimeline:
                 timelineTitle = tvTimelineTitle.getText().toString();

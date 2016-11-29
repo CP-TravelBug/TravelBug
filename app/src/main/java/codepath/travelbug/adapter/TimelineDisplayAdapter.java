@@ -57,7 +57,8 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvContent.setText(event.getContent());
+        //holder.tvContent.setText(event.getContent());
+        holder.tvContent.setText(getItem(position).getTimelineTitle());
         Uri uri = event.getContentUri();
         Picasso.with(getContext()).load(uri).into(holder.ivTimeline);
         holder.ivTimeline.setOnClickListener(new View.OnClickListener() {
