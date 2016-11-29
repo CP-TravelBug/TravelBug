@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import java.io.File;
 import java.util.List;
 
 import codepath.travelbug.R;
+import codepath.travelbug.activities.ShareActivity;
 import codepath.travelbug.activities.TimelineDetailsViewActivity;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
@@ -27,6 +29,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
     private static class ViewHolder {
         ImageView ivTimeline;
         TextView tvContent;
+        Button btnShare;
     }
 
 
@@ -48,6 +51,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
             convertView = inflater.inflate(R.layout.item_timeline, parent, false);
             holder.ivTimeline = (ImageView) convertView.findViewById(R.id.ivPhoto);
             holder.tvContent = (TextView) convertView.findViewById(R.id.tvContent);
+            holder.btnShare = (Button)convertView.findViewById(R.id.shareButton);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -60,6 +64,14 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), TimelineDetailsViewActivity.class);
+                i.putExtra("timelineId", getItem(position).getTimelineId());
+                getContext().startActivity(i);
+            }
+        });
+        holder.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), ShareActivity.class);
                 i.putExtra("timelineId", getItem(position).getTimelineId());
                 getContext().startActivity(i);
             }

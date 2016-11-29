@@ -23,5 +23,13 @@
         android:layout_marginStart="16dp"
         android:id="@+id/tvContent" />
 
+    <Button
+        android:text="@string/btn_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareButton"
+        android:layout_toEndOf="@+id/ivPhoto"
+        android:layout_below="@+id/tvContent"/>
+
 
 </RelativeLayout>

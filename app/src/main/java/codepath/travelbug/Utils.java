@@ -7,8 +7,12 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import codepath.travelbug.models.User;
 
 /**
  * Created by arunesh on 11/14/16.
@@ -90,6 +94,23 @@ public class Utils {
         float factorW = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),
                 (int) (b.getHeight() * factorH), true);
+    }
+
+    /**
+     * Method that generates friends based on a user object, will update accordingly with different user ids.
+     *
+     * @return a list of users
+     */
+    public static List<User> generateFriends() {
+        List<User> userList = new ArrayList<>();
+        for(int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setFirstName("Tom");
+            String userid = String.valueOf(RANDOM.nextLong());
+            user.setUserId(userid);
+            userList.add(user);
+        }
+        return  userList;
     }
 
 }

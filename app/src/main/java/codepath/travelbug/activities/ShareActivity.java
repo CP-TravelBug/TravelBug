@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import codepath.travelbug.R;
+import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.ShareAdapter;
 
 import codepath.travelbug.models.Timeline;
@@ -53,10 +54,8 @@ public class ShareActivity extends AppCompatActivity {
             request.executeAsync();
         }
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvShareFriends);
-        List<User> friends = new ArrayList<>();
-        friends.add(new User());
         // Create adapter passing in the sample user data
-        ShareAdapter adapter = new ShareAdapter(this, friends);
+        ShareAdapter adapter = new ShareAdapter(this, Utils.generateFriends());
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
         // Set layout manager to position the items
