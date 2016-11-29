@@ -21,6 +21,7 @@ public class TravelBugApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(ParseUtil.APP_ID) // should correspond to APP_ID env variable
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server

@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
         User user = new User();
-        user.setAccessToken(accessToken);
         intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
     }

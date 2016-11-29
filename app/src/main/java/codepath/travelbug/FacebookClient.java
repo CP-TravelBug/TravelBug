@@ -28,6 +28,8 @@ public class FacebookClient {
     /** List of permissions to request when logging in for our app. */
     public static final List<String> FACEBOOK_PERMISSIONS = Arrays.asList("public_profile", "user_friends", "read_custom_friendlists");
 
+    private static AccessToken accessToken;
+
     private FacebookClient() {}  // Cannot instantiate.
     /**
      * Generic result callback for facebook APIs that fetch data from the facebook servers.
@@ -85,7 +87,7 @@ public class FacebookClient {
     }
 
     public static void fetchUser(final ResultCallback<User> userCallback) {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null) {
             Log.e(TAG, "Null access token, dropping fetchUser() request.");
             userCallback.onResult(null);
@@ -100,6 +102,7 @@ public class FacebookClient {
                     public void onCompleted(GraphResponse response) {
                         if (response != null) {
                             User user = User.fromJSONObject(response.getJSONObject());
+                            user.setUserId(accessToken.getUserId());
                             userCallback.onResult(user);
                         } else {
                             Log.e(TAG, "Received null response from Facebook API for fetchUser().");
@@ -112,5 +115,13 @@ public class FacebookClient {
         parameters.putString("fields", "id,name,link,email,first_name,last_name,picture");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    public static synchronized  void setAccessToken(AccessToken token) {
+        accessToken = token;
+    }
+
+    public static synchronized AccessToken accessToken() {
+        return accessToken;
     }
 }

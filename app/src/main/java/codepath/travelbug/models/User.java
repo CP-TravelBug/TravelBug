@@ -12,9 +12,11 @@ import java.util.List;
 
 @Parcel
 public class User {
-
-    AccessToken accessToken;
     String name;
+
+    // This is the user id given by the Facebook API. We also use this as the primary key in the
+    // Parse database.
+    String userId;
     Entity entity;
     List<User> friendList;
 
@@ -40,12 +42,12 @@ public class User {
         this.name = name;
     }
 
-    public AccessToken getAccessToken() {
-        return accessToken;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAccessToken(AccessToken accessToken) {
-        this.accessToken = accessToken;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public static User fromJSONObject(JSONObject jsonObject) {
