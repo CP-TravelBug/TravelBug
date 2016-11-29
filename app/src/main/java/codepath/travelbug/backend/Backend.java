@@ -87,7 +87,10 @@ public class Backend {
     }
 
     public synchronized Timeline getTimeline(long timelineId) {
-        return myTimelines.get(Long.valueOf(timelineId));
+        return myTimelines.get(timelineId);
+    }
+    public synchronized Timeline getSharedTimeline(long timelineId) {
+        return sharedTimelines.get(timelineId);
     }
 
     public synchronized void shareTimelineWithUser(long timelineId, String userId) {
@@ -133,7 +136,7 @@ public class Backend {
         try {
             user.save();
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Could not save user to the server.");
         }
     }
  }

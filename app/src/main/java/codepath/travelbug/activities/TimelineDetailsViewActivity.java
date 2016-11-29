@@ -14,6 +14,7 @@ import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.adapter.TimelineRecyclerViewAdapter;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
+import codepath.travelbug.models.Timeline;
 
 public class TimelineDetailsViewActivity extends AppCompatActivity {
     private static final String TAG = "TimelineDetailsView";
@@ -25,7 +26,11 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
         long timelineId = getIntent().getLongExtra("timelineId", 0);
         RecyclerView rvEvents = (RecyclerView) findViewById(R.id.rvTimeline);
         // Get a timeline based on Id and then get the events of the timeline
-        events = Backend.get().getTimeline(timelineId).getEventList();
+        Timeline timeline = Backend.get().getTimeline(timelineId);
+        if (timeline == null) {
+            timeline = Backend.get().getSharedTimeline(timelineId);
+        }
+        events = timeline.getEventList();
         Log.d(TAG, events.toString());
 
         TimelineRecyclerViewAdapter adapter = new TimelineRecyclerViewAdapter(this, events);
