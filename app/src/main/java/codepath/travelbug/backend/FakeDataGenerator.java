@@ -86,7 +86,7 @@ public class FakeDataGenerator {
         for(Event event : fakeEventList) {
             Timeline timeline = new Timeline();
             timeline.setUserId(Backend.get().getCurrentUser());
-            timeline.setTimelineTitle(event.getContent());
+            timeline.setTimelineTitle("Title:" + event.getContent());
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
             timeline.setEventList(eventList);

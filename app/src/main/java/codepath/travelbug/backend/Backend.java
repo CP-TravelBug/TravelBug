@@ -4,6 +4,8 @@ import android.content.Context;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -14,6 +16,7 @@ public class Backend {
 
     // Timelines owned by the current user.
     private HashMap<Long, Timeline> myTimelines;
+    private LinkedList<Timeline> myTimelinesList; // We stores this list in rev chrono order.
 
     // Timeslines shared with me.
     private HashMap<Long, Timeline> sharedTimelines;
@@ -21,6 +24,7 @@ public class Backend {
 
     private Backend() {
         myTimelines = new HashMap<Long, Timeline>();
+        myTimelinesList = new LinkedList<>();
     }
 
     public void createFakeTimelines(Context context) {
@@ -30,6 +34,7 @@ public class Backend {
 
     public synchronized void addTimeline(Timeline timeline) {
         myTimelines.put(timeline.getTimelineId(), timeline);
+        myTimelinesList.addFirst(timeline);
     }
 
     public static Backend get() {
@@ -49,7 +54,7 @@ public class Backend {
      * @return
      */
     public synchronized Collection<Timeline> getMyTimelines() {
-        return myTimelines.values();
+        return myTimelinesList;
     }
 
     /**
