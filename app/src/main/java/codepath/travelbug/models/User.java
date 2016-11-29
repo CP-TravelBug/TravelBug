@@ -25,6 +25,7 @@ public class User extends ParseObject {
     List<Long> friendList;
     String firstName;
     String lastName;
+    String fullName;
 
     public User() {
         super();
@@ -40,6 +41,10 @@ public class User extends ParseObject {
 
     public List<Long> getFriendList() {
         return friendList;
+    }
+
+    public String getFullName() {
+        return getString("fullName");
     }
 
     public void setFriendList(List<Long> friendList) {
@@ -68,9 +73,14 @@ public class User extends ParseObject {
         try {
             user.setFirstName(jsonObject.getString("first_name"));
             user.setLastName(jsonObject.getString("last_name"));
+            user.setFullName(jsonObject.getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public void setFullName(String fullName) {
+        put("fullName", fullName);
     }
 }

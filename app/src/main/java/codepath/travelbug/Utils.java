@@ -103,11 +103,20 @@ public class Utils {
      * @return a list of users
      */
     public static List<User> generateFriends() {
-        User currentUser = new User();
+        String[] fullNameList = {
+                "John Smith",
+                "Tom Hanks",
+                "Nick James",
+                "Bob Stoops",
+                "James St Patrick",
+                "Jacob Easton",
+                "Joe Woods",
+                "Lisa Holt",
+        };
         List<User> userList = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 8; i++) {
             User user = new User();
-            user.setFirstName("Tom");
+            user.setFullName(fullNameList[i]);
             String userid = String.valueOf(RANDOM.nextLong());
             user.setUserId(userid);
             userList.add(user);

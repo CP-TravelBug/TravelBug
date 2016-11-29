@@ -51,7 +51,7 @@ public class ShareAdapter extends
 
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
-        textView.setText(friend.getFirstName());
+        textView.setText(friend.getFullName());
 
     }
 
