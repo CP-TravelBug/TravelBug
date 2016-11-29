@@ -87,7 +87,17 @@ public class ViewPagerFragment extends Fragment {
 
     private void displayAllTimelines() {
         //Toast.makeText(getContext(), "Displaying all timelines", Toast.LENGTH_SHORT).show();
-        displayMyTimeline();
+        Collection<Timeline> timelines = Backend.get().getSharedTimelines();
+        if (timelines.size() == 0) {
+            // ToDo Display a message to create a timeline
+        }
+        if (timelineList != null) {
+            timelineList.clear();
+        } else {
+            timelineList = new LinkedList<>();
+        }
+        timelineList.addAll(timelines);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
