@@ -14,7 +14,8 @@
         android:id="@+id/ivCameraImage"
         android:scaleType="centerCrop"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/event_content" />
 
     <Button
         android:text="@string/save_timeline"
@@ -39,4 +40,41 @@
         android:layout_below="@+id/ivCameraImage"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+
+    <RadioButton
+        android:text="@string/addToExistingTimeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:id="@+id/rbAddToTimeline"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spTimelines"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/etTimelineName"
+        android:layout_below="@id/editText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/createNewTimeLineHint"
+        android:textSize="12dp"
+        android:id="@+id/etTimelineName"
+        android:layout_above="@+id/btnSaveTimeline"
+        android:layout_toEndOf="@+id/rbCreateNewTimeline"
+        android:layout_marginStart="27dp" />
+
+    <RadioButton
+        android:text="@string/createNewTimeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbCreateNewTimeline"
+        android:layout_alignTop="@+id/etTimelineName"
+        android:layout_alignStart="@+id/rbAddToTimeline" />
+
 </RelativeLayout>

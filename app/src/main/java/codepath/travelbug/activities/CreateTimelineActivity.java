@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
@@ -27,6 +32,7 @@ import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
+import static codepath.travelbug.R.id.etTimelineName;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
 
@@ -37,14 +43,24 @@ public class CreateTimelineActivity extends AppCompatActivity {
     EditText pictureTitle;
     String resizedFilePath;
     Long idOfTimelineCreated;
-
+    Spinner tmLists;
+    EditText tvTimelineTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timeline);
+        getTimelineLists();
+        tmLists = (Spinner) findViewById(R.id.spTimelines);
+        ArrayAdapter<String> tmListsArray = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item);
+        tmListsArray.addAll(getTimelineLists());
+        tmListsArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tmLists.setAdapter(tmListsArray);
+        tvTimelineTitle = (EditText) findViewById(R.id.etTimelineName);
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
         pictureTitle = (EditText)findViewById(R.id.editText);
+
         saveButton = (Button) findViewById(R.id.btnSaveTimeline);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +80,20 @@ public class CreateTimelineActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.d(TAG, "Error reading image taken.");
         }
+
+    }
+
+    private List<String> getTimelineLists() {
+        List<String> tmNames = new ArrayList<>();
+        Collection<Timeline> tmLists = Backend.get().getMyTimelines();
+        if (tmLists.size() != 0) {
+            for (Timeline t : tmLists) {
+                tmNames.add(t.getTimelineTitle());
+            }
+        } else {
+            tmNames.add("No Timeline yet");
+        }
+        return tmNames;
     }
 
     // Takes the given image from the camera, resizes it and writes it to another file.
@@ -94,7 +124,10 @@ public class CreateTimelineActivity extends AppCompatActivity {
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.setEventList(eventList);
+        timeline.setTimelineTitle(tvTimelineTitle.getText().toString());
         Backend.get().addTimeline(timeline);
         idOfTimelineCreated = timeline.getTimelineId();
     }
+
+
 }

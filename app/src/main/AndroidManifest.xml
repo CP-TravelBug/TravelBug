@@ -34,7 +34,6 @@
             android:name="com.parse.APPLICATION_ID"
             android:value="theTravelBug" />
 
-        <activity android:name=".activities.UserViewingOptionsActivity" />
         <activity
             android:name=".activities.CreateTimelineActivity"
             android:label="@string/create_timeline_title" />
