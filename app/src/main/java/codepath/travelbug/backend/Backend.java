@@ -22,6 +22,7 @@ public class Backend {
     private HashMap<Long, Timeline> sharedTimelines;
     private LinkedList<Timeline> sharedTimelinesList; // We stores this list in rev chrono order.
     private User currentUser;
+    private List<User> friendsList;
 
     private Backend() {
         myTimelines = new HashMap<Long, Timeline>();
@@ -74,5 +75,17 @@ public class Backend {
 
     public synchronized Timeline getTimeline(long timelineId) {
         return myTimelines.get(Long.valueOf(timelineId));
+    }
+
+    public synchronized void shareTimelineWithUser(long timelineId, String userId) {
+
+    }
+
+    public synchronized void setFriendsList(List<User> friendsList) {
+        this.friendsList = friendsList;
+    }
+
+    public synchronized List<User> getFriendsList() {
+        return friendsList;
     }
  }

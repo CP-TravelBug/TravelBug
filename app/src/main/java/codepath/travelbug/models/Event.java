@@ -3,6 +3,9 @@ package codepath.travelbug.models;
 import android.location.Geocoder;
 import android.net.Uri;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
@@ -15,25 +18,26 @@ import java.util.List;
  * Please refer to database schema or wiki for more information
  */
 
-@Parcel
-public class Event {
-
-
+@Parcel(analyze = Event.class)
+@ParseClassName("Event")
+public class Event extends ParseObject {
     long eventId;
     String path; // Path to content or video
     String content;  // Name of the video or picture (aka Title).
-    List<Timeline> timelineList;
-    @Transient
-    Geocoder location;
+
+    public Event() {
+        super();
+    }
 
     public long getEventId() {
-        return eventId;
+        return getLong("eventId");
     }
 
     public void setEventId(long eventId) {
-        this.eventId = eventId;
+        put("eventId", eventId);
     }
 
+    // We do not persist path to the Parse backend.
     public String getPath() {
         return path;
     }
@@ -43,27 +47,11 @@ public class Event {
     }
 
     public String getContent() {
-        return content;
+        return getString("content");
     }
 
     public void setContent(String content) {
-        this.content = content;
-    }
-
-    public List<Timeline> getTimelineList() {
-        return timelineList;
-    }
-
-    public void setTimelineList(List<Timeline> timelineList) {
-        this.timelineList = timelineList;
-    }
-
-    public Geocoder getLocation() {
-        return location;
-    }
-
-    public void setLocation(Geocoder location) {
-        this.location = location;
+        put("content", content);
     }
 
     public Uri getContentUri() {

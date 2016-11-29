@@ -57,6 +57,10 @@ public class FakeDataGenerator {
     public static class FakeEvent extends Event {
         private Uri fakeImageUri;
 
+        public FakeEvent() {
+            super();
+        }
+
         public void setFakeImageUri(Uri uri) {
             fakeImageUri = uri;
         }

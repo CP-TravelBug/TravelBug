@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 
 /**
@@ -111,8 +112,8 @@ public class Utils {
             user.setUserId(userid);
             userList.add(user);
         }
-        currentUser.setFriendList(userList);
-        return  currentUser.getFriendList();
+        Backend.get().setFriendsList(userList);
+        return userList;
     }
 
 }

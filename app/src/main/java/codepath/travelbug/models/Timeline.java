@@ -1,8 +1,12 @@
 package codepath.travelbug.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import org.parceler.Parcel;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,16 +21,27 @@ import codepath.travelbug.Utils;
 @Parcel
 public class Timeline {
 
+    private static final String PARSE_OBJECT_TIMELINE = "Timeline";
+    private static final String PARSE_FIELD_TIMELINEID = "TimelineId";
+    private static final String PARSE_FIELD_EVENTLIST = "EventList";
+    private static final String PARSE_FIELD_USERID = "userId";
+    private static final String PARSE_FIELD_START_DATE = "startDate";
+    private static final String PARSE_FIELD_END_DATE = "endDate";
+    private static final String PARSE_FIELD_SHARED_WITH = "sharedWith";
+    private static final String PARSE_FIELD_TIMELINE_TITLE = "TimelineTitle";
+
     long timelineId;
     List<Event> eventList;
     User userId;
     Date startDate;
     Date endDate;
-    List<User> sharedWith;
+    List<Long> sharedWith;
     String timelineTitle;
 
     public Timeline() {
         timelineId = Utils.RANDOM.nextLong();
+        eventList = new ArrayList<>();
+        sharedWith = new ArrayList<>();
     }
 
     public long getTimelineId() {
@@ -69,11 +84,16 @@ public class Timeline {
         this.endDate = endDate;
     }
 
-    public List<User> getSharedWith() {
+    /**
+     *
+     * @return A list of user IDs that this timeline is shared with. The user IDs correspond to the
+     * ones returned from Facebook auth.
+     */
+    public List<Long> getSharedWith() {
         return sharedWith;
     }
 
-    public void setSharedWith(List<User> sharedWith) {
+    public void setSharedWith(List<Long> sharedWith) {
         this.sharedWith = sharedWith;
     }
 
@@ -83,5 +103,25 @@ public class Timeline {
 
     public void setTimelineTitle(String timelineTitle) {
         this.timelineTitle = timelineTitle;
+    }
+
+    public ParseObject asParseObject() {
+        ParseObject parseObject = new ParseObject(PARSE_OBJECT_TIMELINE);
+        if (timelineTitle != null && ! timelineTitle.isEmpty()) {
+            parseObject.put(PARSE_FIELD_TIMELINE_TITLE, timelineTitle);
+        }
+        parseObject.put(PARSE_FIELD_TIMELINEID, timelineId);
+        parseObject.addAll(PARSE_FIELD_EVENTLIST, eventList);
+        parseObject.addAll(PARSE_FIELD_SHARED_WITH, sharedWith);
+        if (userId != null) {
+            parseObject.put(PARSE_FIELD_USERID, userId.getUserId());
+        }
+        if (startDate != null) {
+            parseObject.put(PARSE_FIELD_START_DATE, startDate);
+        }
+        if (endDate != null) {
+            parseObject.put(PARSE_FIELD_END_DATE, endDate);
+        }
+        return parseObject;
     }
 }

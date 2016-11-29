@@ -1,83 +1,76 @@
 package codepath.travelbug.models;
 
 import com.facebook.AccessToken;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.name;
 
-@Parcel
-public class User {
-    String name;
+
+@Parcel(analyze = User.class)
+@ParseClassName("User")
+public class User extends ParseObject {
 
     // This is the user id given by the Facebook API. We also use this as the primary key in the
     // Parse database.
     String userId;
-    Entity entity;
-    List<User> friendList;
+    List<Long> friendList;
+    String firstName;
+    String lastName;
+
+    public User() {
+        super();
+        friendList = new ArrayList<>();
+    }
 
     public String getFirstName() {
-        return firstName;
+        return getString("firstName");
     }
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        put("firstName", firstName);
     }
 
-    String firstName;
-
-    public List<User> getFriendList() {
+    public List<Long> getFriendList() {
         return friendList;
     }
 
-    public void setFriendList(List<User> friendList) {
+    public void setFriendList(List<Long> friendList) {
         this.friendList = friendList;
     }
 
-
-    public Entity getEntity() {
-        return entity;
+    public String getLastName() {
+        return getString("lastName");
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String lastName) {
+        put("lastName", lastName);
     }
 
     public String getUserId() {
-        return userId;
+        return getString("userId");
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        put("userId", userId);
     }
 
     public static User fromJSONObject(JSONObject jsonObject) {
         if (jsonObject == null) return null;
         User user = new User();
         try {
-            user.name = jsonObject.getString("name");
-            user.firstName = jsonObject.getString("first_name");
-            user.entity = Entity.fromJSONObject(jsonObject.getJSONObject("picture"));
+            user.setFirstName(jsonObject.getString("first_name"));
+            user.setLastName(jsonObject.getString("last_name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return user;
-    }
-
-    /**
-     * @return A ParseUser version of this user.
-     */
-    public ParseUser asParseUser() {
-        ParseUser parseUser = new ParseUser();
-        parseUser.setUsername(name);
-        return parseUser;
     }
 }
