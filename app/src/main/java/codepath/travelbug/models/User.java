@@ -29,6 +29,14 @@ public class User {
 
     String firstName;
 
+    public List<User> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<User> friendList) {
+        this.friendList = friendList;
+    }
+
 
     public Entity getEntity() {
         return entity;

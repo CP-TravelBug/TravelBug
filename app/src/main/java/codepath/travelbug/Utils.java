@@ -102,6 +102,7 @@ public class Utils {
      * @return a list of users
      */
     public static List<User> generateFriends() {
+        User currentUser = new User();
         List<User> userList = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             User user = new User();
@@ -110,7 +111,8 @@ public class Utils {
             user.setUserId(userid);
             userList.add(user);
         }
-        return  userList;
+        currentUser.setFriendList(userList);
+        return  currentUser.getFriendList();
     }
 
 }
