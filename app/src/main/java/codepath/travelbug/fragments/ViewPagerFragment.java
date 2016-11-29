@@ -2,7 +2,6 @@ package codepath.travelbug.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -11,10 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.parceler.Parcels;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,7 +19,6 @@ import codepath.travelbug.R;
 import codepath.travelbug.activities.ShareActivity;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.backend.Backend;
-import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -109,7 +103,7 @@ public class ViewPagerFragment extends Fragment {
     public void displayMyTimeline() {
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
-        Collection<Timeline> timelines = Backend.get().getTimelines();
+        Collection<Timeline> timelines = Backend.get().getMyTimelines();
         if (timelines.size() == 0) {
             //Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
             // Todo Display a message to create timeline

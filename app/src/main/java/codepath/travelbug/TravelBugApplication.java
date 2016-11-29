@@ -13,6 +13,7 @@ import com.parse.interceptors.ParseLogInterceptor;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.backend.ParseUtil;
 import codepath.travelbug.models.User;
 import io.fabric.sdk.android.Fabric;
@@ -37,5 +38,6 @@ public class TravelBugApplication extends Application {
         // Test parse, remove later.
         ParseUtil.testLogin();
         FlowManager.init(new FlowConfig.Builder(this).build());
+        Backend.get().createFakeTimelines(getApplicationContext());
     }
 }
