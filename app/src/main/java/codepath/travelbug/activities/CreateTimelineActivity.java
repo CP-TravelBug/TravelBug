@@ -49,10 +49,14 @@ public class CreateTimelineActivity extends AppCompatActivity {
     Spinner spTmLists;
     EditText tvTimelineTitle;
     String timelineTitle;
+    List<Long> myTimelineIds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timeline);
+        myTimelineIds = new LinkedList<>();
+        polulateTimelineIdList();
         spTmLists = (Spinner) findViewById(R.id.spTimelines);
         ArrayAdapter<String> tmListsArray = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item);
@@ -87,12 +91,18 @@ public class CreateTimelineActivity extends AppCompatActivity {
 
     }
 
+    private void polulateTimelineIdList() {
+        Collection<Timeline> tmList = Backend.get().getMyTimelines();
+        for (Timeline t : tmList) {
+            myTimelineIds.add(t.getTimelineId());
+        }
+    }
+
     private List<String> getTimelineLists() {
         List<String> tmNames = new ArrayList<>();
-        Collection<Timeline> tmLists = Backend.get().getMyTimelines();
-        if (tmLists.size() != 0) {
-            for (Timeline t : tmLists) {
-                tmNames.add(t.getTimelineTitle());
+        if (myTimelineIds.size() != 0) {
+            for (Long id : myTimelineIds) {
+                tmNames.add(Backend.get().getTimeline(id).getTimelineTitle());
             }
         } else {
             tmNames.add("No Timeline yet");
@@ -120,19 +130,12 @@ public class CreateTimelineActivity extends AppCompatActivity {
     }
 
     private void persistTimeline(String imagePath) {
-        Timeline timeline = new Timeline();
-        timeline.setUserId(Backend.get().getCurrentUser());
-        Event event = new Event();
-        event.setPath(imagePath);
-        event.setContent(pictureTitle.getText().toString());
-        ArrayList<Event> eventList = new ArrayList<>();
-        eventList.add(event);
-        timeline.setEventList(eventList);
-        // Get the correct timeline title string
-        getTimelineTitleString();
-        timeline.setTimelineTitle(timelineTitle);
-        Backend.get().addTimeline(timeline);
-        idOfTimelineCreated = timeline.getTimelineId();
+        boolean isNewTimeline = ((RadioButton) findViewById(R.id.rbCreateNewTimeline)).isChecked();
+        if (isNewTimeline) { // New Time Line
+            createNewTimeline(imagePath);
+        } else { // Add to existing timeline
+            addToExistingTimeline(imagePath);
+        }
     }
 
     private void getTimelineTitleString() {
@@ -151,4 +154,33 @@ public class CreateTimelineActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    private void addToExistingTimeline(String imagePath) {
+        int position = spTmLists.getSelectedItemPosition();
+        Timeline timeline = Backend.get().getTimeline(myTimelineIds.get(position));
+        Event event = new Event();
+        event.setPath(imagePath);
+        event.setContent(pictureTitle.getText().toString());
+        timeline.getEventList().add(event);
+        idOfTimelineCreated = myTimelineIds.get(position);
+        Log.d("Existing Timeline",
+                timeline.getTimelineTitle() + " " + Long.toString(myTimelineIds.get(position)));
+    }
+
+    private void createNewTimeline(String imagePath) {
+        Timeline timeline = new Timeline();
+        timeline.setUserId(Backend.get().getCurrentUser());
+        Event event = new Event();
+        event.setPath(imagePath);
+        event.setContent(pictureTitle.getText().toString());
+        ArrayList<Event> eventList = new ArrayList<>();
+        eventList.add(event);
+        timeline.setEventList(eventList);
+        // Get the correct timeline title string
+        getTimelineTitleString();
+        timeline.setTimelineTitle(timelineTitle);
+        Backend.get().addTimeline(timeline);
+        idOfTimelineCreated = timeline.getTimelineId();
+    }
+
 }
