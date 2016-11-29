@@ -1,6 +1,7 @@
 package codepath.travelbug.backend;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import java.util.List;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
+import static codepath.travelbug.TravelBugApplication.TAG;
+
 public class Backend {
 
     private static final Backend INSTANCE = new Backend();
@@ -18,7 +21,7 @@ public class Backend {
     private HashMap<Long, Timeline> myTimelines;
     private LinkedList<Timeline> myTimelinesList; // We stores this list in rev chrono order.
 
-    // Timeslines shared with me.
+    // Timelines shared with me.
     private HashMap<Long, Timeline> sharedTimelines;
     private LinkedList<Timeline> sharedTimelinesList; // We stores this list in rev chrono order.
     private User currentUser;
@@ -78,7 +81,15 @@ public class Backend {
     }
 
     public synchronized void shareTimelineWithUser(long timelineId, String userId) {
+        Timeline timeline = myTimelines.get(Long.valueOf(timelineId));
+        if (timeline == null) {
+            Log.e(TAG, "Share timeline failed, timeline with id " + timelineId +
+            " does not exist.");
+            return;
+        }
 
+        timeline.shareWith(userId);
+        // TODO: Persist to Parse.
     }
 
     public synchronized void setFriendsList(List<User> friendsList) {

@@ -35,7 +35,7 @@ public class Timeline {
     User userId;
     Date startDate;
     Date endDate;
-    List<Long> sharedWith;
+    List<String> sharedWith;
     String timelineTitle;
 
     public Timeline() {
@@ -84,16 +84,20 @@ public class Timeline {
         this.endDate = endDate;
     }
 
+    public void shareWith(String userId) {
+        sharedWith.add(userId);
+    }
+
     /**
      *
      * @return A list of user IDs that this timeline is shared with. The user IDs correspond to the
      * ones returned from Facebook auth.
      */
-    public List<Long> getSharedWith() {
+    public List<String> getSharedWith() {
         return sharedWith;
     }
 
-    public void setSharedWith(List<Long> sharedWith) {
+    public void setSharedWith(List<String> sharedWith) {
         this.sharedWith = sharedWith;
     }
 

@@ -4,6 +4,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import org.parceler.Parcel;
@@ -22,8 +23,7 @@ import java.util.List;
 @ParseClassName("Event")
 public class Event extends ParseObject {
     long eventId;
-    String path; // Path to content or video
-    String content;  // Name of the video or picture (aka Title).
+    String path; // Path to the local content or video. Not persisted to Parse.
 
     public Event() {
         super();
@@ -56,5 +56,13 @@ public class Event extends ParseObject {
 
     public Uri getContentUri() {
         return Uri.fromFile(new File(path));
+    }
+
+    public void setGeoPoint(ParseGeoPoint geoPoint) {
+        put("geoPoint", geoPoint);
+    }
+
+    public ParseGeoPoint getGeoPoint() {
+        return getParseGeoPoint("geoPoint");
     }
 }
