@@ -3,6 +3,8 @@ package codepath.travelbug;
 import android.app.Application;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -13,6 +15,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 
 import codepath.travelbug.backend.ParseUtil;
 import codepath.travelbug.models.User;
+import io.fabric.sdk.android.Fabric;
 
 public class TravelBugApplication extends Application {
     public static String TAG = "TravelBug";
@@ -27,6 +30,9 @@ public class TravelBugApplication extends Application {
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server(ParseUtil.PARSE_URL).build());
+
+        Fabric.with(this, new Crashlytics());
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         // Test parse, remove later.
         ParseUtil.testLogin();

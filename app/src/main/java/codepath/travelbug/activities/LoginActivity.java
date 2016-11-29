@@ -33,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         if(isAlreadyLoggedIn()) {
             startUserViewingOptionsActivity();

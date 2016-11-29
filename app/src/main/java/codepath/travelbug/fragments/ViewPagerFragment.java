@@ -80,7 +80,6 @@ public class ViewPagerFragment extends Fragment {
             }
         });
 
-
         timelineList = new LinkedList<>();
         adapter = new TimelineDisplayAdapter(getContext(), timelineList);
         lvTimeline.setAdapter(adapter);
@@ -107,7 +106,7 @@ public class ViewPagerFragment extends Fragment {
         super.onDetach();
     }
 
-    private void displayMyTimeline() {
+    public void displayMyTimeline() {
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
         Collection<Timeline> timelines = Backend.get().getTimelines();
@@ -115,9 +114,16 @@ public class ViewPagerFragment extends Fragment {
             //Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
             // Todo Display a message to create timeline
         }
-        timelineList.clear();
+        if (timelineList != null) {
+            timelineList.clear();
+        } else {
+            timelineList = new LinkedList<>();
+        }
         timelineList.addAll(timelines);
         adapter.notifyDataSetChanged();
     }
 
+    public ListView getListView() {
+        return lvTimeline;
+    }
 }

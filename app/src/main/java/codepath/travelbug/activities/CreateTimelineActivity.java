@@ -1,5 +1,6 @@
 package codepath.travelbug.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -35,6 +36,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
     Button saveButton;
     EditText pictureTitle;
     String resizedFilePath;
+    Long idOfTimelineCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class CreateTimelineActivity extends AppCompatActivity {
                 Toast.makeText(CreateTimelineActivity.this, "Timeline created.", Toast.LENGTH_SHORT).show();
                 if (resizedFilePath != null) {
                     persistTimeline(resizedFilePath);
+                    Intent i = new Intent();
+                    i.putExtra("idOfTimelineCreated", idOfTimelineCreated);
+                    setResult(RESULT_OK, i);
                 }
                 finish();
             }
@@ -90,5 +95,6 @@ public class CreateTimelineActivity extends AppCompatActivity {
         eventList.add(event);
         timeline.setEventList(eventList);
         Backend.get().addTimeline(timeline);
+        idOfTimelineCreated = timeline.getTimelineId();
     }
 }

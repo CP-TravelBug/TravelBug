@@ -22,6 +22,8 @@ import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
 public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
+    private List<Timeline> timelines;
+
     private static class ViewHolder {
         ImageView ivTimeline;
         TextView tvContent;
@@ -30,6 +32,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
 
     public TimelineDisplayAdapter(Context context, List<Timeline> objects) {
         super(context, R.layout.item_timeline, objects);
+        timelines = objects;
     }
 
     @NonNull
@@ -62,5 +65,9 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
             }
         });
         return convertView;
+    }
+
+    public List<Timeline> getTimelines() {
+        return timelines;
     }
 }

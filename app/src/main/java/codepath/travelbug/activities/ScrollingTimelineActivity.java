@@ -30,7 +30,9 @@ import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.adapter.ViewPagerFragmentAdapter;
 import codepath.travelbug.backend.Backend;
+import codepath.travelbug.fragments.ViewPagerFragment;
 import codepath.travelbug.models.Event;
+import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 import static codepath.travelbug.Utils.PIC_URI_KEY;
 import static codepath.travelbug.Utils.TAG;
@@ -45,9 +47,10 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     RoundedImageView ivProfileImage;
     TextView tvName;
     FloatingActionButton floatingActionButton;
-
+    ViewPagerFragmentAdapter fadapter;
     LinkedList<Event> eventLinkedList;
     TimelineDisplayAdapter adapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,9 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling_timeline);
 
         // Get View Pager
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new ViewPagerFragmentAdapter(getSupportFragmentManager()));
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        fadapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(fadapter);
         loadHeader();
 
         // Give the PagerSlidingTab the viewpager
@@ -147,6 +151,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         ivProfileImage = (RoundedImageView) findViewById(R.id.ivProfileImage);
         String helloTextWithFirstName = "Hello " + user.getFirstName();
         tvName.setText(helloTextWithFirstName);
+
         // This fetches the high res image.
         FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
             @Override
@@ -173,11 +178,15 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
                 // ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
                 // ivPreview.setImageBitmap(takenImage);
 
-                // ToDo: Refresh the views
-
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == CREATE_TIMELINE_WITH_PIC_REQUEST_CODE) {
+            // ToDo: Refresh the views
+            long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
+            Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
+            Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
+            fadapter.notifyDataSetChanged();
         }
     }
 }
