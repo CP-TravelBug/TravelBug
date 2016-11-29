@@ -126,4 +126,10 @@ public class ViewPagerFragment extends Fragment {
     public ListView getListView() {
         return lvTimeline;
     }
+
+    public void refreshTimeline() {
+        // TODO: This should figure out whether we are doing mytimeline or all timelines and
+        // refresh accordingly.
+        displayMyTimeline();
+    }
 }

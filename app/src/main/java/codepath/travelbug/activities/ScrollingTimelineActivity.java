@@ -185,8 +185,8 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             // ToDo: Refresh the views
             long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
             Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
-            Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
-            fadapter.notifyDataSetChanged();
+            // Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
+            fadapter.refreshMyTimeline();
         }
     }
 }

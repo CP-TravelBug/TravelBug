@@ -15,6 +15,7 @@ import codepath.travelbug.fragments.ViewPagerFragment;
 public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Home", "My Timelines"};
+    private ViewPagerFragment fragmentArray[] = new ViewPagerFragment[PAGE_COUNT];
 
 
     public ViewPagerFragmentAdapter(FragmentManager fm) {
@@ -23,7 +24,13 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Log.d("VPFragmentAdapter", Integer.toString(position));
-        return ViewPagerFragment.newInstance(position + 1); // Page 1 or 2
+        if (position > PAGE_COUNT) {
+            return null;
+        }
+        if (fragmentArray[position] == null) {
+            fragmentArray[position] = ViewPagerFragment.newInstance(position + 1);
+        }
+        return fragmentArray[position]; // Page 1 or 2
     }
 
     @Override
@@ -34,5 +41,12 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
+    }
+
+    public void refreshMyTimeline() {
+        ViewPagerFragment fragment = fragmentArray[1];
+        if (fragment != null) {
+            fragment.refreshTimeline();
+        }
     }
 }
