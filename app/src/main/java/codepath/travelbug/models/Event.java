@@ -1,10 +1,12 @@
 package codepath.travelbug.models;
 
 import android.location.Geocoder;
+import android.net.Uri;
 
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -64,8 +66,7 @@ public class Event {
         this.location = location;
     }
 
-
-
-
-
+    public Uri getContentUri() {
+        return Uri.fromFile(new File(path));
+    }
 }
