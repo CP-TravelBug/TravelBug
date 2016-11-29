@@ -3,10 +3,15 @@ package codepath.travelbug.backend;
 import android.content.Context;
 import android.util.Log;
 
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -27,11 +32,14 @@ public class Backend {
     private User currentUser;
     private List<User> friendsList;
 
+    private ExecutorService executorService;
+
     private Backend() {
         myTimelines = new HashMap<Long, Timeline>();
         myTimelinesList = new LinkedList<>();
         sharedTimelinesList = new LinkedList<>();
         sharedTimelines = new HashMap<Long, Timeline>();
+        executorService = Executors.newCachedThreadPool();
     }
 
     public void createFakeTimelines(Context context) {
@@ -42,6 +50,7 @@ public class Backend {
     public synchronized void addTimeline(Timeline timeline) {
         myTimelines.put(timeline.getTimelineId(), timeline);
         myTimelinesList.addFirst(timeline);
+        // TODO: Persist data to backend.
     }
 
     public synchronized void addToSharedTimeline(Timeline timeline) {
@@ -55,6 +64,7 @@ public class Backend {
 
     public synchronized void setCurrentUser(User user) {
         currentUser = user;
+        // TODO: Trigger an operation to fetch user data if user already exists.
     }
 
     public synchronized User getCurrentUser() {
@@ -98,5 +108,32 @@ public class Backend {
 
     public synchronized List<User> getFriendsList() {
         return friendsList;
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
+    }
+
+    /// Parse operations:
+
+    private void fetchOrCreateUser(User user) {
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
+        try {
+            User fetchedUser = query.getFirst();
+            if (fetchedUser != null) {
+                currentUser = fetchedUser;
+                // update timeline data etc.
+            }
+        } catch (ParseException e) {
+            createUser(user);
+        }
+    }
+    private void createUser(User user) {
+        try {
+            user.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
  }

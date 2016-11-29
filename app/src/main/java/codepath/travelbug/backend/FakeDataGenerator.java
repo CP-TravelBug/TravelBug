@@ -3,6 +3,9 @@ package codepath.travelbug.backend;
 import android.content.Context;
 import android.net.Uri;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,7 @@ public class FakeDataGenerator {
     /**
      * A fake event sub-class so that we can override some of the parameters.
      */
+    @ParseClassName("FakeEvent")
     public static class FakeEvent extends Event {
         private Uri fakeImageUri;
 

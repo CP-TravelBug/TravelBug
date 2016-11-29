@@ -12,16 +12,16 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
+import codepath.travelbug.backend.ParseUtil;
+
 import static android.R.attr.name;
 
 
 @Parcel(analyze = User.class)
 @ParseClassName("User")
 public class User extends ParseObject {
+    public static final String PARSE_FIELD_USERID = "userId";
 
-    // This is the user id given by the Facebook API. We also use this as the primary key in the
-    // Parse database.
-    String userId;
     List<Long> friendList;
     String firstName;
     String lastName;
@@ -60,11 +60,11 @@ public class User extends ParseObject {
     }
 
     public String getUserId() {
-        return getString("userId");
+        return getString(PARSE_FIELD_USERID);
     }
 
     public void setUserId(String userId) {
-        put("userId", userId);
+        put(PARSE_FIELD_USERID, userId);
     }
 
     public static User fromJSONObject(JSONObject jsonObject) {
