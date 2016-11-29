@@ -127,6 +127,11 @@ public class ViewPagerFragment extends Fragment {
         return lvTimeline;
     }
 
+    public void refreshHomeTimeline() {
+        // Lets refresh all the timelines at this point.
+        displayAllTimelines();
+    }
+
     public void refreshTimeline() {
         // TODO: This should figure out whether we are doing mytimeline or all timelines and
         // refresh accordingly.

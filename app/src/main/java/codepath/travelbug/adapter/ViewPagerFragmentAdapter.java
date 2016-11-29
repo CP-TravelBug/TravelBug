@@ -44,9 +44,16 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     }
 
     public void refreshMyTimeline() {
+
         ViewPagerFragment fragment = fragmentArray[1];
         if (fragment != null) {
             fragment.refreshTimeline();
+        }
+
+        // Also refresh the hometimeline
+        fragment = fragmentArray[0];
+        if (fragment != null) {
+            fragment.refreshHomeTimeline();
         }
     }
 }
