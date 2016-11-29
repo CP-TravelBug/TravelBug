@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
 import static codepath.travelbug.R.id.etTimelineName;
+import static codepath.travelbug.R.id.spTimelines;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
 
@@ -45,6 +47,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
     Long idOfTimelineCreated;
     Spinner tmLists;
     EditText tvTimelineTitle;
+    String timelineTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,10 +127,22 @@ public class CreateTimelineActivity extends AppCompatActivity {
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.setEventList(eventList);
-        timeline.setTimelineTitle(tvTimelineTitle.getText().toString());
+        timeline.setTimelineTitle(timelineTitle);
         Backend.get().addTimeline(timeline);
         idOfTimelineCreated = timeline.getTimelineId();
     }
 
 
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        String timelineTitle = "";
+        switch (view.getId()) {
+            case R.id.rbAddToTimeline:
+                timelineTitle = tmLists.getSelectedItem().toString();
+                break;
+            case R.id.rbCreateNewTimeline:
+                timelineTitle = tvTimelineTitle.getText().toString();
+                break;
+        }
+    }
 }

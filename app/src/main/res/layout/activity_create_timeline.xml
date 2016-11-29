@@ -40,22 +40,33 @@
         android:layout_below="@+id/ivCameraImage"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
-
+<RadioGroup
+    android:layout_below="@+id/editText"
+    android:id="@+id/rbGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <RadioButton
         android:text="@string/addToExistingTimeline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
         android:id="@+id/rbAddToTimeline"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText" />
+        android:layout_below="@+id/editText"
+        android:onClick="onRadioButtonClicked"/>
 
+    <RadioButton
+        android:text="@string/createNewTimeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbCreateNewTimeline"
+        android:layout_alignTop="@+id/etTimelineName"
+        android:layout_alignEnd="@+id/rbGroup"
+        android:onClick="onRadioButtonClicked"/>
+</RadioGroup>
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spTimelines"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_alignStart="@+id/etTimelineName"
         android:layout_below="@id/editText" />
 
@@ -65,16 +76,8 @@
         android:hint="@string/createNewTimeLineHint"
         android:textSize="12dp"
         android:id="@+id/etTimelineName"
-        android:layout_above="@+id/btnSaveTimeline"
-        android:layout_toEndOf="@+id/rbCreateNewTimeline"
-        android:layout_marginStart="27dp" />
-
-    <RadioButton
-        android:text="@string/createNewTimeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbCreateNewTimeline"
-        android:layout_alignTop="@+id/etTimelineName"
-        android:layout_alignStart="@+id/rbAddToTimeline" />
+        android:layout_below="@+id/spTimelines"
+        android:layout_toEndOf="@+id/rbGroup"
+        android:layout_marginStart="45dp" />
 
 </RelativeLayout>
