@@ -83,6 +83,7 @@ public class FakeDataGenerator {
     }
 
     public void createTimelines() {
+        boolean flipCoin = false;
         for(Event event : fakeEventList) {
             Timeline timeline = new Timeline();
             timeline.setUserId(Backend.get().getCurrentUser());
@@ -90,7 +91,12 @@ public class FakeDataGenerator {
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
             timeline.setEventList(eventList);
-            Backend.get().addTimeline(timeline);
+            if (flipCoin) {
+                Backend.get().addTimeline(timeline);
+            } else {
+                Backend.get().addToSharedTimeline(timeline);
+            }
+            flipCoin = !flipCoin;
         }
     }
 }
