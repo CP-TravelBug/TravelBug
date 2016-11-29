@@ -44,7 +44,8 @@
     android:layout_below="@+id/editText"
     android:id="@+id/rbGroup"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:checkedButton="@+id/rbCreateNewTimeline">
     <RadioButton
         android:text="@string/addToExistingTimeline"
         android:layout_width="wrap_content"

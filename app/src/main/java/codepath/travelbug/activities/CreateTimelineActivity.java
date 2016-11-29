@@ -52,7 +52,6 @@ public class CreateTimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timeline);
-        getTimelineLists();
         tmLists = (Spinner) findViewById(R.id.spTimelines);
         ArrayAdapter<String> tmListsArray = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item);
