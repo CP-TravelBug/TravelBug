@@ -34,7 +34,7 @@ public class User extends ParseObject {
         put("firstName", firstName);
     }
 
-    public List<Long> getFriendList() {
+    public List<String> getFriendList() {
         return getList("friendsList");
     }
 
@@ -66,7 +66,7 @@ public class User extends ParseObject {
         return getString("fullName");
     }
 
-    public void addToFriendsList(List<Long> friendList) {
+    public void addToFriendsList(List<String> friendList) {
         addAll("friendsList", friendList);
     }
 

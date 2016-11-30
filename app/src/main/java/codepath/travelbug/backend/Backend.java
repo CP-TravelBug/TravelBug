@@ -62,6 +62,11 @@ public class Backend {
         fakeDataGenerator.createTimelines(userId);
     }
 
+    public void generateFakeData(Context context) {
+        FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(context);
+        fakeDataGenerator.generateFakeData();
+    }
+
     public synchronized void addTimeline(final Timeline timeline) {
         myTimelines.put(timeline.getTimelineId(), timeline);
         myTimelinesList.addFirst(timeline);
@@ -264,7 +269,7 @@ public class Backend {
         }
     }
 
-    private User fetchUserFor(String userId) {
+    public User fetchUserFor(String userId) {
         ParseQuery<User> query = ParseQuery.getQuery(User.class);
         query.whereEqualTo(User.PARSE_FIELD_USERID, userId);
         try {
