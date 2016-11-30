@@ -16,6 +16,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,7 +70,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CreateTimelineActivity.this, "Timeline created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateTimelineActivity.this, "New Event added.", Toast.LENGTH_SHORT).show();
                 if (resizedFilePath != null) {
                     persistTimeline(resizedFilePath);
                     Intent i = new Intent();
