@@ -75,10 +75,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
         Log.i("USERID", "USERID:" + accessToken.getUserId());
-        Toast.makeText(this, "USERID:" + accessToken.getUserId(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "USERID:" + accessToken.getUserId(), Toast.LENGTH_LONG).show();
         // Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
         User user = new User();
-        Log.d("UserId", user.getUserId());
         intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
     }
