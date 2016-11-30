@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -73,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
     private void startUserViewingOptionsActivity() {
         Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
+        Log.i("USERID", "USERID:" + accessToken.getUserId());
+        Toast.makeText(this, "USERID:" + accessToken.getUserId(), Toast.LENGTH_LONG).show();
         // Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
         User user = new User();
         intent.putExtra("user", Parcels.wrap(user));
