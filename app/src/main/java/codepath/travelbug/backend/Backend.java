@@ -54,6 +54,16 @@ public class Backend {
         // TODO: Persist data to backend.
     }
 
+    public synchronized void clearMyTimelines() {
+        myTimelinesList.clear();
+        myTimelines.clear();
+    }
+
+    public synchronized void clearSharedTimelines() {
+        sharedTimelines.clear();
+        sharedTimelinesList.clear();
+    }
+
     public synchronized void addToSharedTimeline(Timeline timeline) {
         sharedTimelines.put(timeline.getTimelineId(), timeline);
         sharedTimelinesList.addFirst(timeline);
@@ -133,7 +143,7 @@ public class Backend {
             Log.i(TAG, "Fetched user from server:" + user.getFullName());
             if (fetchedUser != null) {
                 currentUser = fetchedUser;
-                // update timeline data etc.
+                updateFetchedUserTimelines(fetchedUser);
             }
         } catch (ParseException e) {
             createUser(user);
@@ -141,6 +151,7 @@ public class Backend {
     }
     private void createUser(User user) {
         try {
+            Log.i(TAG, "Creating new user: " + user.getFullName());
             user.save();
         } catch (ParseException e) {
             Log.e(TAG, "Could not save user to the server.");
@@ -148,12 +159,33 @@ public class Backend {
     }
 
     /**
-     * Populate timeline data for a user fetched from the server.
+     * Populate timeline data for a user fetched from the server. Call this on a background thread.
      * @param user
      */
     private void updateFetchedUserTimelines(User user) {
-        List<Long> timelines = user.getTimelines();
-        ParseQuery<Timeline> parseQuery = ParseQuery.getQuery(Timeline.class);
+        List<Timeline> result = fetchTimelinesFor(user.getTimelines());
+        if (result != null) {
+            for (Timeline timeline : result) {
+                addTimeline(timeline);
+            }
+        }
+        result = fetchTimelinesFor(user.getSharedTimelines());
+        if (result != null) {
+            for (Timeline timeline : result) {
+                addToSharedTimeline(timeline);
+            }
+        }
+    }
 
+    private List<Timeline> fetchTimelinesFor(List<Long> idList) {
+        if (idList == null || idList.size() == 0) return null;
+        ParseQuery<Timeline> parseQuery = ParseQuery.getQuery(Timeline.class);
+        parseQuery.whereContainedIn(Timeline.PARSE_FIELD_TIMELINEID, idList);
+        try {
+            return parseQuery.find();
+        } catch (ParseException e) {
+            Log.e(TAG, "Fetch timelines for a list failed.");
+            return null;
+        }
     }
  }

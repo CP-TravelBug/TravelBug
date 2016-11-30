@@ -42,6 +42,14 @@ public class User extends ParseObject {
         return getList("timelines");
     }
 
+    public List<Long> getSharedTimelines() {
+        return getList("sharedTimelines");
+    }
+
+    public void addToSharedTimelines(List<Long> timelines) {
+        addAll("sharedTimelines", timelines);
+    }
+
     public void addToTimelines(List<Long> timelines) {
         addAll("timelines", timelines);
     }

@@ -21,13 +21,13 @@ import codepath.travelbug.Utils;
 @Parcel(analyze = Timeline.class)
 @ParseClassName("Timeline")
 public class Timeline extends ParseObject {
-    private static final String PARSE_FIELD_TIMELINEID = "TimelineId";
-    private static final String PARSE_FIELD_EVENTLIST = "EventList";
-    private static final String PARSE_FIELD_USERID = "userId";
-    private static final String PARSE_FIELD_START_DATE = "startDate";
-    private static final String PARSE_FIELD_END_DATE = "endDate";
-    private static final String PARSE_FIELD_SHARED_WITH = "sharedWith";
-    private static final String PARSE_FIELD_TIMELINE_TITLE = "TimelineTitle";
+    public static final String PARSE_FIELD_TIMELINEID = "TimelineId";
+    public static final String PARSE_FIELD_EVENTLIST = "EventList";
+    public static final String PARSE_FIELD_USERID = "userId";
+    public static final String PARSE_FIELD_START_DATE = "startDate";
+    public static final String PARSE_FIELD_END_DATE = "endDate";
+    public static final String PARSE_FIELD_SHARED_WITH = "sharedWith";
+    public static final String PARSE_FIELD_TIMELINE_TITLE = "TimelineTitle";
 
 
     public Timeline() {
