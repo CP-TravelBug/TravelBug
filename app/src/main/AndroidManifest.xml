@@ -45,6 +45,7 @@
         <activity
             android:name=".activities.TimelineDetailsViewActivity"
             android:theme="@style/AppThemeNoBar" />
+        <activity android:name=".activities.MapViewActivity"></activity>
     </application>
 
 </manifest>
