@@ -82,4 +82,4 @@ Optional
  
 ## Wireframes GIF:
 
-Here is the first set of screens ![TravelBug](TravelBugNov15.gif)
+Here is the first set of screens ![TravelBug](TravelBugNov29.gif)
