@@ -23,7 +23,6 @@ import java.util.List;
 @ParseClassName("Event")
 public class Event extends ParseObject {
     long eventId;
-    String path; // Path to the local content or video. Not persisted to Parse.
 
     public Event() {
         super();
@@ -39,11 +38,11 @@ public class Event extends ParseObject {
 
     // We do not persist path to the Parse backend.
     public String getPath() {
-        return path;
+        return getString("path");
     }
 
     public void setPath(String path) {
-        this.path = path;
+        put("path", path);
     }
 
     public String getContent() {
@@ -55,7 +54,8 @@ public class Event extends ParseObject {
     }
 
     public Uri getContentUri() {
-        return Uri.fromFile(new File(path));
+        return Uri.parse(getPath());
+        //return Uri.fromFile(new File(path));
     }
 
     public void setGeoPoint(ParseGeoPoint geoPoint) {

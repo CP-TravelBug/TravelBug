@@ -179,7 +179,7 @@ public class Backend {
             query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
             try {
                 User fetchedUser = query.getFirst();
-                Log.i(TAG, "Fetched user from server:" + user.getFullName());
+                Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
                 if (fetchedUser != null) {
                     currentUser = fetchedUser;
                     updateFetchedUserTimelines(fetchedUser);
@@ -206,6 +206,7 @@ public class Backend {
         List<Timeline> result = fetchTimelinesFor(user.getTimelines());
         if (result != null) {
             for (Timeline timeline : result) {
+                Log.i(TAG, "Adding to my timeline.");
                 addTimeline(timeline);
             }
         }
@@ -213,6 +214,7 @@ public class Backend {
         if (result != null) {
             for (Timeline timeline : result) {
                 addToSharedTimeline(timeline);
+                Log.i(TAG, "Adding to my timeline.");
             }
         }
         notifyDatasetChanged();
@@ -297,6 +299,7 @@ public class Backend {
     }
 
     private void notifyDatasetChanged() {
+        Log.i("TravelBug", "DATA set changed.");
         for (DataChangedCallback callback : callbackSet) {
             callback.onDataChanged();
         }

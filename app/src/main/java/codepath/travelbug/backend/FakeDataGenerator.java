@@ -121,18 +121,28 @@ public class FakeDataGenerator {
     private void createEventList(Context context) {
         int index = 0;
         for (int img : imageList) {
-            FakeEvent event = new FakeEvent();
-            event.setFakeImageUri(Uri.parse("android.resource://" + context.getPackageName() + "/" + img));
+            Event event = new Event();
+            event.setPath("android.resource://" + context.getPackageName() + "/" + img);
             event.setContent(imageTitles[index]);
             index ++;
             fakeEventList.add(event);
         }
     }
 
-    public void fetchUserObjects() {
+    public void fetchUserObjects() throws com.parse.ParseException {
         aruneshUser = Backend.get().fetchUserFor(ARUNESH_USERID);
         oronUser = Backend.get().fetchUserFor(ORON_USERID);
+        if (oronUser == null) {
+            oronUser = new User();
+            oronUser.setUserId(ORON_USERID);
+            oronUser.save();
+        }
         pragyanUser = Backend.get().fetchUserFor(PRAGYAN_USERID);
+        if (pragyanUser == null) {
+            pragyanUser = new User();
+            pragyanUser.setUserId(PRAGYAN_USERID);
+            pragyanUser.save();
+        }
     }
 
     private void createFakeUsers() throws com.parse.ParseException {
@@ -158,20 +168,23 @@ public class FakeDataGenerator {
             eventList.add(event);
             timeline.addEvents(eventList);
             fakeTimelines.add(timeline);
-            if (flipCoin) {
-                Backend.get().addTimeline(timeline);
-            } else {
-                Backend.get().addToSharedTimeline(timeline);
-            }
-            flipCoin = !flipCoin;
+
+            //if (flipCoin) {
+              //  Backend.get().addTimeline(timeline);
+            //} else {
+              //  Backend.get().addToSharedTimeline(timeline);
+            //}
+            // flipCoin = !flipCoin;
             index ++;
         }
     }
 
-    private void addFriends() {
+    private void addFriends() throws com.parse.ParseException {
         aruneshUser.addToFriendsList(Arrays.asList(FAKE_USERS));
         oronUser.addToFriendsList(Arrays.asList(FAKE_USERS));
+
         pragyanUser.addToFriendsList(Arrays.asList(FAKE_USERS));
+
     }
 
     private String getFakeUserIdAndShare(int index, Timeline timeline) {
@@ -209,9 +222,8 @@ public class FakeDataGenerator {
 
     // Call this only once.
     public void generateFakeData() {
-        fetchUserObjects();
-
         try {
+            fetchUserObjects();
             createFakeUsers();
             createTimelines("blah");
             addFriends();

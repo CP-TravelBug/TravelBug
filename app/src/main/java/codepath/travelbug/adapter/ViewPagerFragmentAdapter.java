@@ -6,13 +6,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.widget.Toast;
 
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.fragments.ViewPagerFragment;
 
 /**
  * @author Pragyan
  */
 
-public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
+public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Backend.DataChangedCallback {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Home", "My Timelines"};
     private ViewPagerFragment fragmentArray[] = new ViewPagerFragment[PAGE_COUNT];
@@ -20,6 +21,7 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
 
     public ViewPagerFragmentAdapter(FragmentManager fm) {
         super(fm);
+        Backend.get().registerCallback(this);
     }
     @Override
     public Fragment getItem(int position) {
@@ -55,5 +57,11 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
         if (fragment != null) {
             fragment.refreshHomeTimeline();
         }
+    }
+
+    @Override
+    public void onDataChanged() {
+        Log.i("TravelBug", "DATA set changed.");
+        refreshMyTimeline();
     }
 }
