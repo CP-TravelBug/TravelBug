@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "USERID:" + accessToken.getUserId(), Toast.LENGTH_LONG).show();
         // Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
         User user = new User();
+        Log.d("UserId", user.getUserId());
         intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
     }

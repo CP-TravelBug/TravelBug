@@ -51,6 +51,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     LinkedList<Event> eventLinkedList;
     TimelineDisplayAdapter adapter;
     ViewPager viewPager;
+    PagerSlidingTabStrip tabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         loadHeader();
 
         // Give the PagerSlidingTab the viewpager
-        final PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
 
         tabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -1,11 +1,17 @@
 package codepath.travelbug.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,11 +40,13 @@ public class TimelineRecyclerViewAdapter extends
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvEvent;
+        public RoundedImageView ivEventImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvEvent = (TextView) itemView.findViewById(R.id.eventLabel);
+            ivEventImage = (RoundedImageView) itemView.findViewById(R.id.ivEventImage);
         }
     }
     @Override
@@ -58,6 +66,9 @@ public class TimelineRecyclerViewAdapter extends
 
         TextView tvEvent = holder.tvEvent;
         tvEvent.setText(event.getContent());
+        Drawable d = Drawable.createFromPath(event.getPath());
+        RoundedImageView ivEventImage = holder.ivEventImage;
+        Picasso.with(getContext()).load(event.getContentUri()).into(ivEventImage);
     }
 
     @Override
