@@ -47,11 +47,19 @@ public class User extends ParseObject {
     }
 
     public void addToSharedTimelines(List<Long> timelines) {
-        addAll("sharedTimelines", timelines);
+        addAllUnique("sharedTimelines", timelines);
     }
 
     public void addToTimelines(List<Long> timelines) {
-        addAll("timelines", timelines);
+        addAllUnique("timelines", timelines);
+    }
+
+    public void addTimeline(long timelineId) {
+        addUnique("timelines", timelineId);
+    }
+
+    public void addSharedTimeline(long timelineId) {
+        addUnique("sharedTimelines", timelineId);
     }
 
     public String getFullName() {

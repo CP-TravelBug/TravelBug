@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     private void startUserViewingOptionsActivity() {
         Intent intent = new Intent(LoginActivity.this, ScrollingTimelineActivity.class);
         AccessToken accessToken = getCurrentAccessToken();
-        Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
+        // Backend.get().createFakeTimelines(getApplicationContext(), accessToken.getUserId());
         User user = new User();
         intent.putExtra("user", Parcels.wrap(user));
         startActivity(intent);
