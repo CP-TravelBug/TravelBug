@@ -156,6 +156,27 @@ public class FakeDataGenerator {
         }
     }
 
+    public void createLocalTimelines(String userId) {
+        boolean flipCoin = false;
+        int index = 0;
+        for(Event event : fakeEventList) {
+            Timeline timeline = new Timeline();
+            timeline.setUserId(userId);
+            timeline.setTimelineTitle("Title:" + event.getContent());
+            ArrayList<Event> eventList = new ArrayList<>();
+            eventList.add(event);
+            timeline.addEvents(eventList);
+            fakeTimelines.add(timeline);
+            if (flipCoin) {
+                Backend.get().addTimeline(timeline);
+            } else {
+                Backend.get().addToSharedTimeline(timeline);
+            }
+            flipCoin = !flipCoin;
+            index ++;
+        }
+    }
+
     public void createTimelines(String userId) {
         boolean flipCoin = false;
         int index = 0;

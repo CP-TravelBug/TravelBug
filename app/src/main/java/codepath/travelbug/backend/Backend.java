@@ -59,7 +59,7 @@ public class Backend {
 
     public void createFakeTimelines(Context context, String userId) {
         FakeDataGenerator fakeDataGenerator = new FakeDataGenerator(context);
-        fakeDataGenerator.createTimelines(userId);
+        fakeDataGenerator.createLocalTimelines(userId);
     }
 
     public void generateFakeData(Context context) {
