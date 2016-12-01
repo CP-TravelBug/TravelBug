@@ -8,13 +8,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -22,7 +19,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
@@ -30,7 +26,6 @@ import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.adapter.ViewPagerFragmentAdapter;
 import codepath.travelbug.backend.Backend;
-import codepath.travelbug.fragments.ViewPagerFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -187,7 +182,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
             Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
             // Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
-            fadapter.refreshMyTimeline();
+            fadapter.refreshAllTimelines();
         }
     }
 }

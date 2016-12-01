@@ -1,12 +1,12 @@
 package codepath.travelbug.backend;
 
 import android.content.Context;
-import android.net.ParseException;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Spinner;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -18,6 +18,8 @@ import codepath.travelbug.R;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
+
+import static codepath.travelbug.TravelBugApplication.TAG;
 
 /**
  * Created by arunesh on 11/29/16.
@@ -67,7 +69,7 @@ public class FakeDataGenerator {
             "dt_pic8.jpg",
     };
 */
-    private static final int[] imageList = {
+    public static final int[] imageList = {
           R.raw.dt_pic1,
           R.raw.dt_pic2,
           R.raw.dt_pic3,
@@ -122,6 +124,7 @@ public class FakeDataGenerator {
         int index = 0;
         for (int img : imageList) {
             Event event = new Event();
+            event.setImageHint(index + 10);
             event.setPath("android.resource://" + context.getPackageName() + "/" + img);
             event.setContent(imageTitles[index]);
             index ++;
@@ -129,7 +132,7 @@ public class FakeDataGenerator {
         }
     }
 
-    public void fetchUserObjects() throws com.parse.ParseException {
+    public void fetchOrCreateRealUserObjects() throws com.parse.ParseException {
         aruneshUser = Backend.get().fetchUserFor(ARUNESH_USERID);
         oronUser = Backend.get().fetchUserFor(ORON_USERID);
         if (oronUser == null) {
@@ -147,12 +150,15 @@ public class FakeDataGenerator {
 
     private void createFakeUsers() throws com.parse.ParseException {
         for (int i = 0; i < 6; i++) {
-            User user = new User();
-            user.setUserId(FAKE_USERS[i]);
-            user.setFirstName(FAKE_USER_FIRST_NAMES[i]);
-            user.setLastName(FAKE_USER_LAST_NAMES[i]);
-            user.setFullName(FAKE_USER_FIRST_NAMES[i] + " " + FAKE_USER_LAST_NAMES[i]);
-            user.save();
+            User user = Backend.get().fetchUserFor(FAKE_USERS[i]);
+            if (user == null) {
+                user = new User();
+                user.setUserId(FAKE_USERS[i]);
+                user.setFirstName(FAKE_USER_FIRST_NAMES[i]);
+                user.setLastName(FAKE_USER_LAST_NAMES[i]);
+                user.setFullName(FAKE_USER_FIRST_NAMES[i] + " " + FAKE_USER_LAST_NAMES[i]);
+                user.save();
+            }
         }
     }
 
@@ -160,7 +166,7 @@ public class FakeDataGenerator {
         boolean flipCoin = false;
         int index = 0;
         for(Event event : fakeEventList) {
-            Timeline timeline = new Timeline();
+            Timeline timeline = Timeline.createWithUniqueId();
             timeline.setUserId(userId);
             timeline.setTimelineTitle("Title:" + event.getContent());
             ArrayList<Event> eventList = new ArrayList<>();
@@ -181,7 +187,7 @@ public class FakeDataGenerator {
         boolean flipCoin = false;
         int index = 0;
         for(Event event : fakeEventList) {
-            Timeline timeline = new Timeline();
+            Timeline timeline = Timeline.createWithUniqueId();
             String myUserId = getFakeUserIdAndShare(index % 3, timeline);
             timeline.setUserId(myUserId);
             timeline.setTimelineTitle("Title:" + event.getContent());
@@ -215,42 +221,95 @@ public class FakeDataGenerator {
                 pragyanUser.addSharedTimeline(timeline.getTimelineId());
                 timeline.shareWith(ARUNESH_USERID);
                 timeline.shareWith(PRAGYAN_USERID);
+                oronUser.addTimeline(timeline.getTimelineId());
                 return ORON_USERID;
             case 1:
                 oronUser.addSharedTimeline(timeline.getTimelineId());
                 timeline.shareWith(ORON_USERID);
                 pragyanUser.addSharedTimeline(timeline.getTimelineId());
                 timeline.shareWith(PRAGYAN_USERID);
+                aruneshUser.addTimeline(timeline.getTimelineId());
                 return ARUNESH_USERID;
             case 2:
                 oronUser.addSharedTimeline(timeline.getTimelineId());
                 timeline.shareWith(ORON_USERID);
                 aruneshUser.addSharedTimeline(timeline.getTimelineId());
                 timeline.shareWith(ARUNESH_USERID);
+                pragyanUser.addTimeline(timeline.getTimelineId());
                 return PRAGYAN_USERID;
             default: return "";
         }
     }
 
-    private void persistData() throws com.parse.ParseException {
-        aruneshUser.save();
-        oronUser.save();
-        pragyanUser.save();
+    private void persistOrCreateData() throws com.parse.ParseException {
+        persistUserData(aruneshUser);
+        persistUserData(oronUser);
+        persistUserData(pragyanUser);
         for (Timeline timeline : fakeTimelines) {
-            timeline.save();
+            persistTimeline(timeline);
         }
     }
 
     // Call this only once.
     public void generateFakeData() {
         try {
-            fetchUserObjects();
+            fetchOrCreateRealUserObjects();
             createFakeUsers();
             createTimelines("blah");
             addFriends();
-            persistData();
+            persistOrCreateData();
         } catch (com.parse.ParseException e) {
             Log.e("ERROR", "Error can't generate fake data.");
+        }
+    }
+
+    private void persistUserData(User user) {
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
+        User fetchedUser = null;
+        try {
+            fetchedUser = query.getFirst();
+            Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
+
+            // If we fetch the user, nothing to do here.
+        } catch (com.parse.ParseException e) {
+            Log.i(TAG, "Parse exception in saveOrCreateUser:" + e);
+            saveUser(user);
+            return;
+        }
+        Backend.mergeUserDataInto(user, fetchedUser);
+        saveUser(fetchedUser);
+    }
+
+    private void saveUser(User user) {
+        try {
+            Log.i(TAG, "Saving/creating user: " + user.getFullName());
+            user.save();
+        } catch (com.parse.ParseException e) {
+            Log.e(TAG, "Could not save user to the server:" + user.getFullName());
+        }
+    }
+
+    private void persistTimeline(Timeline timeline) {
+        ParseQuery<Timeline> timelineQuery = ParseQuery.getQuery(Timeline.class);
+        timelineQuery.whereEqualTo(Timeline.PARSE_FIELD_TIMELINEID, timeline.getTimelineId());
+        Timeline fetchedTimeline = null;
+        try {
+            fetchedTimeline = timelineQuery.getFirst();
+        } catch (com.parse.ParseException e) {
+            // Save timeline
+            saveTimeline(timeline);
+            return;
+        }
+        Backend.mergeTimelinesInto(timeline /* source */, fetchedTimeline /* destination */);
+    }
+
+    private void saveTimeline(Timeline timeline) {
+        Log.i(TAG, "Saving timeline with id:" + timeline.getTimelineId());
+        try {
+            timeline.save();
+        } catch (ParseException e) {
+            Log.e(TAG, "Could not save timeline to server.");
         }
     }
 }

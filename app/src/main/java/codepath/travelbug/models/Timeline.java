@@ -32,7 +32,16 @@ public class Timeline extends ParseObject {
 
     public Timeline() {
         super();
-        setTimelineId(Utils.RANDOM.nextLong());
+    }
+
+    public Timeline(long timelineId) {
+        super();
+        setTimelineId(timelineId);
+    }
+
+    public static Timeline createWithUniqueId() {
+        long id = Utils.RANDOM.nextLong();
+        return new Timeline(id);
     }
 
     public long getTimelineId() {
@@ -48,7 +57,7 @@ public class Timeline extends ParseObject {
     }
 
     public void addEvents(List<Event> eventList) {
-        addAll(PARSE_FIELD_EVENTLIST, eventList);
+        addAllUnique(PARSE_FIELD_EVENTLIST, eventList);
     }
 
     public String getUserId() {
@@ -76,7 +85,11 @@ public class Timeline extends ParseObject {
     }
 
     public void shareWith(String userId) {
-        add(PARSE_FIELD_SHARED_WITH, userId);
+        addUnique(PARSE_FIELD_SHARED_WITH, userId);
+    }
+
+    public void addShareWith(List<String> userList) {
+        addAllUnique(PARSE_FIELD_SHARED_WITH, userList);
     }
 
     /**

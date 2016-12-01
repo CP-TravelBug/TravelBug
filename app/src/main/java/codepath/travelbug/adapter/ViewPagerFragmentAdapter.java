@@ -4,14 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import android.widget.Toast;
 
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.fragments.ViewPagerFragment;
 
-/**
- * @author Pragyan
- */
+import static codepath.travelbug.TravelBugApplication.TAG;
 
 public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Backend.DataChangedCallback {
     final int PAGE_COUNT = 2;
@@ -25,7 +22,7 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Ba
     }
     @Override
     public Fragment getItem(int position) {
-        Log.d("VPFragmentAdapter", Integer.toString(position));
+        Log.i(TAG, "Creating Fragment #" + position);
         if (position > PAGE_COUNT) {
             return null;
         }
@@ -45,7 +42,8 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Ba
         return tabTitles[position];
     }
 
-    public void refreshMyTimeline() {
+    public void refreshAllTimelines() {
+        Log.i(TAG, "ViewPagerFragmentAdapter: refreshAllTimelines");
 
         ViewPagerFragment fragment = fragmentArray[1];
         if (fragment != null) {
@@ -61,7 +59,7 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Ba
 
     @Override
     public void onDataChanged() {
-        Log.i("TravelBug", "DATA set changed.");
-        refreshMyTimeline();
+        Log.i(TAG, "ViewPagerFragmentAdapter, got onDataChanged().");
+        refreshAllTimelines();
     }
 }

@@ -45,6 +45,14 @@ public class Event extends ParseObject {
         put("path", path);
     }
 
+    public void setImageHint(int hint) {
+        put ("imageHint", hint);
+    }
+
+    public int getImageHint() {
+        return getInt("imageHint");
+    }
+
     public String getContent() {
         return getString("content");
     }
@@ -54,7 +62,7 @@ public class Event extends ParseObject {
     }
 
     public Uri getContentUri() {
-        return Uri.fromFile(new File(getPath()));
+        return Uri.parse(getPath());
         //return Uri.fromFile(new File(path));
     }
 

@@ -165,7 +165,7 @@ public class CreateTimelineActivity extends AppCompatActivity {
     }
 
     private void createNewTimeline(String imagePath) {
-        Timeline timeline = new Timeline();
+        Timeline timeline = Timeline.createWithUniqueId();
         timeline.setUserId(Backend.get().getCurrentUser().getUserId());
         Event event = new Event();
         event.setPath(imagePath);

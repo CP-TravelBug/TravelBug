@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Timeline;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static codepath.travelbug.TravelBugApplication.TAG;
 
 
 public class ViewPagerFragment extends Fragment {
@@ -86,18 +88,22 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void displayAllTimelines() {
+        Log.e(TAG, "Refreshing TIMELINES 2");
         //Toast.makeText(getContext(), "Displaying all timelines", Toast.LENGTH_SHORT).show();
         Collection<Timeline> timelines = Backend.get().getSharedTimelines();
         if (timelines.size() == 0) {
             // ToDo Display a message to create a timeline
+            Log.e(TAG, "No shared timelines yet ?");
         }
-        if (timelineList != null) {
-            timelineList.clear();
-        } else {
-            timelineList = new LinkedList<>();
-        }
+        Log.e(TAG, "Size of timelines to add:" + timelines.size());
+        timelineList.clear();
         timelineList.addAll(timelines);
-        adapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -111,20 +117,26 @@ public class ViewPagerFragment extends Fragment {
     }
 
     public void displayMyTimeline() {
+        Log.e(TAG, "Refreshing TIMELINES 1s");
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
         Collection<Timeline> timelines = Backend.get().getMyTimelines();
         if (timelines.size() == 0) {
             //Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
             // Todo Display a message to create timeline
+            Log.e(TAG, "No timelines yet ?");
         }
-        if (timelineList != null) {
-            timelineList.clear();
-        } else {
-            timelineList = new LinkedList<>();
-        }
+
+        Log.e(TAG, "Size of timelines to add:" + timelines.size());
+        timelineList.clear();
+
         timelineList.addAll(timelines);
-        adapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public ListView getListView() {
@@ -132,6 +144,7 @@ public class ViewPagerFragment extends Fragment {
     }
 
     public void refreshHomeTimeline() {
+        Log.e(TAG, "Got refresh request for home timeline");
         // Lets refresh all the timelines at this point.
         displayAllTimelines();
     }

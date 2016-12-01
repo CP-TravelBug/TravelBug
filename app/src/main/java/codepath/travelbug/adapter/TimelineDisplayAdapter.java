@@ -2,8 +2,11 @@ package codepath.travelbug.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,8 @@ import codepath.travelbug.activities.TimelineDetailsViewActivity;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
+import static codepath.travelbug.TravelBugApplication.TAG;
+
 public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
     private List<Timeline> timelines;
 
@@ -36,6 +41,13 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
     public TimelineDisplayAdapter(Context context, List<Timeline> objects) {
         super(context, R.layout.item_timeline, objects);
         timelines = objects;
+    }
+
+    @Nullable
+    @Override
+    public Timeline getItem(int position) {
+        Log.i(TAG, "getItem:" + position);
+        return super.getItem(position);
     }
 
     @NonNull

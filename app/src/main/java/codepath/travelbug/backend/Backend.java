@@ -3,8 +3,12 @@ package codepath.travelbug.backend;
 import android.content.Context;
 import android.util.Log;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import org.json.JSONException;
 
 import java.util.Collection;
 import java.util.Date;
@@ -16,6 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 
+import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
@@ -39,10 +44,11 @@ public class Backend {
 
     // This is a lock for all operations on the existing user. So that we can serialize and use
     // local data only when server operations are complete.
-    private Object userOperationsLock = new Object();
+   // private Object userOperationsLock = new Object();
     private Object timelineOperationsLock = new Object();
 
     private HashSet<DataChangedCallback> callbackSet;
+    private Context context;
 
     public interface DataChangedCallback {
         void onDataChanged();
@@ -55,6 +61,10 @@ public class Backend {
         sharedTimelines = new HashMap<Long, Timeline>();
         executorService = Executors.newCachedThreadPool();
         callbackSet = new HashSet<>();
+    }
+
+    public void setApplicationContext(Context context) {
+        this.context = context;
     }
 
     public void createFakeTimelines(Context context, String userId) {
@@ -174,21 +184,20 @@ public class Backend {
     /// Parse operations:
 
     private void fetchOrCreateUser(User user) {
-        synchronized (userOperationsLock) {
-            ParseQuery<User> query = ParseQuery.getQuery(User.class);
-            query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
-            try {
-                User fetchedUser = query.getFirst();
-                Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
-                if (fetchedUser != null) {
-                    currentUser = fetchedUser;
-                    updateFetchedUserTimelines(fetchedUser);
-                }
-            } catch (ParseException e) {
-                createUser(user);
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
+        try {
+            User fetchedUser = query.getFirst();
+            Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
+            if (fetchedUser != null) {
+                currentUser = fetchedUser;
+                updateFetchedUserTimelines(fetchedUser);
             }
+        } catch (ParseException e) {
+            createUser(user);
         }
     }
+
     private void createUser(User user) {
         try {
             Log.i(TAG, "Creating new user: " + user.getFullName());
@@ -205,30 +214,69 @@ public class Backend {
     private void updateFetchedUserTimelines(User user) {
         List<Timeline> result = fetchTimelinesFor(user.getTimelines());
         if (result != null) {
+            Log.i(TAG, "Number of timelines received:" + result.size());
             for (Timeline timeline : result) {
                 Log.i(TAG, "Adding to my timeline.");
+                fetchEventsInTimeline(timeline);
                 addTimeline(timeline);
             }
         }
         result = fetchTimelinesFor(user.getSharedTimelines());
         if (result != null) {
+            Log.e(TAG, "Number of shared timelines received:" + result.size());
             for (Timeline timeline : result) {
+                fetchEventsInTimeline(timeline);
                 addToSharedTimeline(timeline);
-                Log.i(TAG, "Adding to my timeline.");
+                Log.i(TAG, "Adding to shared timeline.");
             }
+        } else {
+            Log.e(TAG, "Null result.");
         }
         notifyDatasetChanged();
     }
 
     private List<Timeline> fetchTimelinesFor(List<Long> idList) {
-        if (idList == null || idList.size() == 0) return null;
+        if (idList == null || idList.size() == 0) {
+            Log.e(TAG, "Null input timeline list.");
+            return null;
+        }
         ParseQuery<Timeline> parseQuery = ParseQuery.getQuery(Timeline.class);
         parseQuery.whereContainedIn(Timeline.PARSE_FIELD_TIMELINEID, idList);
+        List<Timeline> resultList = null;
         try {
-            return parseQuery.find();
-        } catch (ParseException e) {
-            Log.e(TAG, "Fetch timelines for a list failed.");
-            return null;
+            resultList = parseQuery.find();
+            if (resultList != null ) {
+                Log.e(TAG, "Size of resultList: " + resultList.size());
+            } else {
+                Log.e(TAG, "Null resultList.");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Fetch timelines for a list failed:" + e);
+        }
+        return resultList;
+    }
+
+    private void fetchEventsInTimeline(Timeline timeline) {
+        List<Event> eventList = timeline.getEventList();
+        if (eventList != null) {
+            try {
+                ParseObject.fetchAll(eventList);
+                fixEventImagePath(eventList);
+            } catch (ParseException e) {
+                Log.e(TAG, "Fetch event failed.");
+            }
+        } else {
+            Log.i(TAG, "Null event list received.");
+        }
+    }
+
+    private void fixEventImagePath(List<Event> eventList) {
+        for (Event event : eventList) {
+            int index = event.getImageHint() - 10;
+            if (index >= 0) {
+                int img = FakeDataGenerator.imageList[index];
+                event.setPath("android.resource://" + context.getPackageName() + "/" + img);
+            }
         }
     }
 
@@ -240,14 +288,14 @@ public class Backend {
                 Log.e(TAG, "Timeline save failed.");
             }
         }
-        synchronized (userOperationsLock) {
+        //synchronized (userOperationsLock) {
             currentUser.addTimeline(timeline.getTimelineId());
             try {
                 currentUser.save();
             } catch (ParseException e) {
                 Log.e(TAG, "User update failed.");
             }
-        }
+        //ß}
     }
 
     private void persistShareTimelineWithUser(Timeline timeline, String userId) {
@@ -258,7 +306,7 @@ public class Backend {
                 Log.e(TAG, "Timeline save failed.");
             }
         }
-        synchronized (userOperationsLock) {
+      //  synchronized (userOperationsLock) {
             User user = fetchUserFor(userId);
             if (user != null) {
                 user.addSharedTimeline(timeline.getTimelineId());
@@ -268,7 +316,7 @@ public class Backend {
             } catch (ParseException e) {
                 Log.e(TAG, "User update failed.");
             }
-        }
+        //}
     }
 
     public User fetchUserFor(String userId) {
@@ -276,7 +324,7 @@ public class Backend {
         query.whereEqualTo(User.PARSE_FIELD_USERID, userId);
         try {
             User fetchedUser = query.getFirst();
-            Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
+            Log.i(TAG, "Fetched user from server, version 2:" + fetchedUser.getFullName());
             return fetchedUser;
         } catch (ParseException e) {
             return null;
@@ -299,9 +347,62 @@ public class Backend {
     }
 
     private void notifyDatasetChanged() {
-        Log.i("TravelBug", "DATA set changed.");
+        Log.i(TAG, "DATA set changed.");
+        try {
+            Log.i(TAG, toStringMyTimelines());
+            Log.i(TAG, toStringUser());
+            Log.i(TAG, toStringSharedTimelines());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception printing data: " + e);
+        }
         for (DataChangedCallback callback : callbackSet) {
             callback.onDataChanged();
         }
+    }
+
+    public static void mergeUserDataInto(User source, User dest) {
+        // Friends list, timelines, shared timelines.
+        if (source.getFriendList() != null) {
+            dest.addToFriendsList(source.getFriendList());
+        }
+        if (source.getSharedTimelines() != null) {
+            dest.addToSharedTimelines(source.getSharedTimelines());
+        }
+        if (source.getTimelines() != null) {
+            dest.addToTimelines(source.getTimelines());
+        }
+    }
+
+    public static void mergeTimelinesInto(Timeline source, Timeline dest) {
+        if (source.getSharedWith() != null) {
+            dest.addShareWith(source.getSharedWith());
+        }
+        if (source.getEventList() != null) {
+            dest.addEvents(source.getEventList());
+        }
+    }
+
+    public String toStringUser() throws Exception {
+        if (currentUser != null) {
+            return ParseUtil.parseObjectToJson(currentUser).toString();
+        } else {
+            return "Null user.";
+        }
+    }
+
+    public String toStringMyTimelines() throws Exception {
+        StringBuilder builder = new StringBuilder();
+        for (Timeline timeline : myTimelinesList) {
+            builder.append("\n" + ParseUtil.parseObjectToJson(timeline).toString());
+        }
+        return builder.toString();
+    }
+
+    public String toStringSharedTimelines() throws Exception {
+        StringBuilder builder = new StringBuilder();
+        for (Timeline timeline : sharedTimelinesList) {
+            builder.append("\n" + ParseUtil.parseObjectToJson(timeline).toString());
+        }
+        return builder.toString();
     }
  }

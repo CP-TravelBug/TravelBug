@@ -67,7 +67,7 @@ public class User extends ParseObject {
     }
 
     public void addToFriendsList(List<String> friendList) {
-        addAll("friendsList", friendList);
+        addAllUnique("friendsList", friendList);
     }
 
     public String getLastName() {
