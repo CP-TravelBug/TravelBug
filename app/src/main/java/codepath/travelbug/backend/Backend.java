@@ -44,7 +44,7 @@ public class Backend {
 
     // This is a lock for all operations on the existing user. So that we can serialize and use
     // local data only when server operations are complete.
-   // private Object userOperationsLock = new Object();
+    private Object userOperationsLock = new Object();
     private Object timelineOperationsLock = new Object();
 
     private HashSet<DataChangedCallback> callbackSet;
@@ -288,14 +288,14 @@ public class Backend {
                 Log.e(TAG, "Timeline save failed.");
             }
         }
-        //synchronized (userOperationsLock) {
+        synchronized (userOperationsLock) {
             currentUser.addTimeline(timeline.getTimelineId());
             try {
                 currentUser.save();
             } catch (ParseException e) {
                 Log.e(TAG, "User update failed.");
             }
-        //ß}
+        }
     }
 
     private void persistShareTimelineWithUser(Timeline timeline, String userId) {
