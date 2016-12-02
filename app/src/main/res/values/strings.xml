@@ -19,6 +19,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_share">Share</string>
+    <string name="toolBarTextForSharing">Share To</string>
     <string name="shareWithFriends">Share with Friends</string>
     <string name="addToExistingTimeline">Add To Timeline</string>
     <string name="createNewTimeline">Create a new Timeline</string>
