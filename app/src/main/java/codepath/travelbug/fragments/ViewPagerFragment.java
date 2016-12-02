@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class ViewPagerFragment extends Fragment {
     ListView lvTimeline;
     List<Timeline> timelineList;
     TimelineDisplayAdapter adapter;
+    SwipeRefreshLayout swipeContainer;
 
     public ViewPagerFragment() {
         // Required empty public constructor
@@ -67,6 +69,23 @@ public class ViewPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_pager_fragment, container, false);
         lvTimeline = (ListView) view.findViewById(R.id.lvTimeline);
+        swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(mPage == 0) {
+                    refreshHomeTimeline();
+                }
+                else if(mPage == 1) {
+                    refreshTimeline();
+                }
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        swipeContainer.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_dark),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light));
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.shareButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
