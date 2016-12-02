@@ -12,10 +12,13 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
+import codepath.travelbug.activities.decorators.SimpleDividerItemDecoration;
 import codepath.travelbug.adapter.ShareAdapter;
 
 import codepath.travelbug.backend.Backend;
@@ -50,13 +53,14 @@ public class ShareActivity extends AppCompatActivity {
             request.setParameters(parameters);
             request.executeAsync();
         }
-        List<User> friendList = Utils.generateFriends();
+
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvShareFriends);
         //Backend.get().getCurrentUser().getFriendList()
         // Create adapter passing in the sample user data
-        final ShareAdapter adapter = new ShareAdapter(this, friendList);
+        final ShareAdapter adapter = new ShareAdapter(this, populateFriendsList());
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
+        rvContacts.addItemDecoration(new SimpleDividerItemDecoration(this));
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
 
@@ -70,5 +74,14 @@ public class ShareActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private List<User> populateFriendsList() {
+        List<String> friendListUserIds = Backend.get().getCurrentUser().getFriendList();
+        List<User> friendList = new ArrayList<>();
+        for(String userId: friendListUserIds) {
+            friendList.add(Backend.get().fetchUserFor(userId));
+        }
+        return friendList;
     }
 }

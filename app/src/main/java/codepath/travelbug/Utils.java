@@ -96,33 +96,4 @@ public class Utils {
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),
                 (int) (b.getHeight() * factorH), true);
     }
-
-    /**
-     * Method that generates friends based on a user object, will update accordingly with different user ids.
-     *
-     * @return a list of users
-     */
-    public static List<User> generateFriends() {
-        String[] fullNameList = {
-                "John Smith",
-                "Tom Hanks",
-                "Nick James",
-                "Bob Stoops",
-                "James St Patrick",
-                "Jacob Easton",
-                "Joe Woods",
-                "Lisa Holt",
-        };
-        List<User> userList = new ArrayList<>();
-        for(int i = 0; i < 8; i++) {
-            User user = new User();
-            user.setFullName(fullNameList[i]);
-            String userid = String.valueOf(RANDOM.nextLong());
-            user.setUserId(userid);
-            userList.add(user);
-        }
-        Backend.get().setFriendsList(userList);
-        return userList;
-    }
-
 }
