@@ -112,19 +112,6 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
                 launchCreateTimelineWithCamera();
             }
         });
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View view) {
-        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //                .setAction("Action", null).show();
-        //        Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
-        //        intent.putExtra("timeline", Parcels.wrap(eventLinkedList));
-        //        startActivity(intent);
-        //    }
-        //});
-
     }
     // Launches the camera first to take a picture which is then passed to the
     //  for creating a new timeline.
