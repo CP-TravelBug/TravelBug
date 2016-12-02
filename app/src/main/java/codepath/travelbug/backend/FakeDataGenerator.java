@@ -79,6 +79,24 @@ public class FakeDataGenerator {
           R.raw.dt_pic7,
           R.raw.dt_pic8,
   };
+
+        public static final int [] profileImageList = {
+                R.raw.contact_one,
+                R.raw.contact_two,
+                R.raw.contact_three,
+                 R.raw.contact_four,
+                 R.raw.contact_five,
+                 R.raw.contact_six,
+                 R.raw.contact_seven,
+                 R.raw.contact_eight,
+                 R.raw.contact_nine,
+                 R.raw.contact_ten,
+        };
+
+    public static int generateRandomIndex() {
+        return (int)(Math.random() * ((9) + 1));
+    }
+
     private static final String[] imageTitles = {
             "Breathtaking Ledge in Preikestolen, Norway",
             "The most unique Honeymoon destinations: Seychelles Honeymoon.",

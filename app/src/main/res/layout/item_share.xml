@@ -1,32 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvRoot"
+    android:layout_marginLeft="@dimen/grid_margin"
+    android:layout_marginRight="@dimen/grid_margin"
+    android:layout_marginTop="@dimen/cell_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    >
+    android:clickable="true"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/ivProfileImage"
+        android:layout_width="match_parent"
+        android:transitionName="profile"
+        android:layout_height="@dimen/grid_profile_height"
         android:src="@drawable/hilaryduff"
-        android:id="@+id/ivProfileImage" />
+        android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/friendName"
-        android:text="Jimmy Smith"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/palette_height">
 
-    <CheckBox
+        <View
+            android:id="@+id/vPalette"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/friendName"
+            tools:text="Hilary Duff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/contact_text_size"
+            android:textColor="@android:color/black" />
+
+        <CheckBox
         android:id="@+id/cbShareCheck"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="10sp"
-        />
+        android:paddingRight="16dp" />
+    </RelativeLayout>
 </LinearLayout>
+</android.support.v7.widget.CardView>

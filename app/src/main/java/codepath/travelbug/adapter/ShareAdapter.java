@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 import codepath.travelbug.R;
+import codepath.travelbug.backend.FakeDataGenerator;
 import codepath.travelbug.models.User;
 
 /**
@@ -52,6 +53,8 @@ public class ShareAdapter extends
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(friend.getFullName());
+        // Random number between 0 and 9 to correspond to
+        holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[FakeDataGenerator.generateRandomIndex()]);
 
     }
 
@@ -69,6 +72,7 @@ public class ShareAdapter extends
             super(itemView);
 
             nameTextView = (TextView) itemView.findViewById(R.id.friendName);
+            ivProfileImage = (ImageView)itemView.findViewById(R.id.ivProfileImage);
         }
     }
 }
