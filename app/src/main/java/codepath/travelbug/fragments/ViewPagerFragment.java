@@ -73,10 +73,10 @@ public class ViewPagerFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(mPage == 0) {
+                if(mPage == 1) {
                     refreshHomeTimeline();
                 }
-                else if(mPage == 1) {
+                else if(mPage == 2) {
                     refreshTimeline();
                 }
                 swipeContainer.setRefreshing(false);
