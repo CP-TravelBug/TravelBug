@@ -83,16 +83,21 @@ public class ShareActivity extends AppCompatActivity {
         // Unlike ListView, you have to explicitly give a LayoutManager to the RecyclerView to position items on the screen.
         // There are three LayoutManager provided at the moment: GridLayoutManager, StaggeredGridLayoutManager and LinearLayoutManager.
         rvContacts.setLayoutManager(gridLayoutManager);
-
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(timelineId != 0) {
+                    boolean  isAtLeastOneFriendSelected = false;
                     for(User user : listOfFriends) {
                         if(user.isSelected) {
+                            isAtLeastOneFriendSelected = true;
                             Backend.get().shareTimelineWithUser(timelineId, user.getUserId());
                             Toast.makeText(getApplicationContext(), "You have shared your timeline with " + user.getFullName() + "!", Toast.LENGTH_LONG).show();
                         }
+                    }
+                    if(!isAtLeastOneFriendSelected) {
+                        Toast.makeText(getApplicationContext(), "Please select at least one friend to share with", Toast.LENGTH_LONG).show();
+                        return;
                     }
                     setResult(RESULT_OK);
                     finish();
