@@ -72,6 +72,8 @@ public class ShareActivity extends AppCompatActivity {
 
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvShareFriends);
         final List<User> listOfFriends = populateFriendsList();
+        // Adds current user to list for testing, would be removed before the demo
+        listOfFriends.add(Backend.get().getCurrentUser());
         final ShareAdapter adapter = new ShareAdapter(this, listOfFriends);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);

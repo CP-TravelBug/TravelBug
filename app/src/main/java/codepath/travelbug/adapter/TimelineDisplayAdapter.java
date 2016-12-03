@@ -18,11 +18,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import codepath.travelbug.R;
 import codepath.travelbug.activities.ShareActivity;
 import codepath.travelbug.activities.TimelineDetailsViewActivity;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
@@ -68,8 +70,6 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        //holder.tvContent.setText(event.getContent());
         holder.tvContent.setText(getItem(position).getTimelineTitle());
         Uri uri = event.getContentUri();
         Picasso.with(getContext()).load(uri).resize(400, 400).into(holder.ivTimeline);
@@ -89,6 +89,15 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
                 getContext().startActivity(i);
             }
         });
+        List<Long> listOfSharedTimelineIds = Backend.get().getCurrentUser().getSharedTimelines();
+        for(Long timelineId : listOfSharedTimelineIds) {
+            if(timelineId == getItem(position).getTimelineId()) {
+                holder.btnShare.setVisibility(View.GONE);
+            }
+            else {
+                holder.btnShare.setVisibility(View.VISIBLE);
+            }
+        }
         return convertView;
     }
 

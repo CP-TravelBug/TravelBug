@@ -57,7 +57,8 @@
                 app:pstsShouldExpand="true"
                 app:pstsTabPaddingLeftRight="14dp"
                 app:pstsTextAllCaps="true"
-                app:pstsUnderlineColor="@color/colorPrimaryDark">
+                app:pstsDividerColor="@color/colorAccent"
+                app:pstsUnderlineColor="@color/colorPrimary">
 
             </com.astuetz.PagerSlidingTabStrip>
 
