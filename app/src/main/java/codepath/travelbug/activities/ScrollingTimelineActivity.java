@@ -1,5 +1,6 @@
 package codepath.travelbug.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,16 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
@@ -48,6 +59,9 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     TimelineDisplayAdapter adapter;
     ViewPager viewPager;
     PagerSlidingTabStrip tabStrip;
+    Toolbar toolbar;
+    AccountHeader headerResult;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +69,17 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling_timeline);
 
         // toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        activity = this;
 
         // Get View Pager
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fadapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fadapter);
         loadHeader();
+        setUpNavDrawer(this, headerResult, toolbar);
 
         // Give the PagerSlidingTab the viewpager
         tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
@@ -119,6 +135,27 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setUpNavDrawer(ScrollingTimelineActivity scrollingTimelineActivity, AccountHeader headerResult, Toolbar toolbar) {
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Log Out");
+        new DrawerBuilder()
+                .withAccountHeader(headerResult)
+                .withActivity(scrollingTimelineActivity)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        item1,
+                        new DividerDrawerItem()
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
+    }
+
     // Launches the camera first to take a picture which is then passed to the
     //  for creating a new timeline.
     private void launchCreateTimelineWithCamera() {
@@ -135,11 +172,12 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     }
 
     private void loadHeader() {
-        User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
+        final User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
         tvName = (TextView)findViewById(R.id.tvName);
         ivProfileImage = (RoundedImageView) findViewById(R.id.ivProfileImage);
-        String helloTextWithFirstName = "Hello " + user.getFirstName();
+        final String helloTextWithFirstName = "Hello " + user.getFirstName();
         tvName.setText(helloTextWithFirstName);
+        //
 
         // This fetches the high res image.
         FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
@@ -147,6 +185,19 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             public void onResult(String result) {
                 if (!result.isEmpty()) {
                     Picasso.with(getApplicationContext()).load(result).into(ivProfileImage);
+                    headerResult = new AccountHeaderBuilder()
+                            .withActivity(activity)
+                            .withHeaderBackground(ivProfileImage.getDrawable())
+                            .addProfiles(
+                                    new ProfileDrawerItem().withName(user.getFullName()).withIcon(getResources().getDrawable(R.drawable.travelicon))
+                            )
+                            .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                                @Override
+                                public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                                    return false;
+                                }
+                            })
+                            .build();
                 }
             }
         });
