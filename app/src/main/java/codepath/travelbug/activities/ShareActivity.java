@@ -2,6 +2,7 @@ package codepath.travelbug.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -69,20 +71,27 @@ public class ShareActivity extends AppCompatActivity {
         }
 
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvShareFriends);
-        //Backend.get().getCurrentUser().getFriendList()
-        // Create adapter passing in the sample user data
-        final ShareAdapter adapter = new ShareAdapter(this, populateFriendsList());
+        final List<User> listOfFriends = populateFriendsList();
+        final ShareAdapter adapter = new ShareAdapter(this, listOfFriends);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
         rvContacts.addItemDecoration(new SimpleDividerItemDecoration(this));
-        // Set layout manager to position the items
-        rvContacts.setLayoutManager(new LinearLayoutManager(this));
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(ShareActivity.this, 2);
+
+        // Unlike ListView, you have to explicitly give a LayoutManager to the RecyclerView to position items on the screen.
+        // There are three LayoutManager provided at the moment: GridLayoutManager, StaggeredGridLayoutManager and LinearLayoutManager.
+        rvContacts.setLayoutManager(gridLayoutManager);
 
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(timelineId != 0) {
-                    Backend.get().shareTimelineWithUser(timelineId, Backend.get().getCurrentUser().getUserId());
+                    for(User user : listOfFriends) {
+                        if(user.isSelected) {
+                            Backend.get().shareTimelineWithUser(timelineId, user.getUserId());
+                            Toast.makeText(getApplicationContext(), "You have shared your timeline with " + user.getFullName() + "!", Toast.LENGTH_LONG).show();
+                        }
+                    }
                     setResult(RESULT_OK);
                     finish();
                 }

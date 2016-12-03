@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
@@ -48,13 +49,25 @@ public class ShareAdapter extends
 
     @Override
     public void onBindViewHolder(ShareAdapter.ViewHolder holder, int position) {
-        User friend = friendList.get(position);
+        final User friend = friendList.get(position);
 
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(friend.getFullName());
         // Random number between 0 and 9 to correspond to
         holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[FakeDataGenerator.generateRandomIndex()]);
+        holder.cbShareButton.setOnCheckedChangeListener(null);
+
+        //if true, your checkbox will be selected, else unselected
+        holder.cbShareButton.setChecked(friend.isSelected());
+
+        holder.cbShareButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //set your object's last status
+                friend.setSelected(isChecked);
+            }
+        });
 
     }
 
@@ -73,6 +86,7 @@ public class ShareAdapter extends
 
             nameTextView = (TextView) itemView.findViewById(R.id.friendName);
             ivProfileImage = (ImageView)itemView.findViewById(R.id.ivProfileImage);
+            cbShareButton = (CheckBox)itemView.findViewById(R.id.cbShareCheck);
         }
     }
 }

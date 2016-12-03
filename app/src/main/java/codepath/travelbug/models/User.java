@@ -22,6 +22,8 @@ import static android.R.attr.name;
 public class User extends ParseObject {
     public static final String PARSE_FIELD_USERID = "userId";
 
+    public boolean isSelected;
+
 
     public User() {
         super();
@@ -84,6 +86,13 @@ public class User extends ParseObject {
 
     public void setUserId(String userId) {
         put(PARSE_FIELD_USERID, userId);
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    public boolean isSelected() {
+        return isSelected;
     }
 
     public static User fromJSONObject(JSONObject jsonObject) {
