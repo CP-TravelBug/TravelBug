@@ -2,7 +2,6 @@ package codepath.travelbug.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.List;
 
 import codepath.travelbug.R;
@@ -36,6 +33,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
     private static class ViewHolder {
         ImageView ivTimeline;
         TextView tvContent;
+        TextView datePosted;
         Button btnShare;
     }
 
@@ -66,6 +64,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
             holder.ivTimeline = (ImageView) convertView.findViewById(R.id.ivPhoto);
             holder.tvContent = (TextView) convertView.findViewById(R.id.tvContent);
             holder.btnShare = (Button)convertView.findViewById(R.id.shareButton);
+            holder.datePosted = (TextView)convertView.findViewById(R.id.datePosted);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -73,6 +72,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
         holder.tvContent.setText(getItem(position).getTimelineTitle());
         Uri uri = event.getContentUri();
         Picasso.with(getContext()).load(uri).resize(400, 400).into(holder.ivTimeline);
+        holder.datePosted.setText(event.getCreatedAt().toString());
         holder.ivTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

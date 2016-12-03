@@ -3,33 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/ivPhoto"
-        android:contentDescription="@string/photo_desc"
-        android:scaleType="fitXY"
-        />
-
-    <TextView
-        android:text="@string/photo_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivPhoto"
-        android:layout_marginStart="16dp"
-        android:id="@+id/tvContent" />
-
     <Button
         android:text="@string/btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/shareButton"
-        android:layout_toEndOf="@+id/ivPhoto"
-        android:layout_below="@+id/tvContent"/>
+        android:layout_below="@+id/ivPhoto"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/photo_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/tvContent"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/ivPhoto"
+        android:contentDescription="@string/photo_desc"
+        android:scaleType="fitXY"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/tvContent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:drawableLeft="@drawable/clock"
+        android:id="@+id/datePosted"
+        android:layout_below="@+id/tvContent"
+        android:layout_alignStart="@+id/tvContent" />
 
 
 </RelativeLayout>
