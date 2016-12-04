@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,23 +32,33 @@ import java.util.List;
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
 import codepath.travelbug.backend.Backend;
+import codepath.travelbug.fragments.AddToTimelineFragment;
+import codepath.travelbug.fragments.NewTimelineFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
 
-public class CreateTimelineActivity extends AppCompatActivity {
+public class CreateTimelineActivity extends AppCompatActivity
+        implements AddToTimelineFragment.AddedToTimelineListener,
+        NewTimelineFragment.NewTimelineListener {
     Uri pictureUri;
     ImageView picView;
     Button saveButton;
     EditText pictureTitle;
     String resizedFilePath;
     Long idOfTimelineCreated;
-    Spinner spTmLists;
-    EditText tvTimelineTitle;
-    String timelineTitle;
     List<Long> myTimelineIds;
+    FloatingActionButton fbAddToTimeline;
+    FloatingActionButton fbCreateNewTimeline;
+    int spinnerSelectedPosition;
+    boolean isNewTimeLine;
+    boolean isNothingSelected = true;
+    String newTimelineName;
+
+    private static final int ADD_TO_TIMELINE_REQUEST_CODE = 1001;
+    private static final int CREATE_NEW_TIMELINE_REQUEST_CODE = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +66,8 @@ public class CreateTimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_timeline);
         myTimelineIds = new LinkedList<>();
         polulateTimelineIdList();
-        spTmLists = (Spinner) findViewById(R.id.spTimelines);
-        ArrayAdapter<String> tmListsArray = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item);
-        tmListsArray.addAll(getTimelineLists());
-        tmListsArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spTmLists.setAdapter(tmListsArray);
 
-        tvTimelineTitle = (EditText) findViewById(R.id.etTimelineName);
+
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
         pictureTitle = (EditText)findViewById(R.id.editText);
@@ -70,14 +76,18 @@ public class CreateTimelineActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CreateTimelineActivity.this, "New Event added.", Toast.LENGTH_SHORT).show();
-                if (resizedFilePath != null) {
-                    persistTimeline(resizedFilePath);
-                    Intent i = new Intent();
-                    i.putExtra("idOfTimelineCreated", idOfTimelineCreated);
-                    setResult(RESULT_OK, i);
+                if (isNothingSelected) {
+                    Toast.makeText(CreateTimelineActivity.this, "Please add this event to a new or existing timeline", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateTimelineActivity.this, "New Event added.", Toast.LENGTH_SHORT).show();
+                    if (resizedFilePath != null) {
+                        persistTimeline(resizedFilePath);
+                        Intent i = new Intent();
+                        i.putExtra("idOfTimelineCreated", idOfTimelineCreated);
+                        setResult(RESULT_OK, i);
+                    }
+                    finish();
                 }
-                finish();
             }
         });
         try {
@@ -86,6 +96,36 @@ public class CreateTimelineActivity extends AppCompatActivity {
             Log.d(TAG, "Error reading image taken.");
         }
 
+        fbAddToTimeline = (FloatingActionButton) findViewById(R.id.fab_addToExistingTimeline);
+        fbAddToTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchAddToExistingTimeline();
+            }
+        });
+
+        fbCreateNewTimeline = (FloatingActionButton) findViewById(R.id.fab_createNewTimeline);
+        fbCreateNewTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCreateNewTimeline();
+            }
+        });
+
+    }
+
+    private void launchAddToExistingTimeline() {
+        FragmentManager fm = getSupportFragmentManager();
+        AddToTimelineFragment addToTimelineFragment =
+                AddToTimelineFragment.newInstance(getTimelineLists());
+        addToTimelineFragment.show(fm, "add_to_timeline_fragment");
+    }
+
+    private void launchCreateNewTimeline() {
+        FragmentManager fm = getSupportFragmentManager();
+        NewTimelineFragment newTimelineFragment =
+                NewTimelineFragment.newInstance();
+        newTimelineFragment.show(fm, "create_new_timeline_fragment");
     }
 
     private void polulateTimelineIdList() {
@@ -95,8 +135,8 @@ public class CreateTimelineActivity extends AppCompatActivity {
         }
     }
 
-    private List<String> getTimelineLists() {
-        List<String> tmNames = new ArrayList<>();
+    private ArrayList<String> getTimelineLists() {
+        ArrayList<String> tmNames = new ArrayList<>();
         if (myTimelineIds.size() != 0) {
             for (Long id : myTimelineIds) {
                 tmNames.add(Backend.get().getTimeline(id).getTimelineTitle());
@@ -126,34 +166,58 @@ public class CreateTimelineActivity extends AppCompatActivity {
         imageView.setImageBitmap(scaledImage);
     }
 
+    @Override
+    public void onAddingTimeline(int position) {
+        spinnerSelectedPosition = position;
+        isNewTimeLine = false;
+        isNothingSelected = false;
+    }
+
+    @Override
+    public void onCancel() {
+        isNothingSelected = true;
+    }
+
+    @Override
+    public void onCreatingNewTimeline(String newTimelineName) {
+        this.newTimelineName = newTimelineName;
+        isNewTimeLine = true;
+        isNothingSelected = false;
+    }
+
+    @Override
+    public void onCancelNewTimeline() {
+        isNothingSelected = true;
+    }
+
     private void persistTimeline(String imagePath) {
-        boolean isNewTimeline = ((RadioButton) findViewById(R.id.rbCreateNewTimeline)).isChecked();
-        if (isNewTimeline) { // New Time Line
+        //boolean isNewTimeline = ((RadioButton) findViewById(R.id.rbCreateNewTimeline)).isChecked();
+        if (isNewTimeLine) { // New Time Line
             createNewTimeline(imagePath);
         } else { // Add to existing timeline
             addToExistingTimeline(imagePath);
         }
     }
 
-    private void getTimelineTitleString() {
-        onRadioButtonClicked(findViewById(R.id.rbAddToTimeline));
-        onRadioButtonClicked(findViewById(R.id.rbCreateNewTimeline));
-    }
+//    private void getTimelineTitleString() {
+//        onRadioButtonClicked(findViewById(R.id.rbAddToTimeline));
+//        onRadioButtonClicked(findViewById(R.id.rbCreateNewTimeline));
+//    }
 
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton)view).isChecked();
-        switch (view.getId()) {
-            case R.id.rbAddToTimeline:
-                timelineTitle = spTmLists.getSelectedItem().toString();
-                break;
-            case R.id.rbCreateNewTimeline:
-                timelineTitle = tvTimelineTitle.getText().toString();
-                break;
-        }
-    }
+//    public void onRadioButtonClicked(View view) {
+//        boolean checked = ((RadioButton)view).isChecked();
+//        switch (view.getId()) {
+//            case R.id.rbAddToTimeline:
+//                timelineTitle = spTmLists.getSelectedItem().toString();
+//                break;
+//            case R.id.rbCreateNewTimeline:
+//                timelineTitle = tvTimelineTitle.getText().toString();
+//                break;
+//        }
+//    }
 
     private void addToExistingTimeline(String imagePath) {
-        int position = spTmLists.getSelectedItemPosition();
+        int position = spinnerSelectedPosition;
         Timeline timeline = Backend.get().getTimeline(myTimelineIds.get(position));
         Event event = new Event();
         event.setPath(imagePath);
@@ -174,10 +238,12 @@ public class CreateTimelineActivity extends AppCompatActivity {
         eventList.add(event);
         timeline.addEvents(eventList);
         // Get the correct timeline title string
-        getTimelineTitleString();
-        timeline.setTimelineTitle(timelineTitle);
+        //getTimelineTitleString();
+        timeline.setTimelineTitle(newTimelineName);
         Backend.get().addTimeline(timeline);
         idOfTimelineCreated = timeline.getTimelineId();
     }
+
+
 
 }

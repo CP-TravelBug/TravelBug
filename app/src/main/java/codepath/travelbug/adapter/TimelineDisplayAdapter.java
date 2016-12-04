@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import codepath.travelbug.R;
@@ -72,7 +74,11 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
         holder.tvContent.setText(getItem(position).getTimelineTitle());
         Uri uri = event.getContentUri();
         Picasso.with(getContext()).load(uri).resize(400, 400).into(holder.ivTimeline);
-        holder.datePosted.setText(event.getCreatedAt().toString());
+
+        //holder.datePosted.setText(event.getCreatedAt().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM dd yyyy");
+        String date = sdf.format(new Date());
+        holder.datePosted.setText(date);
         holder.ivTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

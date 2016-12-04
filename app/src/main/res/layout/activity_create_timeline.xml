@@ -1,84 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_create_timeline"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="codepath.travelbug.activities.CreateTimelineActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        tools:srcCompat="@drawable/plane_travel"
-        android:id="@+id/ivCameraImage"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@string/event_content" />
+        android:layout_height="match_parent"
+        android:id="@+id/activity_create_timeline"
+        tools:context="codepath.travelbug.activities.CreateTimelineActivity">
 
-    <Button
-        android:text="@string/save_timeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSaveTimeline"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/holo_blue_light" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            tools:srcCompat="@drawable/plane_travel"
+            android:id="@+id/ivCameraImage"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/event_content"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:ellipsize="start"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="57dp"
-        android:id="@+id/editText"
-        android:hint="@string/timeline_title_hint"
-        android:layout_below="@+id/ivCameraImage"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-<RadioGroup
-    android:layout_below="@+id/editText"
-    android:id="@+id/rbGroup"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:checkedButton="@+id/rbCreateNewTimeline">
-    <RadioButton
-        android:text="@string/addToExistingTimeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbAddToTimeline"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText"
-        android:onClick="onRadioButtonClicked"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ellipsize="start"
+            android:gravity="center_horizontal"
+            android:id="@+id/editText"
+            android:hint="@string/timeline_title_hint"
+            android:textColorHint="@color/accent"
+            android:textColor="@color/primaryText"
+            android:textStyle="italic"
+            android:textColorLink="@color/accent"
+            android:textSize="18sp"
+            android:layout_above="@+id/btnSaveTimeline"
+            android:layout_alignParentStart="true" />
 
-    <RadioButton
-        android:text="@string/createNewTimeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbCreateNewTimeline"
-        android:layout_alignTop="@+id/etTimelineName"
-        android:layout_alignEnd="@+id/rbGroup"
-        android:onClick="onRadioButtonClicked"/>
-</RadioGroup>
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spTimelines"
-        android:layout_alignStart="@+id/etTimelineName"
-        android:layout_below="@id/editText" />
+        <Button
+            android:text="@string/save_timeline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSaveTimeline"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/textIcons"
+            android:background="@color/primary" />
+        <!--<RadioGroup-->
+            <!--android:layout_below="@+id/editText"-->
+            <!--android:id="@+id/rbGroup"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:checkedButton="@+id/rbCreateNewTimeline"-->
+            <!--android:textColor="@color/textIcons">-->
+            <!--<RadioButton-->
+                <!--android:text="@string/addToExistingTimeline"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/rbAddToTimeline"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_below="@+id/editText"-->
+                <!--android:onClick="onRadioButtonClicked"-->
+                <!--/>-->
+            <!--<RadioButton-->
+                <!--android:text="@string/createNewTimeline"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/rbCreateNewTimeline"-->
+                <!--android:layout_alignTop="@+id/etTimelineName"-->
+                <!--android:layout_alignEnd="@+id/rbGroup"-->
+                <!--android:onClick="onRadioButtonClicked"/>-->
+        <!--</RadioGroup>-->
+        <!--<Spinner-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/spTimelines"-->
+            <!--android:layout_alignStart="@+id/etTimelineName"-->
+            <!--android:layout_below="@id/editText" />-->
+        <!--<EditText-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/createNewTimeLineHint"-->
+            <!--android:textSize="12sp"-->
+            <!--android:id="@+id/etTimelineName"-->
+            <!--android:layout_below="@+id/spTimelines"-->
+            <!--android:layout_marginStart="45dp" />-->
+    </RelativeLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_createNewTimeline"
         android:layout_height="wrap_content"
-        android:hint="@string/createNewTimeLineHint"
-        android:textSize="12dp"
-        android:id="@+id/etTimelineName"
-        android:layout_below="@+id/spTimelines"
-        android:layout_toEndOf="@+id/rbGroup"
-        android:layout_marginStart="45dp" />
+        android:layout_width="wrap_content"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        android:tint="@color/white"
+        app:layout_anchor="@id/activity_create_timeline"
+        app:layout_anchorGravity="bottom|right|end"
+        app:borderWidth="0dp"
+        app:rippleColor="@android:color/transparent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="86dp" />
 
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_addToExistingTimeline"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_add"
+        android:tint="@color/white"
+        app:layout_anchor="@id/activity_create_timeline"
+        app:layout_anchorGravity="bottom|right|end"
+        app:borderWidth="0dp"
+        app:rippleColor="@android:color/transparent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+</android.support.design.widget.CoordinatorLayout>

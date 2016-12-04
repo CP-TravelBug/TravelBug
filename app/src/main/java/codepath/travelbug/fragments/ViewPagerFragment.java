@@ -52,6 +52,7 @@ public class ViewPagerFragment extends Fragment {
         ViewPagerFragment fragment = new ViewPagerFragment();
         Bundle args = new Bundle();
         args.putInt(PAGE_NUM, mPage);
+        Log.d("PAGE_NUM", Integer.toString(mPage));
         fragment.setArguments(args);
         return fragment;
     }
@@ -100,7 +101,7 @@ public class ViewPagerFragment extends Fragment {
         timelineList = new LinkedList<>();
         adapter = new TimelineDisplayAdapter(getContext(), timelineList);
         lvTimeline.setAdapter(adapter);
-        if (mPage == 1) {
+        if (mPage == 11) {
             displayAllTimelines();
         } else {
             displayMyTimeline();

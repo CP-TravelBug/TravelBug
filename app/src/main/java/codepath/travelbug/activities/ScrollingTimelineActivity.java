@@ -186,18 +186,18 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
                 if (!result.isEmpty()) {
                     Picasso.with(getApplicationContext()).load(result).into(ivProfileImage);
                     headerResult = new AccountHeaderBuilder()
-                            .withActivity(activity)
-                            .withHeaderBackground(ivProfileImage.getDrawable())
-                            .addProfiles(
-                                    new ProfileDrawerItem().withName(user.getFullName()).withIcon(getResources().getDrawable(R.drawable.travelicon))
-                            )
-                            .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                                @Override
-                                public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                                    return false;
-                                }
-                            })
-                            .build();
+                        .withActivity(activity)
+                        .withHeaderBackground(ivProfileImage.getDrawable())
+                        .addProfiles(
+                                new ProfileDrawerItem().withName(user.getFullName()).withIcon(getResources().getDrawable(R.drawable.travelicon))
+                        )
+                        .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                            @Override
+                            public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                                return false;
+                            }
+                        })
+                        .build();
                 }
             }
         });

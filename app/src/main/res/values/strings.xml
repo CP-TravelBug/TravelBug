@@ -25,4 +25,10 @@
     <string name="addToExistingTimeline">Add To Timeline</string>
     <string name="createNewTimeline">Create a new Timeline</string>
     <string name="createNewTimeLineHint">New Timeline\'s name</string>
+
+    <!-- Google Maps API key -->
+    <string name="google_maps_api_key">AIzaSyAXNDJ-V3p8Oi-l0oMvP8oY-A76m1eYJj0</string>
+    <string name="title_activity_google_maps">Map</string>
+    <string name="add_to_a_timeline_below">Add to a timeline below:</string>
+    <string name="create_new_timeline">CREATE NEW TIMELINE:</string>
 </resources>

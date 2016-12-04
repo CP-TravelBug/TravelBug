@@ -66,7 +66,6 @@ public class TimelineRecyclerViewAdapter extends
 
         TextView tvEvent = holder.tvEvent;
         tvEvent.setText(event.getContent());
-        Drawable d = Drawable.createFromPath(event.getPath());
         RoundedImageView ivEventImage = holder.ivEventImage;
         Picasso.with(getContext()).load(event.getContentUri()).into(ivEventImage);
     }

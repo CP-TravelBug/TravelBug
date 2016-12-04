@@ -63,7 +63,7 @@ public class Event extends ParseObject {
 
     public Uri getContentUri() {
         return Uri.parse(getPath());
-        //return Uri.fromFile(new File(path));
+        //return Uri.fromFile(new File(getPath()));
     }
 
     public void setGeoPoint(ParseGeoPoint geoPoint) {

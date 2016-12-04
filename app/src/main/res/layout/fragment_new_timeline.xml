@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:id="@+id/create_new_timeline_fragment"
+    tools:context="codepath.travelbug.fragments.NewTimelineFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/createNewTimeLineHint"
+        android:textSize="20sp"
+        android:id="@+id/etTimelineName"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+</FrameLayout>
