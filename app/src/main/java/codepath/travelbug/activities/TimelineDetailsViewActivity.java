@@ -2,9 +2,11 @@ package codepath.travelbug.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,18 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline_details_view);
         long timelineId = getIntent().getLongExtra("timelineId", 0);
+
+        TextView tvTilelineTitle = (TextView) findViewById(R.id.timeLineTitle);
+
         RecyclerView rvEvents = (RecyclerView) findViewById(R.id.rvTimeline);
+
         // Get a timeline based on Id and then get the events of the timeline
         Timeline timeline = Backend.get().getTimeline(timelineId);
         if (timeline == null) {
             timeline = Backend.get().getSharedTimeline(timelineId);
         }
+        String timelineTitle = timeline.getTimelineTitle();
+        tvTilelineTitle.setText(timelineTitle);
         events = timeline.getEventList();
         Log.d(TAG, events.toString());
 

@@ -223,10 +223,14 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             }
         } else if (requestCode == CREATE_TIMELINE_WITH_PIC_REQUEST_CODE) {
             // ToDo: Refresh the views
-            long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
-            Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
-            // Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
-            fadapter.refreshAllTimelines();
+            if (resultCode == RESULT_OK) {
+                long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
+                Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
+                // Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
+                fadapter.refreshAllTimelines();
+            } else {
+                // cancelled event creation.
+            }
         }
     }
 }

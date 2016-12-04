@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:background="@color/white"
-        tools:context="codepath.travelbug.activities.UserViewingOptionsActivity">
+        android:background="@color/white">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivProfileImage"
@@ -31,7 +30,7 @@
             app:riv_border_width="2dp"
             app:riv_corner_radius="50dp"
             app:riv_mutate_background="true"
-            app:riv_oval="true"></com.makeramen.roundedimageview.RoundedImageView>
+            app:riv_oval="true"/>
 
         <TextView
             android:id="@+id/tvName"
@@ -42,7 +41,7 @@
             android:layout_marginStart="26dp"
             android:layout_toEndOf="@id/ivProfileImage"
             android:text="@string/user_name"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -63,7 +62,7 @@
                 app:pstsShouldExpand="true"
                 app:pstsTabPaddingLeftRight="14dp"
                 app:pstsTextAllCaps="true"
-                app:pstsDividerColor="@color/colorAccent"
+                app:pstsDividerColor="@color/colorPrimary"
                 app:pstsUnderlineColor="@color/colorPrimary">
 
             </com.astuetz.PagerSlidingTabStrip>

@@ -4,6 +4,7 @@ package codepath.travelbug.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import codepath.travelbug.R;
 
@@ -52,6 +54,12 @@ public class NewTimelineFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        int mTitleId = getDialog().getContext().getResources().getIdentifier("title", "id", "android");
+        View tvTitle = getDialog().findViewById(mTitleId);
+        tvTitle.setBackgroundColor(getContext().getResources().getColor(R.color.accent));
+        int titleDividerId = Resources.getSystem().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = getDialog().findViewById(titleDividerId);
+        titleDivider.setBackgroundColor(getContext().getResources().getColor(R.color.accent));
     }
 
     @Override
@@ -82,7 +90,6 @@ public class NewTimelineFragment extends DialogFragment {
                 getDialog().dismiss();
             }
         });
-
         return alertDialogBuilder.create();
     }
 }

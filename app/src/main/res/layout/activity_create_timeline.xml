@@ -13,29 +13,33 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="470dp"
             tools:srcCompat="@drawable/plane_travel"
             android:id="@+id/ivCameraImage"
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:contentDescription="@string/event_content"/>
+            android:contentDescription="@string/event_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:background="@drawable/gradient_bg"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ellipsize="start"
             android:gravity="center_horizontal"
             android:id="@+id/editText"
-            android:hint="@string/timeline_title_hint"
-            android:textColorHint="@color/accent"
+            android:hint="@string/new_event_text"
+            android:textColorHint="@color/material_drawer_hint_text"
             android:textColor="@color/primaryText"
             android:textStyle="italic"
-            android:textColorLink="@color/accent"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:paddingBottom="10dp"
             android:layout_above="@+id/btnSaveTimeline"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"/>
 
         <Button
             android:text="@string/save_timeline"
@@ -46,7 +50,29 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:textColor="@color/textIcons"
-            android:background="@color/primary" />
+            android:background="@color/primary"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:text="Battery Park, San Francisco."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:id="@+id/etLocation"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="16dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/flat_location_logo"
+            android:id="@+id/imageView"
+            android:scaleType="fitXY"
+            android:layout_above="@+id/btnSaveTimeline"
+            android:layout_alignParentStart="true" />
         <!--<RadioGroup-->
             <!--android:layout_below="@+id/editText"-->
             <!--android:id="@+id/rbGroup"-->
@@ -94,7 +120,7 @@
         android:layout_width="wrap_content"
         android:elevation="6dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
+        android:src="@drawable/ic_create_new_timeline"
         android:tint="@color/white"
         app:layout_anchor="@id/activity_create_timeline"
         app:layout_anchorGravity="bottom|right|end"
@@ -111,7 +137,7 @@
         android:layout_width="wrap_content"
         android:elevation="6dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add_to_existing_timeline"
         android:tint="@color/white"
         app:layout_anchor="@id/activity_create_timeline"
         app:layout_anchorGravity="bottom|right|end"

@@ -77,7 +77,7 @@ public class CreateTimelineActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if (isNothingSelected) {
-                    Toast.makeText(CreateTimelineActivity.this, "Please add this event to a new or existing timeline", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTimelineActivity.this, "Add event to a new or existing timeline", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CreateTimelineActivity.this, "New Event added.", Toast.LENGTH_SHORT).show();
                     if (resizedFilePath != null) {
@@ -219,6 +219,9 @@ public class CreateTimelineActivity extends AppCompatActivity
     private void addToExistingTimeline(String imagePath) {
         int position = spinnerSelectedPosition;
         Timeline timeline = Backend.get().getTimeline(myTimelineIds.get(position));
+        if (timeline == null) {
+            timeline = Backend.get().getSharedTimeline(myTimelineIds.get(position));
+        }
         Event event = new Event();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());

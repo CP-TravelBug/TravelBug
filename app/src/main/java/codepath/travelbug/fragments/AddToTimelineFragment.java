@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,13 @@ public class AddToTimelineFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstance) {
         super.onViewCreated(view, savedInstance);
 
+        int mTitleId = getDialog().getContext().getResources().getIdentifier("title", "id", "android");
+        View tvTitle = getDialog().findViewById(mTitleId);
+        tvTitle.setBackgroundColor(getContext().getResources().getColor(R.color.accent));
+        int titleDividerId = Resources.getSystem().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = getDialog().findViewById(titleDividerId);
+        titleDivider.setBackgroundColor(getContext().getResources().getColor(R.color.accent));
+
     }
 
     @Override
@@ -106,7 +115,6 @@ public class AddToTimelineFragment extends DialogFragment {
                 getDialog().dismiss();
             }
         });
-
         return alertDialogBuilder.create();
     }
 

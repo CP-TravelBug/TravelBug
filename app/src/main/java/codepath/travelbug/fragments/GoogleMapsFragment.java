@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import codepath.travelbug.R;
 
-public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
