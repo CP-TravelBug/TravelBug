@@ -60,7 +60,6 @@
         <activity
             android:name=".activities.TimelineDetailsViewActivity"
             android:theme="@style/AppThemeNoBar" />
-        <activity android:name=".activities.MapViewActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -69,13 +68,13 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_api_key" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="@string/google_maps_api_key" />-->
 
         <activity
             android:name=".fragments.GoogleMapsFragment"
-            android:label="@string/title_activity_google_maps"></activity>
+            android:label="@string/title_activity_google_maps"/>
     </application>
 
 </manifest>

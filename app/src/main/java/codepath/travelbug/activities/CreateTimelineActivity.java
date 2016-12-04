@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
@@ -33,6 +34,7 @@ import codepath.travelbug.R;
 import codepath.travelbug.Utils;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.fragments.AddToTimelineFragment;
+import codepath.travelbug.fragments.GoogleMapsFragment;
 import codepath.travelbug.fragments.NewTimelineFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
@@ -45,6 +47,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         NewTimelineFragment.NewTimelineListener {
     Uri pictureUri;
     ImageView picView;
+    ImageView location;
     Button saveButton;
     EditText pictureTitle;
     String resizedFilePath;
@@ -67,7 +70,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         myTimelineIds = new LinkedList<>();
         polulateTimelineIdList();
 
-
+        location = (ImageView) findViewById(R.id.ivLocationIcon);
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
         pictureTitle = (EditText)findViewById(R.id.editText);
@@ -112,6 +115,13 @@ public class CreateTimelineActivity extends AppCompatActivity
             }
         });
 
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), GoogleMapsFragment.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void launchAddToExistingTimeline() {

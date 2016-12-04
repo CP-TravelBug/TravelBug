@@ -76,7 +76,7 @@ public class TimelineDisplayAdapter extends ArrayAdapter<Timeline> {
         Picasso.with(getContext()).load(uri).resize(400, 400).into(holder.ivTimeline);
 
         //holder.datePosted.setText(event.getCreatedAt().toString());
-        SimpleDateFormat sdf = new SimpleDateFormat("MM dd yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy");
         String date = sdf.format(new Date());
         holder.datePosted.setText(date);
         holder.ivTimeline.setOnClickListener(new View.OnClickListener() {

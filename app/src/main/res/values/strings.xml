@@ -31,5 +31,5 @@
     <string name="title_activity_google_maps">Map</string>
     <string name="add_to_a_timeline_below">Add to a timeline below:</string>
     <string name="create_new_timeline">CREATE NEW TIMELINE:</string>
-    <string name="new_event_text">new event text</string>
+    <string name="new_event_text">new event details</string>
 </resources>
