@@ -3,6 +3,8 @@ package codepath.travelbug.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
@@ -64,6 +68,7 @@ public class CreateTimelineActivity extends AppCompatActivity
     boolean isNothingSelected = true;
     String newTimelineName;
     private Location mLocation;
+    private TextView tvLocation;
 
     private static final int ADD_TO_TIMELINE_REQUEST_CODE = 1001;
     private static final int CREATE_NEW_TIMELINE_REQUEST_CODE = 1002;
@@ -77,6 +82,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         polulateTimelineIdList();
 
         location = (ImageView) findViewById(R.id.ivLocationIcon);
+        tvLocation = (TextView) findViewById(R.id.tvLocation);
 
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
@@ -278,6 +284,24 @@ public class CreateTimelineActivity extends AppCompatActivity
             }
             mLocation.setLongitude(data.getDoubleExtra("LATITUDE", 0));
             mLocation.setLongitude(data.getDoubleExtra("LONGITUDE", 0));
+            setPlaceAddress();
+        }
+    }
+
+    private void setPlaceAddress() {
+        Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
+        try {
+            Address address = (geoCoder.getFromLocation(mLocation.getLatitude(),
+                    mLocation.getLongitude(), 1)).get(0);
+            if (address != null) {
+                String city = address.getLocality();
+                String name = address.getFeatureName();
+                String country = address.getCountryName();
+                String location = name + ", " + city + ", " + country;
+                tvLocation.setText(location);
+            }
+        } catch (IOException e) {
+            Log.e("IOEXCEPTION", e.toString());
         }
     }
 
