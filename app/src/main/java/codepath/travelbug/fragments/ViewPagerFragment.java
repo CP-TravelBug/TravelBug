@@ -7,11 +7,14 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import codepath.travelbug.R;
 import codepath.travelbug.activities.ShareActivity;
+import codepath.travelbug.activities.decorators.SimpleDividerItemDecoration;
 import codepath.travelbug.adapter.TimelineDisplayAdapter;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Timeline;
@@ -33,7 +37,7 @@ public class ViewPagerFragment extends Fragment {
     //private OnFragmentInteractionListener mListener;
     private int mPage;
     final String path = Environment.DIRECTORY_DCIM;
-    ListView lvTimeline;
+    RecyclerView lvTimeline;
     List<Timeline> timelineList;
     TimelineDisplayAdapter adapter;
     SwipeRefreshLayout swipeContainer;
@@ -69,7 +73,7 @@ public class ViewPagerFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_pager_fragment, container, false);
-        lvTimeline = (ListView) view.findViewById(R.id.lvTimeline);
+        lvTimeline = (RecyclerView) view.findViewById(R.id.lvTimeline);
         swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -89,23 +93,12 @@ public class ViewPagerFragment extends Fragment {
                 getResources().getColor(android.R.color.holo_green_dark),
                 getResources().getColor(android.R.color.holo_orange_light),
                 getResources().getColor(android.R.color.holo_red_light));
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.shareButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
-                startActivity(intent);
-            }
-        });
 
         timelineList = new LinkedList<>();
         adapter = new TimelineDisplayAdapter(getContext(), timelineList);
         lvTimeline.setAdapter(adapter);
-        if (mPage == 11) {
-            displayAllTimelines();
-        } else {
-            displayMyTimeline();
-        }
+        lvTimeline.setLayoutManager(new LinearLayoutManager(getContext()));
+        lvTimeline.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         return view;
     }
 
@@ -159,10 +152,6 @@ public class ViewPagerFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-    public ListView getListView() {
-        return lvTimeline;
     }
 
     public void refreshHomeTimeline() {
