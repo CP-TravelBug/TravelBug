@@ -3,6 +3,7 @@ package codepath.travelbug.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +19,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
@@ -39,6 +42,7 @@ import codepath.travelbug.fragments.NewTimelineFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
+import static android.location.LocationManager.GPS_PROVIDER;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
 
@@ -59,9 +63,11 @@ public class CreateTimelineActivity extends AppCompatActivity
     boolean isNewTimeLine;
     boolean isNothingSelected = true;
     String newTimelineName;
+    private Location mLocation;
 
     private static final int ADD_TO_TIMELINE_REQUEST_CODE = 1001;
     private static final int CREATE_NEW_TIMELINE_REQUEST_CODE = 1002;
+    private static final int GEO_LOCATION_ACTIVITY_REQUEST_CODE = 1003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         polulateTimelineIdList();
 
         location = (ImageView) findViewById(R.id.ivLocationIcon);
+
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         picView = (ImageView)findViewById(R.id.ivCameraImage);
         pictureTitle = (EditText)findViewById(R.id.editText);
@@ -119,7 +126,11 @@ public class CreateTimelineActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), GoogleMapsFragment.class);
-                startActivity(i);
+                if(mLocation != null) {
+                    i.putExtra("LATITUDE", mLocation.getLatitude());
+                    i.putExtra("LONGITUDE", mLocation.getLongitude());
+                }
+                startActivityForResult(i, GEO_LOCATION_ACTIVITY_REQUEST_CODE);
             }
         });
     }
@@ -235,6 +246,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         Event event = new Event();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());
+        event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
         timeline.getEventList().add(event);
         idOfTimelineCreated = myTimelineIds.get(position);
         Log.d("Existing Timeline",
@@ -247,6 +259,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         Event event = new Event();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());
+        event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.addEvents(eventList);
@@ -257,6 +270,15 @@ public class CreateTimelineActivity extends AppCompatActivity
         idOfTimelineCreated = timeline.getTimelineId();
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == GEO_LOCATION_ACTIVITY_REQUEST_CODE) {
+            if(mLocation == null) {
+                mLocation = new Location(GPS_PROVIDER);
+            }
+            mLocation.setLongitude(data.getDoubleExtra("LATITUDE", 0));
+            mLocation.setLongitude(data.getDoubleExtra("LONGITUDE", 0));
+        }
+    }
 
 }

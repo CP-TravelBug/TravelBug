@@ -37,20 +37,11 @@
             android:background="@color/primary"
             android:textSize="15sp"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_red_location_icon"
-            android:id="@+id/ivLocationIcon"
-            android:scaleType="fitXY"
-            android:layout_below="@+id/ivCameraImage"
-            android:layout_alignParentStart="true" />
-
         <EditText
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:ellipsize="start"
-            android:gravity="left"
+            android:gravity="center"
             android:id="@+id/editText"
             android:hint="@string/new_event_text"
             android:textColorHint="@color/material_drawer_hint_text"
@@ -60,19 +51,30 @@
             android:paddingBottom="10dp"
             android:background="@android:color/transparent"
             android:layout_above="@+id/btnSaveTimeline"
-            android:layout_toEndOf="@+id/ivLocationIcon" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
-            android:text="\@ Battery Park, San Francisco."
+            android:text="Geo Tag your awesome event.."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
             android:id="@+id/tvLocation"
-            android:layout_above="@+id/ivLocationIcon"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="77dp" />
+            android:layout_marginBottom="143dp"
+            android:layout_alignBottom="@+id/ivCameraImage"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_location_icon"
+            android:id="@+id/ivLocationIcon"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="22dp"
+            android:layout_above="@+id/tvLocation"
+            android:layout_centerHorizontal="true" />
         <!--<RadioGroup-->
             <!--android:layout_below="@+id/editText"-->
             <!--android:id="@+id/rbGroup"-->
