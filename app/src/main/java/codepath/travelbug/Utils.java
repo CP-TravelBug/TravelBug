@@ -2,18 +2,24 @@ package codepath.travelbug;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
+
+import static codepath.travelbug.R.id.tvLocation;
 
 /**
  * Created by arunesh on 11/14/16.
@@ -26,6 +32,9 @@ public class Utils {
     public static final String TAG = "TravelBug";
     public static final String PIC_URI_KEY = "picUriKey";
     public static final int MAX_WIDTH = 360 * 3; // xxxhdpi.
+
+    private static final double TEST_LAT = 37.354108;
+    private static final double TEST_LNG = -121.955236;
 
     public static  String generateUniqueFileName() {
         String filename = "";
@@ -95,5 +104,22 @@ public class Utils {
         float factorW = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),
                 (int) (b.getHeight() * factorH), true);
+    }
+
+
+    public static void testGeocoder(Context context) {
+        Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
+        try {
+            List<Address> address = geoCoder.getFromLocation(TEST_LAT,
+                    TEST_LNG, 1);
+            if (address != null) {
+                String city = address.get(0).getLocality();
+                String name = address.get(0).getFeatureName();
+                String country = address.get(0).getCountryName();
+                String location = name + ", " + city + ", " + country;
+            }
+        } catch (IOException e) {
+            Log.e("IOEXCEPTION", e.toString());
+        }
     }
 }

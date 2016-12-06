@@ -141,7 +141,7 @@ public class FakeDataGenerator {
     private void createEventList(Context context) {
         int index = 0;
         for (int img : imageList) {
-            Event event = new Event();
+            Event event = Event.createNow();
             event.setImageHint(index + 10);
             event.setPath("android.resource://" + context.getPackageName() + "/" + img);
             event.setContent(imageTitles[index]);
@@ -152,6 +152,11 @@ public class FakeDataGenerator {
 
     public void fetchOrCreateRealUserObjects() throws com.parse.ParseException {
         aruneshUser = Backend.get().fetchUserFor(ARUNESH_USERID);
+        if (aruneshUser == null) {
+            aruneshUser = new User();
+            aruneshUser.setUserId(ARUNESH_USERID);
+            aruneshUser.save();
+        }
         oronUser = Backend.get().fetchUserFor(ORON_USERID);
         if (oronUser == null) {
             oronUser = new User();
@@ -229,7 +234,11 @@ public class FakeDataGenerator {
         oronUser.addToFriendsList(Arrays.asList(FAKE_USERS));
 
         pragyanUser.addToFriendsList(Arrays.asList(FAKE_USERS));
-
+        aruneshUser.addFriend(pragyanUser.getUserId());
+        pragyanUser.addFriend(aruneshUser.getUserId());
+        aruneshUser.addFriend(oronUser.getUserId());
+        oronUser.addFriend(aruneshUser.getUserId());
+        oronUser.addFriend(pragyanUser.getUserId());
     }
 
     private String getFakeUserIdAndShare(int index, Timeline timeline) {

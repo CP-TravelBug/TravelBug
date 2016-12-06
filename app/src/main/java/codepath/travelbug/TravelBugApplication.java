@@ -46,6 +46,7 @@ public class TravelBugApplication extends Application {
         // ParseUtil.testLogin();
         FlowManager.init(new FlowConfig.Builder(this).build());
         Backend.get().setApplicationContext(getApplicationContext());
+        // Utils.testGeocoder(getApplicationContext());
 
     }
 }

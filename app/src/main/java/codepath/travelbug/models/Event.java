@@ -11,6 +11,7 @@ import org.parceler.Parcel;
 import org.parceler.Transient;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +27,16 @@ public class Event extends ParseObject {
 
     public Event() {
         super();
+    }
+
+    /**
+     * Creates an Event with the date set to "now".
+     * @return
+     */
+    public static Event createNow() {
+        Event event = new Event();
+        event.setEventDate(new Date());
+        return event;
     }
 
     public long getEventId() {
@@ -59,6 +70,14 @@ public class Event extends ParseObject {
 
     public void setContent(String content) {
         put("content", content);
+    }
+
+    public void setEventDate(Date date) {
+        put("eventDate", date);
+    }
+
+    public Date getEventDate() {
+        return getDate("eventDate");
     }
 
     public Uri getContentUri() {

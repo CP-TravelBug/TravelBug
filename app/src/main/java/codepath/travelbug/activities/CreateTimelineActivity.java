@@ -46,6 +46,7 @@ import codepath.travelbug.fragments.NewTimelineFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
+import static android.R.attr.data;
 import static android.location.LocationManager.GPS_PROVIDER;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
@@ -262,10 +263,12 @@ public class CreateTimelineActivity extends AppCompatActivity
     private void createNewTimeline(String imagePath) {
         Timeline timeline = Timeline.createWithUniqueId();
         timeline.setUserId(Backend.get().getCurrentUser().getUserId());
-        Event event = new Event();
+        Event event = Event.createNow();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());
-        event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
+        if (mLocation != null) {
+            event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
+        }
         ArrayList<Event> eventList = new ArrayList<>();
         eventList.add(event);
         timeline.addEvents(eventList);
