@@ -32,14 +32,14 @@ public class TravelBugApplication extends Application {
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(FakeDataGenerator.FakeEvent.class);
         ParseObject.registerSubclass(Timeline.class);
-        // Parse.enableLocalDatastore(getApplicationContext());
+        Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(ParseUtil.APP_ID) // should correspond to APP_ID env variable
                 .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server(ParseUtil.PARSE_URL).build());
 
-       // Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         // Test parse, remove later.
