@@ -250,10 +250,12 @@ public class CreateTimelineActivity extends AppCompatActivity
         if (timeline == null) {
             timeline = Backend.get().getSharedTimeline(myTimelineIds.get(position));
         }
-        Event event = new Event();
+        Event event = Event.createNow();
         event.setPath(imagePath);
         event.setContent(pictureTitle.getText().toString());
-        event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
+        if (mLocation != null) {
+            event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
+        }
         timeline.getEventList().add(event);
         idOfTimelineCreated = myTimelineIds.get(position);
         Log.d("Existing Timeline",

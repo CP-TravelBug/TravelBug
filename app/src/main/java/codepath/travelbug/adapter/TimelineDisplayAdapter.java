@@ -60,7 +60,7 @@ public class TimelineDisplayAdapter extends
         Picasso.with(mContext).load(uri).resize(400 /* width */, 200).into(viewHolder.ivTimeline);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.US);
-        String date = sdf.format(event.getUpdatedAt());
+        String date = sdf.format(event.getEventDate());
         viewHolder.datePosted.setText(date);
         viewHolder.ivTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
