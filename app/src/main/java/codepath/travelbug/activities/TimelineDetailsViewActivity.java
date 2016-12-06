@@ -2,18 +2,15 @@ package codepath.travelbug.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import codepath.travelbug.R;
-import codepath.travelbug.adapter.TimelineDisplayAdapter;
-import codepath.travelbug.adapter.TimelineRecyclerViewAdapter;
+import codepath.travelbug.adapter.TimelineDetailsViewAdapter;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
@@ -41,7 +38,7 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
         events = timeline.getEventList();
         Log.d(TAG, events.toString());
 
-        TimelineRecyclerViewAdapter adapter = new TimelineRecyclerViewAdapter(this, events);
+        TimelineDetailsViewAdapter adapter = new TimelineDetailsViewAdapter(this, events);
         rvEvents.setAdapter(adapter);
         rvEvents.setLayoutManager(new LinearLayoutManager(this));
     }

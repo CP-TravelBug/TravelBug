@@ -56,7 +56,7 @@ public class TimelineDisplayAdapter extends
 
         viewHolder.tvContent.setText(timelineList.get(position).getTimelineTitle());
         Uri uri = event.getContentUri();
-        Picasso.with(mContext).load(uri).resize(400, 400).into(viewHolder.ivTimeline);
+        Picasso.with(mContext).load(uri).resize(400 /* width */, 200).into(viewHolder.ivTimeline);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.US);
         String date = sdf.format(event.getUpdatedAt());
