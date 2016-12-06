@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -89,10 +90,7 @@ public class ViewPagerFragment extends Fragment {
                 swipeContainer.setRefreshing(false);
             }
         });
-        swipeContainer.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_dark),
-                getResources().getColor(android.R.color.holo_orange_light),
-                getResources().getColor(android.R.color.holo_red_light));
+        swipeContainer.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.primary));
 
         timelineList = new LinkedList<>();
         adapter = new TimelineDisplayAdapter(getContext(), timelineList);
@@ -110,13 +108,15 @@ public class ViewPagerFragment extends Fragment {
             // ToDo Display a message to create a timeline
             Log.e(TAG, "No shared timelines yet ?");
         }
+        final int originalSize = adapter.getItemCount();
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
         timelineList.addAll(timelines);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+                lvTimeline.scrollToPosition(0);
             }
         });
     }
@@ -136,6 +136,7 @@ public class ViewPagerFragment extends Fragment {
         // Get Event objects and displays as timelines
         // Filler code until we read values from DB or server
         Collection<Timeline> timelines = Backend.get().getMyTimelines();
+        final int originalSize = adapter.getItemCount();
         if (timelines.size() == 0) {
             //Toast.makeText(getActivity(), "No timelines created yet", Toast.LENGTH_LONG).show();
             // Todo Display a message to create timeline
@@ -144,12 +145,12 @@ public class ViewPagerFragment extends Fragment {
 
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
-
         timelineList.addAll(timelines);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+                lvTimeline.scrollToPosition(0);
             }
         });
     }

@@ -1,5 +1,6 @@
 package codepath.travelbug.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -72,9 +73,11 @@ public class TimelineDisplayAdapter extends
         viewHolder.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Activity activity = (Activity) mContext;
                 Intent i = new Intent(mContext, ShareActivity.class);
                 i.putExtra("timelineId", timelineList.get(position).getTimelineId());
-                mContext.startActivity(i);
+                activity.startActivity(i);
+                activity.overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
         List<Long> listOfSharedTimelineIds = Backend.get().getCurrentUser().getSharedTimelines();
@@ -98,7 +101,6 @@ public class TimelineDisplayAdapter extends
 
                 ivTimeline = (ImageView) itemView.findViewById(R.id.ivPhoto);
                 tvContent = (TextView) itemView.findViewById(R.id.tvContent);
-                ;
                 btnShare = (Button) itemView.findViewById(R.id.shareButton);
                 datePosted = (TextView) itemView.findViewById(R.id.datePosted);
             }

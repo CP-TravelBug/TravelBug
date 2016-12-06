@@ -107,10 +107,19 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
