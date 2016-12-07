@@ -22,6 +22,7 @@ import codepath.travelbug.activities.TimelineDetailsViewActivity;
 import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
+import codepath.travelbug.models.User;
 
 public class TimelineDisplayAdapter extends
         RecyclerView.Adapter<TimelineDisplayAdapter.ViewHolder> {
@@ -80,20 +81,23 @@ public class TimelineDisplayAdapter extends
                 activity.overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
-        List<Long> listOfSharedTimelineIds = Backend.get().getCurrentUser().getSharedTimelines();
-        for (Long timelineId : listOfSharedTimelineIds) {
-            if (timelineId == timelineList.get(position).getTimelineId()) {
-                viewHolder.btnShare.setVisibility(View.GONE);
-            } else {
+            Timeline timeline = timelineList.get(position);
+            if(timeline.getUserId().equals(Backend.get().getCurrentUser().getUserId())) {
                 viewHolder.btnShare.setVisibility(View.VISIBLE);
             }
-        }
+            else {
+                User user = Backend.get().fetchUserFor(timeline.getUserId());
+                viewHolder.sharedByText.setText("Shared By "+ user.getFirstName());
+                viewHolder.btnShare.setVisibility(View.GONE);
+            }
+
     }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             ImageView ivTimeline;
             TextView tvContent;
             TextView datePosted;
+            TextView sharedByText;
             Button btnShare;
 
             public ViewHolder(View itemView) {
@@ -103,6 +107,7 @@ public class TimelineDisplayAdapter extends
                 tvContent = (TextView) itemView.findViewById(R.id.tvContent);
                 btnShare = (Button) itemView.findViewById(R.id.shareButton);
                 datePosted = (TextView) itemView.findViewById(R.id.datePosted);
+                sharedByText = (TextView)itemView.findViewById(R.id.sharedByText);
             }
         }
     @Override

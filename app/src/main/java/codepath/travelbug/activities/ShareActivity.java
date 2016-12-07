@@ -1,5 +1,6 @@
 package codepath.travelbug.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,8 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,8 +102,10 @@ public class ShareActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Please select at least one friend to share with", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    setResult(RESULT_OK);
-                    finish();
+                    Intent intent = new Intent(ShareActivity.this, ScrollingTimelineActivity.class);
+                    intent.putExtra("user", Parcels.wrap(Backend.get().getCurrentUser()));
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_out, R.anim.left_in);
                 }
             }
         });
