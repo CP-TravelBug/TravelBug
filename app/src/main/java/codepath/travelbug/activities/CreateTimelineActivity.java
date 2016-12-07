@@ -252,6 +252,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         }
         Event event = Event.createNow();
         event.setPath(imagePath);
+        event.setLocal();
         event.setContent(pictureTitle.getText().toString());
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
@@ -267,6 +268,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         timeline.setUserId(Backend.get().getCurrentUser().getUserId());
         Event event = Event.createNow();
         event.setPath(imagePath);
+        event.setLocal();
         event.setContent(pictureTitle.getText().toString());
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));

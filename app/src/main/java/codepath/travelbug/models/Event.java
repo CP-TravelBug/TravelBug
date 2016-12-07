@@ -23,7 +23,7 @@ import java.util.List;
 @Parcel(analyze = Event.class)
 @ParseClassName("Event")
 public class Event extends ParseObject {
-    long eventId;
+    private boolean isLocal = false; // If the image is a local one.
 
     public Event() {
         super();
@@ -36,6 +36,7 @@ public class Event extends ParseObject {
     public static Event createNow() {
         Event event = new Event();
         event.setEventDate(new Date());
+        event.isLocal = false;
         return event;
     }
 
@@ -80,9 +81,12 @@ public class Event extends ParseObject {
         return getDate("eventDate");
     }
 
+    public void setLocal() {
+        isLocal = true;
+    }
+
     public Uri getContentUri() {
-        return Uri.parse(getPath());
-        //return Uri.fromFile(new File(getPath()));
+        return isLocal ? Uri.fromFile(new File(getPath())) : Uri.parse(getPath());
     }
 
     public void setGeoPoint(ParseGeoPoint geoPoint) {
