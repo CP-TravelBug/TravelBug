@@ -1,5 +1,7 @@
 package codepath.travelbug.models;
 
+import android.util.Log;
+
 import com.facebook.AccessToken;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -16,6 +18,7 @@ import codepath.travelbug.backend.ParseUtil;
 
 import static android.R.attr.name;
 
+import static codepath.travelbug.TravelBugApplication.TAG;
 
 @Parcel(analyze = User.class)
 @ParseClassName("User")
@@ -23,6 +26,9 @@ public class User extends ParseObject {
     public static final String PARSE_FIELD_USERID = "userId";
 
     public boolean isSelected;
+
+    public String fbPictureUrl;
+    public String localPicturePath;
 
 
     public User() {
@@ -104,6 +110,14 @@ public class User extends ParseObject {
             user.setFirstName(jsonObject.getString("first_name"));
             user.setLastName(jsonObject.getString("last_name"));
             user.setFullName(jsonObject.getString("name"));
+            JSONObject pictureObject = jsonObject.getJSONObject("picture");
+            if (pictureObject != null) {
+                JSONObject data = pictureObject.getJSONObject("data");
+                if (data != null) {
+                    user.fbPictureUrl = data.getString("url");
+                    Log.i(TAG, "fb picture: " + user.fbPictureUrl);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -112,5 +126,11 @@ public class User extends ParseObject {
 
     public void setFullName(String fullName) {
         put("fullName", fullName);
+    }
+
+    public String getPicture() {
+        if (fbPictureUrl != null) return fbPictureUrl;
+        if (localPicturePath != null) return localPicturePath;
+        return "";
     }
 }

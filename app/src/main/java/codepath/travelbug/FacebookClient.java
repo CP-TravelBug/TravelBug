@@ -101,6 +101,7 @@ public class FacebookClient {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         if (response != null) {
+                            Log.i(TAG, "User login:" + response.toString());
                             User user = User.fromJSONObject(response.getJSONObject());
                             user.setUserId(accessToken.getUserId());
                             userCallback.onResult(user);

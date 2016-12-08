@@ -45,6 +45,22 @@
         android:layout_marginLeft="-260dp"
         android:background="@drawable/vertical_line"/>
 
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/hilaryduff"
+        app:riv_border_color="@color/white"
+        app:riv_border_width="2dp"
+        app:riv_corner_radius="25dp"
+        app:riv_mutate_background="true"
+        android:layout_alignBottom="@id/ivPhoto"
+        android:layout_alignParentRight="true"
+        app:riv_oval="true"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="10dp"
         android:layout_below="@id/ivPhoto"

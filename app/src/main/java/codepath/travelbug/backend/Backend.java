@@ -1,9 +1,11 @@
 package codepath.travelbug.backend;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -29,6 +31,7 @@ import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static codepath.travelbug.TravelBugApplication.TAG;
 
 public class Backend {
@@ -45,6 +48,8 @@ public class Backend {
     private LinkedList<Timeline> sharedTimelinesList; // We stores this list in rev chrono order.
     private User currentUser;
     private List<User> friendsList;
+
+    private HashMap<Long, User> userCache; // Cache of all other user objects.
 
     private ExecutorService executorService;
 
@@ -65,6 +70,7 @@ public class Backend {
         myTimelines = new HashMap<Long, Timeline>();
         myTimelinesList = new LinkedList<>();
         sharedTimelinesList = new LinkedList<>();
+        userCache = new HashMap<>();
         sharedTimelines = new HashMap<Long, Timeline>();
         executorService = Executors.newCachedThreadPool();
         callbackSet = new HashSet<>();
@@ -174,6 +180,40 @@ public class Backend {
         });
     }
 
+    public static abstract class ResultRunnable<T> implements Runnable {
+        T result;
+        void setResult(T result) {
+            this.result = result;
+        }
+
+        public T getResult() {
+            return result;
+        }
+    }
+
+    public void fetchUser(final String userId, final Handler uiHandler, final ResultRunnable<User> resultRunnable) {
+        User user = null;
+        if (userId == currentUser.getUserId()) {
+            user = currentUser;
+            resultRunnable.setResult(user);
+            uiHandler.post(resultRunnable);
+        } else if (userCache.get(userId) != null) {
+            user = userCache.get(userId);
+            resultRunnable.setResult(user);
+            uiHandler.post(resultRunnable);
+        } else {
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    User user2 = getUser(userId);
+                    resultRunnable.setResult(user2);
+                    uiHandler.post(resultRunnable);
+                }
+            });
+            return;
+        }
+    }
+
     public synchronized void setFriendsList(List<User> friendsList) {
         this.friendsList = friendsList;
     }
@@ -206,6 +246,8 @@ public class Backend {
             User fetchedUser = query.getFirst();
             Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
             if (fetchedUser != null) {
+                fetchedUser.fbPictureUrl = currentUser.fbPictureUrl;
+                fetchedUser.localPicturePath = currentUser.localPicturePath;
                 currentUser = fetchedUser;
                 try {
                     if (!cacheEnabled) currentUser.pin();
@@ -217,6 +259,25 @@ public class Backend {
         } catch (ParseException e) {
             createUser(user);
         }
+    }
+
+    private User getUser(String userId) {
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereEqualTo(User.PARSE_FIELD_USERID, userId);
+        if (cacheEnabled) {
+            query.fromLocalDatastore();
+        }
+        try {
+            User fetchedUser = query.getFirst();
+            Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
+            if (fetchedUser != null) {
+                if (!cacheEnabled) fetchedUser.pin();
+                return fetchedUser;
+            }
+        } catch (ParseException e) {
+
+        }
+        return null;
     }
 
     private void createUser(User user) {
