@@ -115,17 +115,13 @@ public class ViewPagerFragment extends Fragment {
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
         timelineList.addAll(timelines);
-        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
-        lvTimeline.setAdapter(adapter);
-        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
-        lvTimeline.setAdapter(adapter);
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
-//                lvTimeline.scrollToPosition(0);
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+                lvTimeline.scrollToPosition(0);
+            }
+        });
     }
 
     @Override
@@ -153,16 +149,13 @@ public class ViewPagerFragment extends Fragment {
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
         timelineList.addAll(timelines);
-        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
-        lvTimeline.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
-//                lvTimeline.scrollToPosition(0);
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+                lvTimeline.scrollToPosition(0);
+            }
+        });
     }
 
     public void refreshHomeTimeline() {
