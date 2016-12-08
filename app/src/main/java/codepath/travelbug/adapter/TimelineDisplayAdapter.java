@@ -84,8 +84,9 @@ public class TimelineDisplayAdapter extends
                 i.putExtra("timelineId", timelineList.get(position).getTimelineId());
                 Pair<View, String> p1 = Pair.create((View)viewHolder.tvContent, "title");
                 Pair<View, String> p2 = Pair.create((View)viewHolder.ivTimeline, "coverPhoto");
+                Pair<View, String> p3 = Pair.create((View)viewHolder.gradientView, "gradient");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) mContext, p1, p2);
+                        makeSceneTransitionAnimation((Activity) mContext, p1, p2, p3);
                 mContext.startActivity(i, options.toBundle());
             }
         });
@@ -116,6 +117,7 @@ public class TimelineDisplayAdapter extends
             TextView datePosted;
             TextView sharedByText;
             Button btnShare;
+            View gradientView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -125,6 +127,7 @@ public class TimelineDisplayAdapter extends
                 btnShare = (Button) itemView.findViewById(R.id.shareButton);
                 datePosted = (TextView) itemView.findViewById(R.id.datePosted);
                 sharedByText = (TextView)itemView.findViewById(R.id.sharedByText);
+                gradientView = itemView.findViewById(R.id.gradientView);
             }
         }
     @Override

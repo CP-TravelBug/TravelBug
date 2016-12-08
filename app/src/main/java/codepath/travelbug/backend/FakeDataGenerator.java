@@ -80,7 +80,15 @@ public class FakeDataGenerator {
           R.raw.dt_pic5,
           R.raw.dt_pic6,
           R.raw.dt_pic7,
-          R.raw.dt_pic8,
+          R.raw.dt_pic8,  // index 7
+          R.raw.cebu1, // start index = 8
+          R.raw.cebu2,  // 9
+          R.raw.cebu3,  // 10
+          R.raw.cebu4,  // 11
+          R.raw.cebu5,  // 12
+          R.raw.cebu6,  // 13
+          R.raw.cebu7,  // 14
+          R.raw.cebu8,  // stop index = 15
   };
 
         public static final int [] profileImageList = {
@@ -115,7 +123,7 @@ public class FakeDataGenerator {
     private User aruneshUser;
     private User oronUser;
     private User pragyanUser;
-
+    private Context context;
     /**
      * A fake event sub-class so that we can override some of the parameters.
      */
@@ -138,6 +146,7 @@ public class FakeDataGenerator {
     }
 
     FakeDataGenerator(Context context) {
+        this.context = context;
         createEventList(context);
     }
 
@@ -153,6 +162,31 @@ public class FakeDataGenerator {
             index ++;
             fakeEventList.add(event);
         }
+    }
+
+    private Event createEvent(int index, int resourceId, String content) {
+        // String uniqueFilename = Utils.generateUniqueFileName();
+        Event event = Event.createNow();
+        event.setImageHint(index + 10);
+        event.setPath("android.resource://" + context.getPackageName() + "/" + resourceId);
+        event.setContent(content);
+        return event;
+    }
+
+    private void createCebuTimeline() {
+        // http://www.mikesroadtrip.com/more-fun-in-cebu-philippines/
+
+        Timeline timeline = Timeline.createWithUniqueId();
+        timeline.setTimelineTitle("");
+        List<Event> eventList = new LinkedList<>();
+        eventList.add(createEvent(8, R.raw.cebu1, ""));
+        eventList.add(createEvent(9, R.raw.cebu2, ""));
+        eventList.add(createEvent(10, R.raw.cebu3, ""));
+        eventList.add(createEvent(11, R.raw.cebu4, ""));
+        eventList.add(createEvent(12, R.raw.cebu5, ""));
+        eventList.add(createEvent(13, R.raw.cebu6, ""));
+        eventList.add(createEvent(14, R.raw.cebu7, ""));
+        eventList.add(createEvent(15, R.raw.cebu8, ""));
     }
 
     public void fetchOrCreateRealUserObjects() throws com.parse.ParseException {
@@ -295,6 +329,7 @@ public class FakeDataGenerator {
             Log.e("ERROR", "Error can't generate fake data.");
         }
     }
+
 
     private void persistUserData(User user) {
         ParseQuery<User> query = ParseQuery.getQuery(User.class);
