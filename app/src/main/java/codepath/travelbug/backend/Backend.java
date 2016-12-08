@@ -34,6 +34,7 @@ import static codepath.travelbug.TravelBugApplication.TAG;
 public class Backend {
 
     private static final Backend INSTANCE = new Backend();
+    private static final String LOCAL_CACHE = "TravelBugCache";
 
     // Timelines owned by the current user.
     private HashMap<Long, Timeline> myTimelines;
@@ -54,6 +55,7 @@ public class Backend {
 
     private HashSet<DataChangedCallback> callbackSet;
     private Context context;
+    private boolean cacheEnabled = false;
 
     public interface DataChangedCallback {
         void onDataChanged();
@@ -66,10 +68,16 @@ public class Backend {
         sharedTimelines = new HashMap<Long, Timeline>();
         executorService = Executors.newCachedThreadPool();
         callbackSet = new HashSet<>();
+        cacheEnabled = false;
+        // enableCache();
     }
 
     public void setApplicationContext(Context context) {
         this.context = context;
+    }
+
+    public void enableCache() {
+        cacheEnabled = true;
     }
 
     public void createFakeTimelines(Context context, String userId) {
@@ -191,11 +199,19 @@ public class Backend {
     private void fetchOrCreateUser(User user) {
         ParseQuery<User> query = ParseQuery.getQuery(User.class);
         query.whereEqualTo(User.PARSE_FIELD_USERID, user.getUserId());
+        if (cacheEnabled) {
+            query.fromLocalDatastore();
+        }
         try {
             User fetchedUser = query.getFirst();
             Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
             if (fetchedUser != null) {
                 currentUser = fetchedUser;
+                try {
+                    if (!cacheEnabled) currentUser.pin();
+                } catch (RuntimeException e) {
+                    Log.e(TAG, e.toString());
+                }
                 updateFetchedUserTimelines(fetchedUser);
             }
         } catch (ParseException e) {
@@ -207,6 +223,7 @@ public class Backend {
         try {
             Log.i(TAG, "Creating new user: " + user.getFullName());
             user.save();
+            user.pin();
         } catch (ParseException e) {
             Log.e(TAG, "Could not save user to the server.");
         }
@@ -248,10 +265,14 @@ public class Backend {
         ParseQuery<Timeline> parseQuery = ParseQuery.getQuery(Timeline.class);
         parseQuery.whereContainedIn(Timeline.PARSE_FIELD_TIMELINEID, idList);
         List<Timeline> resultList = null;
+        if (cacheEnabled) {
+            parseQuery.fromLocalDatastore();
+        }
         try {
             resultList = parseQuery.find();
             if (resultList != null ) {
                 Log.e(TAG, "Size of resultList: " + resultList.size());
+                if (!cacheEnabled) ParseObject.pinAll(resultList);
             } else {
                 Log.e(TAG, "Null resultList.");
             }
@@ -265,7 +286,9 @@ public class Backend {
         List<Event> eventList = timeline.getEventList();
         if (eventList != null) {
             try {
-                ParseObject.fetchAll(eventList);
+                if (!fetchAllEventsThroughLocalDatastore(eventList)) {
+                    ParseObject.fetchAll(eventList);
+                }
                 fixEventImagePath(eventList);
             } catch (ParseException e) {
                 Log.e(TAG, "Fetch event failed.");
@@ -274,6 +297,26 @@ public class Backend {
             Log.i(TAG, "Null event list received.");
         }
         fixTimelineImagePath(timeline);
+    }
+
+    /**
+     *
+     * @param eventList
+     * @return True if local fetch suceeeded, false otherwise.
+     */
+    private boolean fetchAllEventsThroughLocalDatastore(List<Event> eventList) {
+        if (cacheEnabled) {
+            for (Event event : eventList) {
+                try {
+                    event.fetchFromLocalDatastore();
+                } catch (ParseException e) {
+                    return false;
+                }
+            }
+            Log.i(TAG, "Local datastore worked !");
+            return true;
+        }
+        return false;
     }
 
     private void fixEventImagePath(List<Event> eventList) {
