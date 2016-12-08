@@ -153,13 +153,12 @@ public class FakeDataGenerator {
     }
 
     private void createEventList(Context context) {
-        int index = 0;
-        for (int img : imageList) {
+        for (int index = 0; index < 8; index ++) {
             // ParseFile file = Backend.uploadImageSync(new File());
             // String uniqueFilename = Utils.generateUniqueFileName();
             Event event = Event.createNow();
             event.setImageHint(index + 10);
-            event.setPath("android.resource://" + context.getPackageName() + "/" + img);
+            event.setPath("android.resource://" + context.getPackageName() + "/" + imageList[index]);
             event.setContent(imageTitles[index]);
             index ++;
             fakeEventList.add(event);
@@ -179,7 +178,7 @@ public class FakeDataGenerator {
         // http://www.mikesroadtrip.com/more-fun-in-cebu-philippines/
 
         Timeline timeline = Timeline.createWithUniqueId();
-        timeline.setTimelineTitle("It’s more fun in the Philippines when you lose your luggage in Cebu.");
+        timeline.setTimelineTitle("Fun in Cebu Philippines !");
         timeline.setInfo("Cebu is very rich when it comes to historical sites from the time of Spanish rule in the Philippines." +
         "It also has one of the best scuba diving areas in the Philippines. It was the last day of our family trip " +
                 " and this was going to be one of the most memorable trips of my life. Everything has been so well " +
@@ -188,7 +187,7 @@ public class FakeDataGenerator {
         " as they felt responsible for losing the luggage -- which they eventually found using the security cameras !");
 
         List<Event> eventList = new LinkedList<>();
-        Event event = createEvent(8, R.raw.cebu1, "Private balcony of the Luxurious Shangri-La’s Mactan Resort and Spa"));
+        Event event = createEvent(8, R.raw.cebu1, "Private balcony of the Luxurious Shangri-La’s Mactan Resort and Spa");
         event.setGeoPoint(new ParseGeoPoint(10.30791, 124.019487));
         eventList.add(event);
         eventList.add(createEvent(9, R.raw.cebu2, "My beautiful hotel room."));
@@ -201,9 +200,14 @@ public class FakeDataGenerator {
         eventList.add(createEvent(14, R.raw.cebu7, "Traditional Philippines Hilot massage using warm coconut oil and banana leaves."));
         eventList.add(createEvent(15, R.raw.cebu8, "The Cebu dock."));
         timeline.addEvents(eventList);
+
         timeline.setUserId(aruneshUser.getUserId());
+        aruneshUser.addTimeline(timeline.getTimelineId());
         timeline.shareWith(pragyanUser.getUserId());
+        pragyanUser.addSharedTimeline(timeline.getTimelineId());
         timeline.shareWith(oronUser.getUserId());
+        oronUser.addSharedTimeline(timeline.getTimelineId());
+
         fakeTimelines.add(timeline);
     }
 

@@ -85,7 +85,7 @@ public class Timeline extends ParseObject {
         put("info", info);
     }
     public String getInfo() {
-        getString("info");
+        return getString("info");
     }
 
     public List<Event> getEventList() {

@@ -63,7 +63,7 @@ public class TimelineDetailsViewAdapter extends
         TextView tvEvent = holder.tvEvent;
         tvEvent.setText(event.getContent());
         RoundedImageView ivEventImage = holder.ivEventImage;
-        Picasso.with(getContext()).load(event.getContentUri()).into(ivEventImage);
+        Picasso.with(getContext()).load(event.getContentUri()).centerCrop().fit().into(ivEventImage);
     }
 
     @Override
