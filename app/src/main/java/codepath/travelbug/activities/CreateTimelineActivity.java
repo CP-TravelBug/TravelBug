@@ -51,12 +51,12 @@ public class CreateTimelineActivity extends AppCompatActivity
     ImageView picView;
     ImageView location;
     Button saveButton;
-    EditText pictureTitle;
+    TextView pictureTitle;
     String resizedFilePath;
     Long idOfTimelineCreated;
     List<Long> myTimelineIds;
-    FloatingActionButton fbAddToTimeline;
-    FloatingActionButton fbCreateNewTimeline;
+    ImageView ivAddToExistingTimeline;
+    ImageView ivCreateNewTimeline;
     int spinnerSelectedPosition;
     boolean isNewTimeLine;
     boolean isNothingSelected = true;
@@ -82,7 +82,8 @@ public class CreateTimelineActivity extends AppCompatActivity
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         eventName = getIntent().getExtras().getString("event_name");
         picView = (ImageView)findViewById(R.id.ivCameraImage);
-        // pictureTitle = (EditText)findViewById(R.id.editText);
+        pictureTitle = (TextView)findViewById(R.id.eventTitle);
+        pictureTitle.setText(eventName);
 
         saveButton = (Button) findViewById(R.id.btnSaveTimeline);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -104,16 +105,16 @@ public class CreateTimelineActivity extends AppCompatActivity
             Log.d(TAG, "Error reading image taken.");
         }
 
-        fbAddToTimeline = (FloatingActionButton) findViewById(R.id.fab_addToExistingTimeline);
-        fbAddToTimeline.setOnClickListener(new View.OnClickListener() {
+        ivAddToExistingTimeline = (ImageView) findViewById(R.id.ivAddToTimeline);
+        ivAddToExistingTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchAddToExistingTimeline();
             }
         });
 
-        fbCreateNewTimeline = (FloatingActionButton) findViewById(R.id.fab_createNewTimeline);
-        fbCreateNewTimeline.setOnClickListener(new View.OnClickListener() {
+        ivCreateNewTimeline = (ImageView) findViewById(R.id.ivCreateNewTimeline);
+        ivCreateNewTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCreateNewTimeline();

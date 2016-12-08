@@ -23,7 +23,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="470dp"
-            android:background="@drawable/gradient_bg"/>
+            android:background="@drawable/gradient_bg"
+            android:layout_above="@+id/btnSaveTimeline" />
 
         <Button
             android:text="@string/save_timeline"
@@ -37,43 +38,65 @@
             android:background="@color/primary"
             android:textSize="15sp"/>
 
-        <!--<EditText-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ellipsize="start"-->
-            <!--android:gravity="center"-->
-            <!--android:id="@+id/editText"-->
-            <!--android:hint="@string/new_event_text"-->
-            <!--android:textColorHint="@color/material_drawer_hint_text"-->
-            <!--android:textColor="@color/primaryText"-->
-            <!--android:textStyle="italic"-->
-            <!--android:textSize="20sp"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:layout_above="@+id/btnSaveTimeline"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentEnd="true" />-->
-
-        <TextView
-            android:text="Geo Tag your awesome event.."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:id="@+id/tvLocation"
-            android:layout_marginBottom="143dp"
-            android:layout_alignBottom="@+id/ivCameraImage"
-            android:layout_centerHorizontal="true" />
-
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/ic_location_icon"
             android:id="@+id/ivLocationIcon"
             android:scaleType="fitXY"
-            android:layout_marginBottom="22dp"
-            android:layout_above="@+id/tvLocation"
+            android:layout_marginStart="15dp"
+            android:layout_above="@+id/btnSaveTimeline"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/ic_add_to_existing_timeline"
+            android:id="@+id/ivAddToTimeline"
+            android:layout_above="@+id/btnSaveTimeline"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/ic_create_new_timeline"
+            android:id="@+id/ivCreateNewTimeline"
+            android:layout_above="@+id/btnSaveTimeline"
+            android:layout_centerHorizontal="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/md_black_1000"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="start"
+            android:gravity="center"
+            android:id="@+id/eventTitle"
+            android:hint="@string/new_event_text"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:textSize="30sp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:text="Santa Clara, United States"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:id="@+id/tvLocation"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/eventTitle"
             android:layout_centerHorizontal="true" />
         <!--<RadioGroup-->
             <!--android:layout_below="@+id/editText"-->
@@ -116,38 +139,38 @@
             <!--android:layout_marginStart="45dp" />-->
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_createNewTimeline"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:elevation="6dp"
-        android:clickable="true"
-        android:src="@drawable/ic_create_new_timeline"
-        android:tint="@color/white"
-        app:layout_anchor="@id/activity_create_timeline"
-        app:layout_anchorGravity="bottom|right|end"
-        app:borderWidth="0dp"
-        app:rippleColor="@android:color/transparent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="86dp" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab_createNewTimeline"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:elevation="6dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/ic_create_new_timeline"-->
+        <!--android:tint="@color/white"-->
+        <!--app:layout_anchor="@id/activity_create_timeline"-->
+        <!--app:layout_anchorGravity="bottom|right|end"-->
+        <!--app:borderWidth="0dp"-->
+        <!--app:rippleColor="@android:color/transparent"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:layout_marginBottom="86dp" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_addToExistingTimeline"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:elevation="6dp"
-        android:clickable="true"
-        android:src="@drawable/ic_add_to_existing_timeline"
-        android:tint="@color/white"
-        app:layout_anchor="@id/activity_create_timeline"
-        app:layout_anchorGravity="bottom|right|end"
-        app:borderWidth="0dp"
-        app:rippleColor="@android:color/transparent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab_addToExistingTimeline"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:elevation="6dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/ic_add_to_existing_timeline"-->
+        <!--android:tint="@color/white"-->
+        <!--app:layout_anchor="@id/activity_create_timeline"-->
+        <!--app:layout_anchorGravity="bottom|right|end"-->
+        <!--app:borderWidth="0dp"-->
+        <!--app:rippleColor="@android:color/transparent"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:layout_marginBottom="16dp" />-->
 
 </android.support.design.widget.CoordinatorLayout>
