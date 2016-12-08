@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import codepath.travelbug.R;
+import codepath.travelbug.Utils;
 import codepath.travelbug.activities.ShareActivity;
 import codepath.travelbug.activities.TimelineDetailsViewActivity;
 import codepath.travelbug.backend.Backend;
@@ -70,12 +71,11 @@ public class TimelineDisplayAdapter extends
         }
         Picasso.with(mContext).load(uri).centerCrop().fit().into(viewHolder.ivTimeline);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.US);
         Date timelineDate = timeline.getStartDate();
         if (timelineDate == null) {
             timelineDate = firstEvent.getEventDate();
         }
-        String date = sdf.format(timelineDate);
+        String date = Utils.formatDate(timelineDate);
         viewHolder.datePosted.setText(date);
         viewHolder.ivTimeline.setOnClickListener(new View.OnClickListener() {
             @Override

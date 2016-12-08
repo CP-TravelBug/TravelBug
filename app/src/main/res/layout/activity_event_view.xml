@@ -31,6 +31,18 @@
         android:textColor="@color/white"
         android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/eventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/ivEventImage"
+        android:layout_alignRight="@id/ivEventImage"
+        android:text="@string/event_content"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:textSize="12sp"/>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"

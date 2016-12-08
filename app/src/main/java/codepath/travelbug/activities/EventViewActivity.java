@@ -1,5 +1,7 @@
 package codepath.travelbug.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -24,16 +27,22 @@ import org.parceler.Parcels;
 import java.util.Date;
 
 import codepath.travelbug.R;
+import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.CustomWindowAdapter;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.User;
 
+import static android.R.attr.bitmap;
+import static codepath.travelbug.R.drawable.common_full_open_on_phone;
 import static codepath.travelbug.R.drawable.location;
+import static codepath.travelbug.R.id.eventTitle;
 import static codepath.travelbug.TravelBugApplication.TAG;
+import static codepath.travelbug.Utils.formatDate;
 
 public class EventViewActivity extends AppCompatActivity implements OnMapReadyCallback {
     TextView tvEventText;
     ImageView ivEventImage;
+    TextView tvDate;
     boolean hasGeoPoint = false;
     double lat, lng;
     private GoogleMap mMap;
@@ -45,10 +54,16 @@ public class EventViewActivity extends AppCompatActivity implements OnMapReadyCa
         setContentView(R.layout.activity_event_view);
         tvEventText = (TextView) findViewById(R.id.eventLabel);
         ivEventImage = (ImageView) findViewById(R.id.ivEventImage);
+        tvDate = (TextView) findViewById(R.id.eventDate);
 
-        String eventTitle = getIntent().getStringExtra("eventTitle");
+        String eventTitle = "\"" + getIntent().getStringExtra("eventTitle") +"\"";
         Uri eventUri = (Uri) getIntent().getParcelableExtra("eventUri");
         Date date = (Date) getIntent().getSerializableExtra("eventDate");
+
+        if (date != null) {
+            tvDate.setText(Utils.formatDate(date));
+        }
+
         if (getIntent().getBooleanExtra("hasGeoPoint", false)) {
             hasGeoPoint = true;
             lat = getIntent().getDoubleExtra("lat", 0);

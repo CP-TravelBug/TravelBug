@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ import static codepath.travelbug.R.id.tvLocation;
  */
 
 public class Utils {
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd MMM", Locale.US);
     public static final Random RANDOM = new Random(System.currentTimeMillis());
     public static final String PHOTO_FILE_PREFIX = "TravelBug";
     public static final String APP_TAG = "TravelBug";
@@ -125,5 +127,9 @@ public class Utils {
         } catch (IOException e) {
             Log.e("IOEXCEPTION", e.toString());
         }
+    }
+
+    public static String formatDate(Date date) {
+        return SDF.format(date);
     }
 }
