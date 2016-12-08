@@ -73,8 +73,6 @@
             android:textSize="20sp"
             android:id="@+id/tvContent"
             android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@+id/view"
-            android:layout_alignEnd="@+id/sharedByText"
             android:layout_marginBottom="30dp" />
 
     </RelativeLayout>
