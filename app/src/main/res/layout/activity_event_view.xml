@@ -31,6 +31,22 @@
         android:textColor="@color/white"
         android:textSize="18sp"/>
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        class ="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivEventImage"
+        tools:context="codepath.travelbug.fragments.GoogleMapsFragment" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/map"
+        android:background="@drawable/gradient_timelinecover_bg"/>
+
 </RelativeLayout>
 
 <!--
