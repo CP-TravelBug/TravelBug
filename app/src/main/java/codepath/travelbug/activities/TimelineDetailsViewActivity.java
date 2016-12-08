@@ -78,6 +78,9 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
         if (info != null && !info.isEmpty()) {
             tvInfoText.setText(info);
             cvInfoView.setVisibility(View.VISIBLE);
+        } else {
+            cvInfoView.setVisibility(View.GONE);
+            tvInfoText.setVisibility(View.GONE);
         }
 
         TimelineDetailsViewAdapter adapter = new TimelineDetailsViewAdapter(this, events);
