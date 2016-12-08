@@ -185,6 +185,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
                 long idOfTimelineCreated = data.getLongExtra("idOfTimelineCreated", 0);
                 Timeline tm = Backend.get().getTimeline(idOfTimelineCreated);
                 // Toast.makeText(this, Long.toString(idOfTimelineCreated), Toast.LENGTH_LONG).show();
+                Log.i(TAG, "Refreshing all timelines for new timeline id: " + tm.getTimelineId());
                 fadapter.refreshAllTimelines();
             } else {
                 // cancelled event creation.

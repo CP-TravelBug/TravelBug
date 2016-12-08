@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import codepath.travelbug.FacebookClient;
 import codepath.travelbug.R;
+import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.User;
 
 import com.facebook.AccessToken;

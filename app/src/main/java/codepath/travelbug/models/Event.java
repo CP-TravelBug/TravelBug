@@ -47,7 +47,7 @@ public class Event extends ParseObject {
     }
 
     public ParseFile getImageFile() {
-        getParseFile("imageFile");
+        return getParseFile("imageFile");
     }
 
     public void setEventId(long eventId) {
