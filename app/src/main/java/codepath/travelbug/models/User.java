@@ -29,6 +29,7 @@ public class User extends ParseObject {
 
     public String fbPictureUrl;
     public String localPicturePath;
+    public String highResPicturePath;
 
 
     public User() {
@@ -56,6 +57,14 @@ public class User extends ParseObject {
 
     public void addToSharedTimelines(List<Long> timelines) {
         addAllUnique("sharedTimelines", timelines);
+    }
+
+    public void addProfileHint(int hint) {
+        put("profileHint", hint);
+    }
+
+    public int getProfileHint() {
+        return getInt("profileHint");
     }
 
     public void addToTimelines(List<Long> timelines) {
@@ -129,6 +138,13 @@ public class User extends ParseObject {
     }
 
     public String getPicture() {
+        if (fbPictureUrl != null) return fbPictureUrl;
+        if (localPicturePath != null) return localPicturePath;
+        return "";
+    }
+
+    public String getPicturePreferHighRes() {
+        if (highResPicturePath != null) return  highResPicturePath;
         if (fbPictureUrl != null) return fbPictureUrl;
         if (localPicturePath != null) return localPicturePath;
         return "";

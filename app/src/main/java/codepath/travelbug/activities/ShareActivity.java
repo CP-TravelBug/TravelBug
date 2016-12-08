@@ -134,7 +134,11 @@ public class ShareActivity extends AppCompatActivity {
         List<String> friendListUserIds = Backend.get().getCurrentUser().getFriendList();
         List<User> friendList = new ArrayList<>();
         for(String userId: friendListUserIds) {
-            friendList.add(Backend.get().fetchUserFor(userId));
+            User friendUser = Backend.get().checkUserCache(userId);
+            if (friendUser == null) {
+                friendUser = Backend.get().fetchUserFor(userId);
+            }
+            friendList.add(friendUser);
         }
         return friendList;
     }

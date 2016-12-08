@@ -17,6 +17,7 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 
+import codepath.travelbug.FacebookClient;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -49,7 +51,7 @@ public class Backend {
     private User currentUser;
     private List<User> friendsList;
 
-    private HashMap<Long, User> userCache; // Cache of all other user objects.
+    private HashMap<String, User> userCache; // Cache of all other user objects.
 
     private ExecutorService executorService;
 
@@ -191,6 +193,10 @@ public class Backend {
         }
     }
 
+    public User checkUserCache(String userId) {
+        return userCache.get(userId);
+    }
+
     public void fetchUser(final String userId, final Handler uiHandler, final ResultRunnable<User> resultRunnable) {
         User user = null;
         if (userId == currentUser.getUserId()) {
@@ -248,6 +254,7 @@ public class Backend {
             if (fetchedUser != null) {
                 fetchedUser.fbPictureUrl = currentUser.fbPictureUrl;
                 fetchedUser.localPicturePath = currentUser.localPicturePath;
+                fixUserProfileImagePath(fetchedUser);
                 currentUser = fetchedUser;
                 try {
                     if (!cacheEnabled) currentUser.pin();
@@ -255,10 +262,30 @@ public class Backend {
                     Log.e(TAG, e.toString());
                 }
                 updateFetchedUserTimelines(fetchedUser);
+                fetchUserFriendsIntoCache(fetchedUser);
             }
         } catch (ParseException e) {
             createUser(user);
         }
+    }
+
+    private void fetchUserFriendsIntoCache(User user) {
+        List<String> friendListUserIds = user.getFriendList();
+        for(String userId: friendListUserIds) {
+            User friendUser = fetchUserFor(userId);
+            if (friendUser.getPicture().isEmpty()) {
+                loadFromFacebook(friendUser);
+            }
+            addUserToCache(friendUser);
+        }
+
+        // Fix self's high res picture.
+        FacebookClient.fetchUserPictureAtHighRes(new FacebookClient.ResultCallback<String>() {
+            @Override
+            public void onResult(String result) {
+                currentUser.highResPicturePath = result;
+            }
+        });
     }
 
     private User getUser(String userId) {
@@ -268,16 +295,41 @@ public class Backend {
             query.fromLocalDatastore();
         }
         try {
-            User fetchedUser = query.getFirst();
+            final User fetchedUser = query.getFirst();
             Log.i(TAG, "Fetched user from server:" + fetchedUser.getFullName());
             if (fetchedUser != null) {
                 if (!cacheEnabled) fetchedUser.pin();
+                fixUserProfileImagePath(fetchedUser);
+                addUserToCache(fetchedUser);
                 return fetchedUser;
             }
         } catch (ParseException e) {
 
         }
         return null;
+    }
+
+    private void loadFromFacebook(final User user) {
+        // try facebook.
+        FacebookClient.fetchUserForId(user.getUserId(), new FacebookClient.ResultCallback<User>(){
+            @Override
+            public void onResult(User result) {
+                user.fbPictureUrl = result.fbPictureUrl;
+                user.setFirstName(result.getFirstName());
+                user.setLastName(result.getLastName());
+                user.setFullName(result.getFirstName());
+            }
+        });
+        FacebookClient.fetchUserPictureAtHighResForUser(user.getUserId(), new FacebookClient.ResultCallback<String>() {
+            @Override
+            public void onResult(String result) {
+                user.highResPicturePath = result;
+            }
+        });
+    }
+
+    private void addUserToCache(User user) {
+        userCache.put(user.getUserId(), user);
     }
 
     private void createUser(User user) {
@@ -398,6 +450,14 @@ public class Backend {
         }
     }
 
+    private void fixUserProfileImagePath(User user) {
+        int index = user.getProfileHint() - 10;
+        if (index >= 0) {
+            int img = FakeDataGenerator.profileImageList[index];
+            user.localPicturePath = "android.resource://" + context.getPackageName() + "/" + img;
+        }
+    }
+
     private void persistAddTimeline(Timeline timeline) {
         synchronized (timelineOperationsLock) {
             try {
@@ -443,6 +503,8 @@ public class Backend {
         try {
             User fetchedUser = query.getFirst();
             Log.i(TAG, "Fetched user from server, version 2:" + fetchedUser.getFullName());
+            fixUserProfileImagePath(fetchedUser);
+            addUserToCache(fetchedUser);
             return fetchedUser;
         } catch (ParseException e) {
             return null;
