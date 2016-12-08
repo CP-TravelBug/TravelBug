@@ -6,25 +6,20 @@ import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
-import java.io.File;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import codepath.travelbug.R;
-import codepath.travelbug.Utils;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
 import static codepath.travelbug.TravelBugApplication.TAG;
-import static com.raizlabs.android.dbflow.config.FlowLog.Level.I;
 
 /**
  * Created by arunesh on 11/29/16.
@@ -94,16 +89,16 @@ public class FakeDataGenerator {
   };
 
         public static final int [] profileImageList = {
-                R.raw.contact_one,
-                R.raw.contact_two,
-                R.raw.contact_three,
-                 R.raw.contact_four,
-                 R.raw.contact_five,
-                 R.raw.contact_six,
-                 R.raw.contact_seven,
-                 R.raw.contact_eight,
-                 R.raw.contact_nine,
-                 R.raw.contact_ten,
+                R.raw.friend1,
+                R.raw.friend2,
+                R.raw.friend3,
+                 R.raw.friend4,
+                 R.raw.friend5,
+                 R.raw.friend6,
+                 R.raw.friend7,
+                 R.raw.friend8,
+                 R.raw.friend9,
+                 R.raw.friend10,
         };
 
     public static int generateRandomIndex() {
