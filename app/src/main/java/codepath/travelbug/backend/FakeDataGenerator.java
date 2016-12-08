@@ -200,6 +200,7 @@ public class FakeDataGenerator {
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
             timeline.addEvents(eventList);
+            timeline.setCoverImageHint(event.getImageHint());
             fakeTimelines.add(timeline);
             if (flipCoin) {
                 Backend.get().addTimeline(timeline);

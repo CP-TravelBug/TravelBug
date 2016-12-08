@@ -14,6 +14,7 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 
 import java.io.File;
+import java.sql.Time;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -272,6 +273,7 @@ public class Backend {
         } else {
             Log.i(TAG, "Null event list received.");
         }
+        fixTimelineImagePath(timeline);
     }
 
     private void fixEventImagePath(List<Event> eventList) {
@@ -281,6 +283,14 @@ public class Backend {
                 int img = FakeDataGenerator.imageList[index];
                 event.setPath("android.resource://" + context.getPackageName() + "/" + img);
             }
+        }
+    }
+
+    private void fixTimelineImagePath(Timeline timeline) {
+        int index = timeline.getCoverImageHint() - 10;
+        if (index >= 0) {
+            int img = FakeDataGenerator.imageList[index];
+            timeline.setCoverImagePath("android.resource://" + context.getPackageName() + "/" + img);
         }
     }
 

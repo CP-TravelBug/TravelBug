@@ -1,10 +1,13 @@
 package codepath.travelbug.models;
 
+import android.net.Uri;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import org.parceler.Parcel;
 
+import java.io.File;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 import codepath.travelbug.Utils;
+
+import static android.R.attr.path;
 
 /**
  * Represents a user's timeline
@@ -29,6 +34,8 @@ public class Timeline extends ParseObject {
     public static final String PARSE_FIELD_SHARED_WITH = "sharedWith";
     public static final String PARSE_FIELD_TIMELINE_TITLE = "TimelineTitle";
 
+    private boolean isCoverImagePath = false;
+    private String coverImagePath;
 
     public Timeline() {
         super();
@@ -41,11 +48,33 @@ public class Timeline extends ParseObject {
 
     public static Timeline createWithUniqueId() {
         long id = Utils.RANDOM.nextLong();
-        return new Timeline(id);
+        Timeline timeline = new Timeline(id);
+        timeline.setStartDate(new Date());
+        return timeline;
     }
 
     public long getTimelineId() {
         return getLong(PARSE_FIELD_TIMELINEID);
+    }
+
+    public void setCoverImageHint(int hint) {
+        put ("coverImageHint", hint);
+    }
+
+    public int getCoverImageHint() {
+        return getInt("coverImageHint");
+    }
+
+    public void setCoverImageAsFilePath() {
+        isCoverImagePath = true;
+    }
+
+    public void setCoverImagePath(String path) {
+        coverImagePath = path;
+    }
+    public Uri getCoverImageUri() {
+        if (coverImagePath == null) return null;
+        return isCoverImagePath ? Uri.fromFile(new File(coverImagePath)) : Uri.parse(coverImagePath);
     }
 
     public void setTimelineId(long timelineId) {

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,14 +55,23 @@ public class TimelineDisplayAdapter extends
     @Override
     public void onBindViewHolder(TimelineDisplayAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
-        Event event = timelineList.get(position).getEventList().get(0);
+        // Event event = timelineList.get(position).getEventList().get(0);
 
+        Timeline timeline = timelineList.get(position);
+        Event firstEvent = timeline.getEventList().get(0);
         viewHolder.tvContent.setText(timelineList.get(position).getTimelineTitle());
-        Uri uri = event.getContentUri();
+        Uri uri = timeline.getCoverImageUri();
+        if (uri == null) {
+            uri = firstEvent.getContentUri();
+        }
         Picasso.with(mContext).load(uri).resize(400 /* width */, 200).into(viewHolder.ivTimeline);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.US);
-        String date = sdf.format(event.getEventDate());
+        Date timelineDate = timeline.getStartDate();
+        if (timelineDate == null) {
+            timelineDate = firstEvent.getEventDate();
+        }
+        String date = sdf.format(timelineDate);
         viewHolder.datePosted.setText(date);
         viewHolder.ivTimeline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,15 +91,14 @@ public class TimelineDisplayAdapter extends
                 activity.overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
-            Timeline timeline = timelineList.get(position);
-            if(timeline.getUserId().equals(Backend.get().getCurrentUser().getUserId())) {
-                viewHolder.btnShare.setVisibility(View.VISIBLE);
-            }
-            else {
-                User user = Backend.get().fetchUserFor(timeline.getUserId());
-                viewHolder.sharedByText.setText("Shared By "+ user.getFirstName());
-                viewHolder.btnShare.setVisibility(View.GONE);
-            }
+        if(timeline.getUserId().equals(Backend.get().getCurrentUser().getUserId())) {
+            viewHolder.btnShare.setVisibility(View.VISIBLE);
+        }
+        else {
+            User user = Backend.get().fetchUserFor(timeline.getUserId());
+            viewHolder.sharedByText.setText("Shared By "+ user.getFirstName());
+            viewHolder.btnShare.setVisibility(View.GONE);
+        }
 
     }
 
