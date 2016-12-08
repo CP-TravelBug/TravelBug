@@ -105,7 +105,9 @@ public class TimelineDisplayAdapter extends
         }
         else {
             User user = Backend.get().fetchUserFor(timeline.getUserId());
-            //viewHolder.sharedByText.setText("Shared By "+ user.getFirstName());
+            if(user.getFirstName() != null) {
+                viewHolder.sharedByText.setText("Shared By " + user.getFirstName());
+            }
             viewHolder.btnShare.setVisibility(View.GONE);
         }
 

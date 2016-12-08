@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.raizlabs.android.dbflow.StringUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -71,7 +72,9 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timelineOwner = getResult();
-                Picasso.with(TimelineDetailsViewActivity.this).load(timelineOwner.getPicture()).into(ivProfileImage);
+                if(StringUtils.isNotNullOrEmpty(timelineOwner.getPicture())) {
+                    Picasso.with(TimelineDetailsViewActivity.this).load(timelineOwner.getPicture()).into(ivProfileImage);
+                }
             }
         });
     }
