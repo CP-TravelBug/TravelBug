@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_add_or_create_timeline"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="codepath.travelbug.activities.AddEventActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:srcCompat="@drawable/plane_travel"
+        android:id="@+id/ivCameraImageLarge"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/event_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:background="@drawable/gradient_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnNext"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/textIcons"
+        android:background="@color/primary"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:id="@+id/etEventName"
+        android:hint="@string/new_event_text"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/btnNext"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp" />
+</RelativeLayout>

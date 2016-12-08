@@ -42,6 +42,7 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public final static int CREATE_TIMELINE_WITH_PIC_REQUEST_CODE = 1001;
+    public final static int CREATE_EVENT_WITH_PIC_REQUEST_CODE = 1002;
 
     private Uri lastCameraRequestUri;
 
@@ -171,10 +172,13 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+
+                // Call the event naming activity
                 Uri takenPhotoUri = lastCameraRequestUri;
-                Intent i = new Intent(this, CreateTimelineActivity.class);
+                Intent i = new Intent(this, AddEventActivity.class);
                 i.putExtra(PIC_URI_KEY, takenPhotoUri);
-                startActivityForResult(i, CREATE_TIMELINE_WITH_PIC_REQUEST_CODE);
+                startActivityForResult(i, CREATE_EVENT_WITH_PIC_REQUEST_CODE);
+
                 // by this point we have the camera photo on disk
                 // Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 // RESIZE BITMAP, see section below
@@ -195,6 +199,17 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
                 fadapter.refreshAllTimelines();
             } else {
                 // cancelled event creation.
+            }
+        } else if ( requestCode == CREATE_EVENT_WITH_PIC_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                String eventTitle = data.getStringExtra("event_name");
+                Uri takenPhotoUri = lastCameraRequestUri;
+                Intent i = new Intent(this, CreateTimelineActivity.class);
+                i.putExtra(PIC_URI_KEY, takenPhotoUri);
+                i.putExtra("event_name", eventTitle);
+                startActivityForResult(i, CREATE_TIMELINE_WITH_PIC_REQUEST_CODE);
+            } else {
+                // cancelled
             }
         }
     }

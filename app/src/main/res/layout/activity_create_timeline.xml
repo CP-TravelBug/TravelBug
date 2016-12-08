@@ -37,22 +37,22 @@
             android:background="@color/primary"
             android:textSize="15sp"/>
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="start"
-            android:gravity="center"
-            android:id="@+id/editText"
-            android:hint="@string/new_event_text"
-            android:textColorHint="@color/material_drawer_hint_text"
-            android:textColor="@color/primaryText"
-            android:textStyle="italic"
-            android:textSize="20sp"
-            android:paddingBottom="10dp"
-            android:background="@android:color/transparent"
-            android:layout_above="@+id/btnSaveTimeline"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
+        <!--<EditText-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ellipsize="start"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/editText"-->
+            <!--android:hint="@string/new_event_text"-->
+            <!--android:textColorHint="@color/material_drawer_hint_text"-->
+            <!--android:textColor="@color/primaryText"-->
+            <!--android:textStyle="italic"-->
+            <!--android:textSize="20sp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:layout_above="@+id/btnSaveTimeline"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
 
         <TextView
             android:text="Geo Tag your awesome event.."

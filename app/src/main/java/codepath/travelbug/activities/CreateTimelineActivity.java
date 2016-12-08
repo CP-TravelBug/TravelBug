@@ -63,6 +63,7 @@ public class CreateTimelineActivity extends AppCompatActivity
     String newTimelineName;
     private Location mLocation;
     private TextView tvLocation;
+    String eventName;
 
     private static final int ADD_TO_TIMELINE_REQUEST_CODE = 1001;
     private static final int CREATE_NEW_TIMELINE_REQUEST_CODE = 1002;
@@ -79,6 +80,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         tvLocation = (TextView) findViewById(R.id.tvLocation);
 
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
+        eventName = getIntent().getExtras().getString("event_name");
         picView = (ImageView)findViewById(R.id.ivCameraImage);
         pictureTitle = (EditText)findViewById(R.id.editText);
 
@@ -86,18 +88,14 @@ public class CreateTimelineActivity extends AppCompatActivity
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNothingSelected) {
-                    Toast.makeText(CreateTimelineActivity.this, "Add event to a new or existing timeline", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(CreateTimelineActivity.this, "New Event added.", Toast.LENGTH_SHORT).show();
-                    if (resizedFilePath != null) {
-                        persistTimeline(resizedFilePath);
-                        Intent i = new Intent();
-                        i.putExtra("idOfTimelineCreated", idOfTimelineCreated);
-                        setResult(RESULT_OK, i);
-                    }
-                    finish();
-                }
+            if (resizedFilePath != null) {
+                persistTimeline(resizedFilePath);
+                Intent i = new Intent();
+                i.putExtra("idOfTimelineCreated", idOfTimelineCreated);
+                setResult(RESULT_OK, i);
+            }
+            finish();
+
             }
         });
         try {
@@ -246,7 +244,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         Event event = Event.createNow();
         event.setPath(imagePath);
         event.setImageAsFilePath();
-        event.setContent(pictureTitle.getText().toString());
+        event.setContent(eventName);
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
         }
@@ -262,7 +260,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         Event event = Event.createNow();
         event.setPath(imagePath);
         event.setImageAsFilePath();
-        event.setContent(pictureTitle.getText().toString());
+        event.setContent(eventName);
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
         }
