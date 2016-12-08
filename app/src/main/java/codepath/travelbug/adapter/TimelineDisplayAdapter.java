@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
@@ -109,6 +110,11 @@ public class TimelineDisplayAdapter extends
                 viewHolder.sharedByText.setText("Shared By " + user.getFirstName());
             }
             viewHolder.btnShare.setVisibility(View.GONE);
+            String picture = user.getPicture();
+            if (!picture.isEmpty()) {
+                viewHolder.ivProfileImage.setVisibility(View.VISIBLE);
+                Picasso.with(mContext).load(picture).into(viewHolder.ivProfileImage);
+            }
         }
 
     }
@@ -120,6 +126,7 @@ public class TimelineDisplayAdapter extends
             TextView sharedByText;
             Button btnShare;
             View gradientView;
+            ImageView ivProfileImage;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -130,6 +137,7 @@ public class TimelineDisplayAdapter extends
                 datePosted = (TextView) itemView.findViewById(R.id.datePosted);
                 sharedByText = (TextView)itemView.findViewById(R.id.sharedByText);
                 gradientView = itemView.findViewById(R.id.gradientView);
+                ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             }
         }
     @Override

@@ -5,6 +5,7 @@
     android:id="@+id/activity_timeline_details_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     tools:context="codepath.travelbug.activities.TimelineDetailsViewActivity">
 
     <ImageView
@@ -60,6 +61,28 @@
         android:layout_alignBottom="@id/ivPhoto"
         android:layout_alignParentRight="true"
         app:riv_oval="true"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/timeline_info"
+        android:visibility="invisible"
+        card_view:elevation="8dp"
+        android:clickable="true"
+        android:layout_below="@id/ivPhoto"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeline_info_text"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textStyle="italic"
+            android:textSize="10sp"
+            />
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="10dp"
