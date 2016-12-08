@@ -157,6 +157,7 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
     public void onMarkerDragEnd(Marker marker) {
         latitude = marker.getPosition().latitude;
         longitude = marker.getPosition().longitude;
+
         mLocation.setLatitude(marker.getPosition().latitude);
         mLocation.setLatitude(marker.getPosition().longitude);
         LatLng currLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
@@ -169,6 +170,10 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
         if(mMarker != null) {
             dropPinEffect(mMarker);
         }
+
+        Log.d("onMarkerDragEnd:Lat", Double.toString(latitude));
+        Log.d("onMarkerDragEnd:Long", Double.toString(longitude));
+
     }
 
     @Override
@@ -192,6 +197,8 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
         if(mMarker != null) {
             dropPinEffect(mMarker);
         }
+        Log.d("onLocationChanged:Lat", Double.toString(latitude));
+        Log.d("onLocationChanged:Long", Double.toString(longitude));
     }
 
     @Override
@@ -247,12 +254,12 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onBackPressed() {
         Intent data = new Intent();
-        Log.d("LATITUDE", Double.toString(latitude));
-        Log.d("LONGITUDE", Double.toString(longitude));
+        Log.d("onBackPressed:Latitude", Double.toString(latitude));
+        Log.d("onBackPressed:Longitude", Double.toString(longitude));
 
         data.putExtra("LATITUDE", latitude);
         data.putExtra("LONGITUDE", longitude);
         setResult(RESULT_OK, data);
-        finish();
+        super.onBackPressed();
     }
 }

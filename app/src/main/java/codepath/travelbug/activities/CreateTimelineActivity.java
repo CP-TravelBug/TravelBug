@@ -282,22 +282,26 @@ public class CreateTimelineActivity extends AppCompatActivity
             if(mLocation == null) {
                 mLocation = new Location(GPS_PROVIDER);
             }
+
+            Log.d("onActivityResult:Lat", Double.toString(data.getDoubleExtra("LATITUDE", 0)));
+            Log.d("onActivityResult:Long", Double.toString(data.getDoubleExtra("LONGITUDE", 0)));
+
             mLocation.setLongitude(data.getDoubleExtra("LATITUDE", 0));
             mLocation.setLongitude(data.getDoubleExtra("LONGITUDE", 0));
-            setPlaceAddress();
+            setPlaceAddress(data.getDoubleExtra("LATITUDE", 0), data.getDoubleExtra("LONGITUDE", 0));
         }
     }
 
-    private void setPlaceAddress() {
+    private void setPlaceAddress(double latitude, double longitude) {
         Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
         try {
-            Address address = (geoCoder.getFromLocation(mLocation.getLatitude(),
-                    mLocation.getLongitude(), 1)).get(0);
+            Address address = (geoCoder.getFromLocation(latitude,
+                    longitude, 1)).get(0);
             if (address != null) {
                 String city = address.getLocality();
-                String name = address.getFeatureName();
+                //String name = address.getFeatureName();
                 String country = address.getCountryName();
-                String location = name + ", " + city + ", " + country;
+                String location = city + ", " + country;
                 tvLocation.setText(location);
             }
         } catch (IOException e) {

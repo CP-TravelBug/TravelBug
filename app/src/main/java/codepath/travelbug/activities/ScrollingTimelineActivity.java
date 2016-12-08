@@ -61,10 +61,10 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling_timeline);
 
         // toolbar
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        activity = this;
+//        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+//        setSupportActionBar(toolbar);
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//        activity = this;
 
         // Get View Pager
         viewPager = (ViewPager) findViewById(R.id.viewPager);

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/tool_bar"
-        android:id="@+id/tool_bar"/>
+    <!--<include layout="@layout/tool_bar"-->
+        <!--android:id="@+id/tool_bar"/>-->
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,9 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_timeline"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivProfileImage"
