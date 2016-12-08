@@ -5,11 +5,15 @@ import android.util.Log;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -404,5 +408,21 @@ public class Backend {
             builder.append("\n" + ParseUtil.parseObjectToJson(timeline).toString());
         }
         return builder.toString();
+    }
+
+    public static ParseFile uploadImage(String localFilePath, ProgressCallback progressCallback, SaveCallback saveCallback) {
+        ParseFile parseFile = new ParseFile(new File(localFilePath));
+        parseFile.saveInBackground(saveCallback, progressCallback);
+        return parseFile;
+    }
+
+    public static ParseFile uploadImageSync(File file) {
+        ParseFile parseFile = new ParseFile(file);
+        try {
+            parseFile.save();
+        } catch (ParseException e) {
+            Log.e(TAG, "Error uploading image file.");
+        }
+        return parseFile;
     }
  }

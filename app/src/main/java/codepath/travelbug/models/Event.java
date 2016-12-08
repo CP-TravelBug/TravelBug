@@ -1,18 +1,16 @@
 package codepath.travelbug.models;
 
-import android.location.Geocoder;
 import android.net.Uri;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import org.parceler.Parcel;
-import org.parceler.Transient;
 
 import java.io.File;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Represents the Event class
@@ -23,7 +21,7 @@ import java.util.List;
 @Parcel(analyze = Event.class)
 @ParseClassName("Event")
 public class Event extends ParseObject {
-    private boolean isLocal = false; // If the image is a local one.
+    private boolean isFilePath = false; // If the image is an actual file path and not a URI.
 
     public Event() {
         super();
@@ -36,12 +34,20 @@ public class Event extends ParseObject {
     public static Event createNow() {
         Event event = new Event();
         event.setEventDate(new Date());
-        event.isLocal = false;
+        event.isFilePath = false;
         return event;
     }
 
     public long getEventId() {
         return getLong("eventId");
+    }
+
+    public void addImage(ParseFile imageFile) {
+        put("imageFile", imageFile);
+    }
+
+    public ParseFile getImageFile() {
+        getParseFile("imageFile");
     }
 
     public void setEventId(long eventId) {
@@ -81,12 +87,12 @@ public class Event extends ParseObject {
         return getDate("eventDate");
     }
 
-    public void setLocal() {
-        isLocal = true;
+    public void setImageAsFilePath() {
+        isFilePath = true;
     }
 
     public Uri getContentUri() {
-        return isLocal ? Uri.fromFile(new File(getPath())) : Uri.parse(getPath());
+        return isFilePath ? Uri.fromFile(new File(getPath())) : Uri.parse(getPath());
     }
 
     public void setGeoPoint(ParseGeoPoint geoPoint) {

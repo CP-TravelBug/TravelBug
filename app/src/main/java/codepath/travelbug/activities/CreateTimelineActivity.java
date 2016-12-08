@@ -13,19 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,7 +40,6 @@ import codepath.travelbug.fragments.NewTimelineFragment;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 
-import static android.R.attr.data;
 import static android.location.LocationManager.GPS_PROVIDER;
 import static codepath.travelbug.Utils.MAX_WIDTH;
 import static codepath.travelbug.Utils.TAG;
@@ -80,7 +73,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_timeline);
         myTimelineIds = new LinkedList<>();
-        polulateTimelineIdList();
+        populateTimelineIdList();
 
         location = (ImageView) findViewById(R.id.ivLocationIcon);
         tvLocation = (TextView) findViewById(R.id.tvLocation);
@@ -156,7 +149,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         newTimelineFragment.show(fm, "create_new_timeline_fragment");
     }
 
-    private void polulateTimelineIdList() {
+    private void populateTimelineIdList() {
         Collection<Timeline> tmList = Backend.get().getMyTimelines();
         for (Timeline t : tmList) {
             myTimelineIds.add(t.getTimelineId());
@@ -252,7 +245,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         }
         Event event = Event.createNow();
         event.setPath(imagePath);
-        event.setLocal();
+        event.setImageAsFilePath();
         event.setContent(pictureTitle.getText().toString());
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
@@ -268,7 +261,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         timeline.setUserId(Backend.get().getCurrentUser().getUserId());
         Event event = Event.createNow();
         event.setPath(imagePath);
-        event.setLocal();
+        event.setImageAsFilePath();
         event.setContent(pictureTitle.getText().toString());
         if (mLocation != null) {
             event.setGeoPoint(new ParseGeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));

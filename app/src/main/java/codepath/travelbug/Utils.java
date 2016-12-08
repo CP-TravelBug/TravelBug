@@ -45,6 +45,10 @@ public class Utils {
         return filename;
     }
 
+    public static String getExternalStorageUniqueFilename(String prefix) {
+        return Environment.getExternalStorageDirectory() + "/prefix_" + generateUniqueFileName();
+    }
+
     public static boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);

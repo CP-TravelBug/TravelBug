@@ -6,8 +6,10 @@ import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
+import java.io.File;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import codepath.travelbug.R;
+import codepath.travelbug.Utils;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
@@ -141,6 +144,8 @@ public class FakeDataGenerator {
     private void createEventList(Context context) {
         int index = 0;
         for (int img : imageList) {
+            // ParseFile file = Backend.uploadImageSync(new File());
+            // String uniqueFilename = Utils.generateUniqueFileName();
             Event event = Event.createNow();
             event.setImageHint(index + 10);
             event.setPath("android.resource://" + context.getPackageName() + "/" + img);
