@@ -6,25 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="codepath.travelbug.activities.TimelineDetailsViewActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/ivPhoto"
+        android:transitionName="coverPhoto"
+        android:contentDescription="@string/photo_desc"
+        android:scaleType="fitCenter" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignTop="@id/ivPhoto"
+        android:background="@drawable/gradient_timelinecover_bg"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/timeLineTitle"
-        android:textColor="@color/primary"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
+        android:transitionName="title"
         android:layout_centerHorizontal="true"
         android:gravity="center"/>
+
+
     <View
         android:id="@+id/verticalDiv"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="-260dp"
         android:background="@drawable/vertical_line"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rvTimeline"

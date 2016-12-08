@@ -1,11 +1,15 @@
 package codepath.travelbug.activities;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,13 +22,18 @@ import codepath.travelbug.models.Timeline;
 public class TimelineDetailsViewActivity extends AppCompatActivity {
     private static final String TAG = "TimelineDetailsView";
     private List<Event> events;
+    private TextView tvTimelineTitle;
+    private ImageView coverImageview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline_details_view);
         long timelineId = getIntent().getLongExtra("timelineId", 0);
 
-        TextView tvTilelineTitle = (TextView) findViewById(R.id.timeLineTitle);
+        tvTimelineTitle = (TextView) findViewById(R.id.timeLineTitle);
+        coverImageview = (ImageView) findViewById(R.id.ivPhoto);
+
+
 
         RecyclerView rvEvents = (RecyclerView) findViewById(R.id.rvTimeline);
 
@@ -34,9 +43,16 @@ public class TimelineDetailsViewActivity extends AppCompatActivity {
             timeline = Backend.get().getSharedTimeline(timelineId);
         }
         String timelineTitle = timeline.getTimelineTitle();
-        tvTilelineTitle.setText(timelineTitle);
+        tvTimelineTitle.setText(timelineTitle);
         events = timeline.getEventList();
         Log.d(TAG, events.toString());
+
+        Event firstEvent = timeline.getEventList().get(0);
+        Uri uri = timeline.getCoverImageUri();
+        if (uri == null) {
+            uri = firstEvent.getContentUri();
+        }
+        Picasso.with(this).load(uri).centerCrop().fit().into(coverImageview);
 
         TimelineDetailsViewAdapter adapter = new TimelineDetailsViewAdapter(this, events);
         rvEvents.setAdapter(adapter);
