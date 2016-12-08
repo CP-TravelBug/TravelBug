@@ -24,15 +24,16 @@
             android:background="?android:selectableItemBackground" />
 
         <ImageView
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/ivPhoto"
+            android:transitionName="coverPhoto"
             android:contentDescription="@string/photo_desc"
             android:scaleType="fitCenter" />
 
         <View
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_alignTop="@id/ivPhoto"
             android:background="@drawable/gradient_timelinecover_bg"/>
@@ -44,7 +45,9 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:id="@+id/tvContent"
+            android:transitionName="title"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentTop="true"
             android:textColor="@color/white"/>
 

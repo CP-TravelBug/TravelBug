@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import codepath.travelbug.backend.Backend;
 import codepath.travelbug.models.Event;
 import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
+
+import static codepath.travelbug.R.id.tvName;
 
 public class TimelineDisplayAdapter extends
         RecyclerView.Adapter<TimelineDisplayAdapter.ViewHolder> {
@@ -53,7 +57,7 @@ public class TimelineDisplayAdapter extends
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(TimelineDisplayAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final TimelineDisplayAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
         // Event event = timelineList.get(position).getEventList().get(0);
 
@@ -64,7 +68,7 @@ public class TimelineDisplayAdapter extends
         if (uri == null) {
             uri = firstEvent.getContentUri();
         }
-        Picasso.with(mContext).load(uri).resize(400 /* width */, 200).into(viewHolder.ivTimeline);
+        Picasso.with(mContext).load(uri).centerCrop().fit().into(viewHolder.ivTimeline);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.US);
         Date timelineDate = timeline.getStartDate();
@@ -78,7 +82,11 @@ public class TimelineDisplayAdapter extends
             public void onClick(View view) {
                 Intent i = new Intent(mContext, TimelineDetailsViewActivity.class);
                 i.putExtra("timelineId", timelineList.get(position).getTimelineId());
-                mContext.startActivity(i);
+                Pair<View, String> p1 = Pair.create((View)viewHolder.tvContent, "title");
+                Pair<View, String> p2 = Pair.create((View)viewHolder.ivTimeline, "coverPhoto");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) mContext, p1, p2);
+                mContext.startActivity(i, options.toBundle());
             }
         });
         viewHolder.btnShare.setOnClickListener(new View.OnClickListener() {
