@@ -14,20 +14,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="117dp" />
-
-    <TextView
-        android:text="@string/travelBugSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvSubtitle"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/login_button"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginBottom="200dp"
-        />
+        android:layout_marginBottom="117dp"
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,5 +29,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp" />
+
+    <TextView
+        android:text="@string/travelBugSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSubtitle"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_below="@+id/tvTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" />
 
 </RelativeLayout>
