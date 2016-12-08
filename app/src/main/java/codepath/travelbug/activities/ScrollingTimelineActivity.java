@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -66,6 +68,10 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
 //        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 //        activity = this;
 
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.primary_dark));
         // Get View Pager
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fadapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());

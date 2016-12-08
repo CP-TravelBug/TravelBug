@@ -70,7 +70,7 @@ public class TimelineDisplayAdapter extends
         }
         Picasso.with(mContext).load(uri).centerCrop().fit().into(viewHolder.ivTimeline);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM yy", Locale.US);
         Date timelineDate = timeline.getStartDate();
         if (timelineDate == null) {
             timelineDate = firstEvent.getEventDate();
