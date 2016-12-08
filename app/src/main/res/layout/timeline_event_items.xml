@@ -7,8 +7,9 @@
     card_view:elevation="8dp"
     android:clickable="true"
     card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:background="@color/lightPrimary"
+    android:background="@color/primary_dark"
     android:padding="10dp">
 
     <RelativeLayout

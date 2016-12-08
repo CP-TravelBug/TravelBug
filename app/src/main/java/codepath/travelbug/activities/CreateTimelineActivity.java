@@ -82,7 +82,7 @@ public class CreateTimelineActivity extends AppCompatActivity
         pictureUri = getIntent().getExtras().getParcelable(Utils.PIC_URI_KEY);
         eventName = getIntent().getExtras().getString("event_name");
         picView = (ImageView)findViewById(R.id.ivCameraImage);
-        pictureTitle = (EditText)findViewById(R.id.editText);
+        // pictureTitle = (EditText)findViewById(R.id.editText);
 
         saveButton = (Button) findViewById(R.id.btnSaveTimeline);
         saveButton.setOnClickListener(new View.OnClickListener() {
