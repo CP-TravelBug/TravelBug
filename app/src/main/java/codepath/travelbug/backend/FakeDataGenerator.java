@@ -7,6 +7,7 @@ import android.util.Log;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import java.io.File;
@@ -23,6 +24,7 @@ import codepath.travelbug.models.Timeline;
 import codepath.travelbug.models.User;
 
 import static codepath.travelbug.TravelBugApplication.TAG;
+import static com.raizlabs.android.dbflow.config.FlowLog.Level.I;
 
 /**
  * Created by arunesh on 11/29/16.
@@ -177,16 +179,32 @@ public class FakeDataGenerator {
         // http://www.mikesroadtrip.com/more-fun-in-cebu-philippines/
 
         Timeline timeline = Timeline.createWithUniqueId();
-        timeline.setTimelineTitle("");
+        timeline.setTimelineTitle("It’s more fun in the Philippines when you lose your luggage in Cebu.");
+        timeline.setInfo("Cebu is very rich when it comes to historical sites from the time of Spanish rule in the Philippines." +
+        "It also has one of the best scuba diving areas in the Philippines. It was the last day of our family trip " +
+                " and this was going to be one of the most memorable trips of my life. Everything has been so well " +
+                " organized and managed. All of us bloggers were treated like VIPs. The Philippines Tourism Board " +
+                "had won everyone’s heart. The hotel staff made it worthwhile and added an extra 12 hours of fun "+
+        " as they felt responsible for losing the luggage -- which they eventually found using the security cameras !");
+
         List<Event> eventList = new LinkedList<>();
-        eventList.add(createEvent(8, R.raw.cebu1, ""));
-        eventList.add(createEvent(9, R.raw.cebu2, ""));
-        eventList.add(createEvent(10, R.raw.cebu3, ""));
-        eventList.add(createEvent(11, R.raw.cebu4, ""));
-        eventList.add(createEvent(12, R.raw.cebu5, ""));
-        eventList.add(createEvent(13, R.raw.cebu6, ""));
-        eventList.add(createEvent(14, R.raw.cebu7, ""));
-        eventList.add(createEvent(15, R.raw.cebu8, ""));
+        Event event = createEvent(8, R.raw.cebu1, "Private balcony of the Luxurious Shangri-La’s Mactan Resort and Spa"));
+        event.setGeoPoint(new ParseGeoPoint(10.30791, 124.019487));
+        eventList.add(event);
+        eventList.add(createEvent(9, R.raw.cebu2, "My beautiful hotel room."));
+        eventList.add(createEvent(10, R.raw.cebu3, "Aerial view of the 13-acre property."));
+        eventList.add(createEvent(11, R.raw.cebu4, "Breakfast buffet at Tides, the resort’s all day-dining outlet."));
+        eventList.add(createEvent(12, R.raw.cebu5, "Man-made beach cove."));
+        event = createEvent(13, R.raw.cebu6, "Took a jet-ski out for a spin !");
+        event.setGeoPoint(new ParseGeoPoint(10.304406, 124.022266));
+        eventList.add(event);
+        eventList.add(createEvent(14, R.raw.cebu7, "Traditional Philippines Hilot massage using warm coconut oil and banana leaves."));
+        eventList.add(createEvent(15, R.raw.cebu8, "The Cebu dock."));
+        timeline.addEvents(eventList);
+        timeline.setUserId(aruneshUser.getUserId());
+        timeline.shareWith(pragyanUser.getUserId());
+        timeline.shareWith(oronUser.getUserId());
+        fakeTimelines.add(timeline);
     }
 
     public void fetchOrCreateRealUserObjects() throws com.parse.ParseException {
@@ -231,6 +249,7 @@ public class FakeDataGenerator {
             Timeline timeline = Timeline.createWithUniqueId();
             timeline.setUserId(userId);
             timeline.setTimelineTitle("Title:" + event.getContent());
+            timeline.setInfo(event.getContent());
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
             timeline.addEvents(eventList);
@@ -324,6 +343,7 @@ public class FakeDataGenerator {
             createFakeUsers();
             createTimelines("blah");
             addFriends();
+            createCebuTimeline();
             persistOrCreateData();
         } catch (com.parse.ParseException e) {
             Log.e("ERROR", "Error can't generate fake data.");

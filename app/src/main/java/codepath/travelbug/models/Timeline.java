@@ -81,6 +81,13 @@ public class Timeline extends ParseObject {
         put(PARSE_FIELD_TIMELINEID, timelineId);
     }
 
+    public void setInfo(String info) {
+        put("info", info);
+    }
+    public String getInfo() {
+        getString("info");
+    }
+
     public List<Event> getEventList() {
         return getList(PARSE_FIELD_EVENTLIST);
     }
