@@ -9,6 +9,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import codepath.travelbug.R;
 import codepath.travelbug.backend.FakeDataGenerator;
@@ -55,7 +58,13 @@ public class ShareAdapter extends
         TextView textView = holder.nameTextView;
         textView.setText(friend.getFullName());
         // Random number between 0 and 9 to correspond to
-        holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[position % 10]);
+        // holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[position % 10]);
+        String picture = friend.getPicturePreferHighRes();
+        if (picture.isEmpty()) {
+            holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[position % 10]);
+        } else {
+            Picasso.with(mContext).load(picture).centerCrop().fit().into(holder.ivProfileImage);
+        }
         holder.cbShareButton.setOnCheckedChangeListener(null);
 
         //if true, your checkbox will be selected, else unselected

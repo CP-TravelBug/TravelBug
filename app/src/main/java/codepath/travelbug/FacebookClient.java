@@ -66,6 +66,33 @@ public class FacebookClient {
         request.executeAsync();
     }
 
+    public static void fetchUserPictureAtHighResForUser(String userId, final ResultCallback<String> pictureUrlCallback) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null) {
+            pictureUrlCallback.onResult("");
+            return;
+        }
+        /* make the API call */
+        GraphRequest request = new GraphRequest(
+                accessToken,
+                "/" + userId + "/picture",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.d(TAG, "GraphResponse for fetchUserPictureAtHighRes: " + response.toString());
+                        pictureUrlCallback.onResult(fetchPictureUrlFromResponse(response));
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putInt("height", PIC_SIZE);
+        parameters.putInt("width", PIC_SIZE);
+        parameters.putBoolean("redirect", false);
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
     private static String fetchPictureUrlFromResponse(GraphResponse response) {
         try {
             if (response == null) {
@@ -96,6 +123,38 @@ public class FacebookClient {
         GraphRequest request = new GraphRequest(
                 accessToken,
                 accessToken.getUserId(),
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        if (response != null) {
+                            Log.i(TAG, "User login:" + response.toString());
+                            User user = User.fromJSONObject(response.getJSONObject());
+                            user.setUserId(accessToken.getUserId());
+                            userCallback.onResult(user);
+                        } else {
+                            Log.e(TAG, "Received null response from Facebook API for fetchUser().");
+                            userCallback.onResult(null);
+                        }
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,email,first_name,last_name,picture");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    public static void fetchUserForId(String userId, final ResultCallback<User> userCallback) {
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null) {
+            Log.e(TAG, "Null access token, dropping fetchUser() request.");
+            userCallback.onResult(null);
+            return;
+        }
+        GraphRequest request = new GraphRequest(
+                accessToken,
+                userId,
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {

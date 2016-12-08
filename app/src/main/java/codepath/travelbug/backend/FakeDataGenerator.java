@@ -236,6 +236,7 @@ public class FakeDataGenerator {
                 user.setFirstName(FAKE_USER_FIRST_NAMES[i]);
                 user.setLastName(FAKE_USER_LAST_NAMES[i]);
                 user.setFullName(FAKE_USER_FIRST_NAMES[i] + " " + FAKE_USER_LAST_NAMES[i]);
+                user.addProfileHint(i + 10);
                 user.save();
             }
         }
