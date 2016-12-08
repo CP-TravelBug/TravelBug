@@ -88,7 +88,7 @@
             android:layout_alignParentEnd="true" />
 
         <TextView
-            android:text="Santa Clara, United States"
+            android:text="Palo Alto, United States"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
