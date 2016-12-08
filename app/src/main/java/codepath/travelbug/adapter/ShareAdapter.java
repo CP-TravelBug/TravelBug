@@ -55,7 +55,7 @@ public class ShareAdapter extends
         TextView textView = holder.nameTextView;
         textView.setText(friend.getFullName());
         // Random number between 0 and 9 to correspond to
-        holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[FakeDataGenerator.generateRandomIndex()]);
+        holder.ivProfileImage.setImageResource(FakeDataGenerator.profileImageList[position % 10]);
         holder.cbShareButton.setOnCheckedChangeListener(null);
 
         //if true, your checkbox will be selected, else unselected
