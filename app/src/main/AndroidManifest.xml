@@ -76,8 +76,10 @@
         <activity
             android:name=".fragments.GoogleMapsFragment"
             android:label="@string/title_activity_google_maps" />
-        <activity android:name=".activities.AddEventActivity"
-            android:theme="@style/AppThemeNoBar"></activity>
+        <activity
+            android:name=".activities.AddEventActivity"
+            android:theme="@style/AppThemeNoBar" />
+        <activity android:name=".activities.EventViewActivity"></activity>
     </application>
 
 </manifest>
