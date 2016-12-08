@@ -92,8 +92,8 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
-        //mLocationRequest.setInterval(10000);
-        //mLocationRequest.setFastestInterval(10000);
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(10000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -132,10 +132,10 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
         mMap.setMyLocationEnabled(true);
         mMap.setOnMarkerDragListener(this);
 
-        if (getIntent().hasExtra("LATITUDE") && getIntent().hasExtra("LONGITUDE")) {
-            latitude = getIntent().getDoubleExtra("LATITUDE", 0);
-            longitude = getIntent().getDoubleExtra("LONGITUDE", 0);
-        }
+//        if (getIntent().hasExtra("LATITUDE") && getIntent().hasExtra("LONGITUDE")) {
+//            latitude = getIntent().getDoubleExtra("LATITUDE", 0);
+//            longitude = getIntent().getDoubleExtra("LONGITUDE", 0);
+//        }
 
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
@@ -187,7 +187,7 @@ public class GoogleMapsFragment extends FragmentActivity implements OnMapReadyCa
         latitude = mLocation.getLatitude();
         longitude = mLocation.getLongitude();
 
-        LatLng currLatLng = new LatLng(latitude, longitude);
+        LatLng currLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         mMarker = mMap.addMarker(new MarkerOptions().position(currLatLng).title("Event Location")
                 .icon(defaultMarker));

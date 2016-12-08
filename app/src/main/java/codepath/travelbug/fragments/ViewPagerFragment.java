@@ -97,6 +97,8 @@ public class ViewPagerFragment extends Fragment {
         lvTimeline.setAdapter(adapter);
         lvTimeline.setLayoutManager(new LinearLayoutManager(getContext()));
         lvTimeline.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        displayAllTimelines();
+        displayMyTimeline();
         return view;
     }
 
@@ -109,16 +111,21 @@ public class ViewPagerFragment extends Fragment {
             Log.e(TAG, "No shared timelines yet ?");
         }
         final int originalSize = adapter.getItemCount();
+        lvTimeline.invalidate();
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
         timelineList.addAll(timelines);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
-                lvTimeline.scrollToPosition(0);
-            }
-        });
+        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
+        lvTimeline.setAdapter(adapter);
+        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
+        lvTimeline.setAdapter(adapter);
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+//                lvTimeline.scrollToPosition(0);
+//            }
+//        });
     }
 
     @Override
@@ -142,17 +149,20 @@ public class ViewPagerFragment extends Fragment {
             // Todo Display a message to create timeline
             Log.e(TAG, "No timelines yet ?");
         }
-
+        lvTimeline.invalidate();
         Log.e(TAG, "Size of timelines to add:" + timelines.size());
         timelineList.clear();
         timelineList.addAll(timelines);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
-                lvTimeline.scrollToPosition(0);
-            }
-        });
+        adapter = new TimelineDisplayAdapter(getContext(), timelineList);
+        lvTimeline.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                adapter.notifyItemRangeInserted(originalSize, timelineList.size());
+//                lvTimeline.scrollToPosition(0);
+//            }
+//        });
     }
 
     public void refreshHomeTimeline() {
