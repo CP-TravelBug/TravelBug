@@ -12,7 +12,7 @@ import static codepath.travelbug.TravelBugApplication.TAG;
 
 public class ViewPagerFragmentAdapter extends FragmentPagerAdapter implements Backend.DataChangedCallback {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Home", "My Timelines"};
+    private String tabTitles[] = new String[] { "Home", "My Trips"};
     private ViewPagerFragment fragmentArray[] = new ViewPagerFragment[PAGE_COUNT];
 
 
