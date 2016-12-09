@@ -21,17 +21,6 @@
         android:background="@drawable/gradient_bg"/>
 
     <TextView
-        android:id="@+id/eventLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivEventImage"
-        android:text="@string/event_content"
-        android:layout_marginBottom="5dp"
-        android:transitionName="eventText"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
-
-    <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +28,7 @@
         android:layout_alignRight="@id/ivEventImage"
         android:text="@string/event_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginRight="15dp"
         android:textColor="@color/white"
         android:textStyle="italic"
         android:textSize="12sp"/>
@@ -58,6 +48,18 @@
         android:layout_height="100dp"
         android:layout_alignTop="@id/map"
         android:background="@drawable/gradient_timelinecover_bg"/>
+
+    <TextView
+        android:id="@+id/eventLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_content"
+        android:transitionName="eventText"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/eventDate"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp" />
 
 </RelativeLayout>
 

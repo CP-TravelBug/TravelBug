@@ -40,12 +40,12 @@ public class FakeDataGenerator {
     };
 
     private static final String[] FAKE_USER_FIRST_NAMES = new String [] {
-            "Kevin",
-            "Mike",
+            "Lily",
             "Paula",
-            "Correy",
+            "Kevin",
+            "Kelly",
             "Rich",
-            "Smith",
+            "Chi",
     };
 
     private static final String[] FAKE_USER_LAST_NAMES = new String [] {
