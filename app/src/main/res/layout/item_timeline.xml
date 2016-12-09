@@ -94,9 +94,8 @@
             app:riv_corner_radius="25dp"
             app:riv_mutate_background="true"
             android:layout_alignTop="@id/ivPhoto"
-            android:layout_toRightOf="@id/tvContent"
-            android:visibility="invisible"
-            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
             app:riv_oval="true"/>
 
     </RelativeLayout>

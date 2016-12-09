@@ -103,6 +103,7 @@ public class TimelineDisplayAdapter extends
         });
         if(timeline.getUserId().equals(Backend.get().getCurrentUser().getUserId())) {
             viewHolder.btnShare.setVisibility(View.VISIBLE);
+            viewHolder.ivProfileImage.setVisibility(View.GONE);
         }
         else {
             User user = Backend.get().fetchUserFor(timeline.getUserId());
