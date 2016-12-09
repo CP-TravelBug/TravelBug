@@ -78,7 +78,7 @@ public class FakeDataGenerator {
           R.raw.dt_pic6,
           R.raw.dt_pic7,
           R.raw.dt_pic8,  // index 7
-          R.raw.cebu1, // start index = 8
+          R.raw.cebu1, // start index = 8 cebu timeline
           R.raw.cebu2,  // 9
           R.raw.cebu3,  // 10
           R.raw.cebu4,  // 11
@@ -86,6 +86,12 @@ public class FakeDataGenerator {
           R.raw.cebu6,  // 13
           R.raw.cebu7,  // 14
           R.raw.cebu8,  // stop index = 15
+          R.raw.juan1,  // San Juan timeline start index 16
+          R.raw.juan2,  // 17
+          R.raw.juan3,  // 18
+          R.raw.juan4,  // 19
+          R.raw.juan5,  // 20
+          R.raw.juan6,  // 21
   };
 
         public static final int [] profileImageList = {
@@ -179,6 +185,36 @@ public class FakeDataGenerator {
         return event;
     }
 
+    private void createSanJuanTimeline() {
+        // http://www.mikesroadtrip.com/san-juan-islands/
+        Timeline timeline = Timeline.createWithUniqueId();
+        timeline.setTimelineTitle("San Juan Islands road trip");
+        timeline.setInfo("Snuggly ensconced between Northwestern Washington and Vancouver Island is "
+                +" a collection of landmasses that yield to the ebb and flow of the Salish Sea." +
+                " The 172 islands, each with its own distinct appeal, are known collectively as the" +
+                " San Juan Islands. Some are private and others are state parks " +
+                " with hiking trails and camping. Here are some of the fun moments from this trip.");
+        List<Event> eventList = new LinkedList<>();
+
+        eventList.add(createEventWithLatLng(16, R.raw.juan1, "Aerial view of the Islands.", 48.551367, -123.078106));
+        eventList.add(createEventWithLatLng(17, R.raw.juan2, "The ferry dock on the Friday Harbor (main island).", 48.537522, -122.997093));
+        eventList.add(createEventWithLatLng(18, R.raw.juan3, "View from the Friday Harbor, having brunch.", 48.537522, -122.997093));
+        eventList.add(createEventWithLatLng(19, R.raw.juan4, "So many boats !", 48.551367, -123.078106));
+        eventList.add(createEventWithLatLng(20, R.raw.juan5, "San Juan island zip tour, so much fun !", 48.551367, -123.078106));
+        eventList.add(createEventWithLatLng(21, R.raw.juan6, "American camp on a grassy slope.", 48.532521, -122.97246));
+
+        timeline.addEvents(eventList);
+
+        timeline.setUserId(pragyanUser.getUserId());
+        pragyanUser.addTimeline(timeline.getTimelineId());
+        timeline.shareWith(aruneshUser.getUserId());
+        aruneshUser.addSharedTimeline(timeline.getTimelineId());
+        timeline.shareWith(oronUser.getUserId());
+        oronUser.addSharedTimeline(timeline.getTimelineId());
+
+        fakeTimelines.add(timeline);
+    }
+
     private void createCebuTimeline() {
         // http://www.mikesroadtrip.com/more-fun-in-cebu-philippines/
 
@@ -260,7 +296,7 @@ public class FakeDataGenerator {
         for(Event event : fakeEventList) {
             Timeline timeline = Timeline.createWithUniqueId();
             timeline.setUserId(userId);
-            timeline.setTimelineTitle("Title:" + event.getContent());
+            timeline.setTimelineTitle(event.getContent());
             timeline.setInfo(event.getContent());
             ArrayList<Event> eventList = new ArrayList<>();
             eventList.add(event);
@@ -356,6 +392,7 @@ public class FakeDataGenerator {
             createTimelines("blah");
             addFriends();
             createCebuTimeline();
+            createSanJuanTimeline();
             persistOrCreateData();
         } catch (com.parse.ParseException e) {
             Log.e("ERROR", "Error can't generate fake data.");
