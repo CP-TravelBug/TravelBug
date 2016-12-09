@@ -169,6 +169,16 @@ public class FakeDataGenerator {
         return event;
     }
 
+    private Event createEventWithLatLng(int index, int resourceId, String content, double lat, double lng) {
+        // String uniqueFilename = Utils.generateUniqueFileName();
+        Event event = Event.createNow();
+        event.setImageHint(index + 10);
+        event.setPath("android.resource://" + context.getPackageName() + "/" + resourceId);
+        event.setContent(content);
+        event.setGeoPoint(new ParseGeoPoint(lat, lng));
+        return event;
+    }
+
     private void createCebuTimeline() {
         // http://www.mikesroadtrip.com/more-fun-in-cebu-philippines/
 
@@ -186,14 +196,16 @@ public class FakeDataGenerator {
         event.setGeoPoint(new ParseGeoPoint(10.30791, 124.019487));
         eventList.add(event);
         eventList.add(createEvent(9, R.raw.cebu2, "My beautiful hotel room."));
-        eventList.add(createEvent(10, R.raw.cebu3, "Aerial view of the 13-acre property."));
+        eventList.add(createEventWithLatLng(10, R.raw.cebu3, "Aerial view of the 13-acre property.", 0.304406, 124.022266));
+
         eventList.add(createEvent(11, R.raw.cebu4, "Breakfast buffet at Tides, the resort’s all day-dining outlet."));
-        eventList.add(createEvent(12, R.raw.cebu5, "Man-made beach cove."));
+        eventList.add(createEventWithLatLng(12, R.raw.cebu5, "Man-made beach cove.", 10.30791, 124.019487));
         event = createEvent(13, R.raw.cebu6, "Took a jet-ski out for a spin !");
         event.setGeoPoint(new ParseGeoPoint(10.304406, 124.022266));
         eventList.add(event);
-        eventList.add(createEvent(14, R.raw.cebu7, "Traditional Philippines Hilot massage using warm coconut oil and banana leaves."));
-        eventList.add(createEvent(15, R.raw.cebu8, "The Cebu dock."));
+        eventList.add(createEventWithLatLng(14, R.raw.cebu7,
+                "Traditional Philippines Hilot massage using warm coconut oil and banana leaves.", 0.304406, 124.022266));
+        eventList.add(createEventWithLatLng(15, R.raw.cebu8, "The Cebu dock.", 0.304406, 124.022266));
         timeline.addEvents(eventList);
 
         timeline.setUserId(aruneshUser.getUserId());

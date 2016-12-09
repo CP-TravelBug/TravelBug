@@ -2,6 +2,10 @@ package codepath.travelbug.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,11 +42,14 @@ import codepath.travelbug.models.User;
 import static codepath.travelbug.Utils.PIC_URI_KEY;
 import static codepath.travelbug.Utils.TAG;
 
-public class ScrollingTimelineActivity extends AppCompatActivity {
+public class ScrollingTimelineActivity extends AppCompatActivity implements SensorEventListener {
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public final static int CREATE_TIMELINE_WITH_PIC_REQUEST_CODE = 1001;
     public final static int CREATE_EVENT_WITH_PIC_REQUEST_CODE = 1002;
+
+    /** Acceleration required to detect a shake. In multiples of Earth's gravity. */
+    private static final float SHAKE_THRESHOLD_GRAVITY = 2;
 
     private Uri lastCameraRequestUri;
 
@@ -58,6 +65,11 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
     AccountHeader headerResult;
     Activity activity;
 
+    int state = 0;
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +80,10 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 //        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 //        activity = this;
+
+
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -213,4 +229,52 @@ public class ScrollingTimelineActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        state = 1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        state = 0;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mSensorManager.unregisterListener(this);
+    }
+
+    /** The device has moved. We need to decide if it was intentional or not. */
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        float x = sensorEvent.values[0];
+        float y = sensorEvent.values[1];
+        float z = sensorEvent.values[2];
+
+        float gX = x / SensorManager.GRAVITY_EARTH;
+        float gY = y / SensorManager.GRAVITY_EARTH;
+        float gZ = z / SensorManager.GRAVITY_EARTH;
+
+        double gForce = Math.sqrt(gX * gX + gY * gY + gZ * gZ);
+
+        if (gForce > SHAKE_THRESHOLD_GRAVITY && state == 0) {
+            Log.i(TAG, "Device shaken");
+            state = 1;
+            launchCreateTimelineWithCamera();
+        }
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 }

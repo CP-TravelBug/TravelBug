@@ -1,11 +1,9 @@
 package codepath.travelbug.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,25 +17,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.parceler.Parcels;
 
 import java.util.Date;
 
 import codepath.travelbug.R;
 import codepath.travelbug.Utils;
 import codepath.travelbug.adapter.CustomWindowAdapter;
-import codepath.travelbug.models.Event;
-import codepath.travelbug.models.User;
 
-import static android.R.attr.bitmap;
-import static codepath.travelbug.R.drawable.common_full_open_on_phone;
-import static codepath.travelbug.R.drawable.location;
-import static codepath.travelbug.R.id.eventTitle;
 import static codepath.travelbug.TravelBugApplication.TAG;
-import static codepath.travelbug.Utils.formatDate;
 
 public class EventViewActivity extends AppCompatActivity implements OnMapReadyCallback {
     TextView tvEventText;
